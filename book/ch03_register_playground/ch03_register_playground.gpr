@@ -1,0 +1,18 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Host build (gnat_native): no Target, no Runtime, a normal program.
+with "config/ch03_register_playground_config.gpr";
+
+project Ch03_Register_Playground is
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use
+     "obj/" & Ch03_Register_Playground_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("basics.adb", "playground.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch03_Register_Playground_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-gnata");    --  -gnata: check the contracts
+   end Compiler;
+end Ch03_Register_Playground;

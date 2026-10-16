@@ -1,0 +1,16 @@
+name = "ch03_register_playground"
+description = "Chapter 3: Ada basics and register overlays on the host"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "registers", "keel"]
+
+executables = ["basics", "playground"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+ch03_rp2350_regs = "*"
+
+[[pins]]
+ch03_rp2350_regs = { path = "../ch03_rp2350_regs" }
