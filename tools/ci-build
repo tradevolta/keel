@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0
-# tools/ci-build -- build every Alire crate in the repo, the way CI does.
+# tools/ci-build -- build every Alire crate in the repo, as CI does.
 #   tools/ci-build             all crates under crates/ and book/
 #   tools/ci-build book/ch01_hello_photon ...
 # Book projects (cross-compiled for the RP2350) also get a UF2 and a

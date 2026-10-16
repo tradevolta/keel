@@ -4,7 +4,7 @@
 #
 #   tools/flash uf2  <crate-dir>   ELF -> UF2 (then drag it to RP2350)
 #   tools/flash boot <crate-dir>   UF2 over USB with picotool (BOOTSEL)
-#   tools/flash swd  <crate-dir>   ELF over SWD with OpenOCD + Debug Probe
+#   tools/flash swd  <crate-dir>   ELF over SWD (OpenOCD, Debug Probe)
 #   tools/flash -n ...             print the commands, run nothing
 #
 # Environment: OPENOCD (default: openocd), PICOTOOL (default: picotool),
@@ -16,11 +16,13 @@ if [ "${1:-}" = "-n" ]; then dry=1; shift; fi
 mode=${1:-}; crate=${2:-}
 usage() { sed -n '3,11p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
 [ -n "$mode" ] && [ -n "$crate" ] || usage
-[ -f "$crate/alire.toml" ] || { echo "flash: no alire.toml in $crate" >&2; exit 2; }
+die() { echo "flash: $*" >&2; exit 2; }
+[ -f "$crate/alire.toml" ] || die "no alire.toml in $crate"
 
 # First entry of 'executables = [...]' in the crate manifest.
-exe=$(sed -n 's/^executables *= *\[ *"\([^"]*\)".*/\1/p' "$crate/alire.toml")
-[ -n "$exe" ] || { echo "flash: no executables in $crate/alire.toml" >&2; exit 2; }
+exe=$(sed -n 's/^executables *= *\[ *"\([^"]*\)".*/\1/p' \
+  "$crate/alire.toml")
+[ -n "$exe" ] || die "no executables in $crate/alire.toml"
 elf="$crate/bin/$exe"
 uf2="$elf.uf2"
 OPENOCD=${OPENOCD:-openocd}
@@ -41,7 +43,7 @@ case "$mode" in
   uf2)
     need_elf
     run "$PICOTOOL" uf2 convert "$elf" -t elf "$uf2"
-    echo "flash: copy $uf2 to the RP2350 drive (hold BOOTSEL, plug in USB)"
+    echo "flash: copy $uf2 to the RP2350 drive (BOOTSEL mode)"
     ;;
   boot)
     need_elf
