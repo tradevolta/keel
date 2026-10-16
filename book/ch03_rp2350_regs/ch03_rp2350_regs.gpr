@@ -1,0 +1,25 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  A library with no target of its own: it takes the target and
+--  runtime of the project that uses it (host or RP2350).
+with "config/ch03_rp2350_regs_config.gpr";
+
+project Ch03_RP2350_Regs is
+   for Library_Name use "ch03_rp2350_regs";
+   for Library_Version use Project'Library_Name & ".so."
+     & Ch03_RP2350_Regs_Config.Crate_Version;
+   for Library_Kind use "static";
+
+   for Source_Dirs use ("src/", "config/");
+   --  One object and library directory per target, so the host and
+   --  RP2350 builds of this crate never share object files.
+   for Object_Dir use "obj/" & Project'Target & "/"
+     & Ch03_RP2350_Regs_Config.Build_Profile;
+   for Library_Dir use "lib/" & Project'Target;
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch03_RP2350_Regs_Config.Ada_Compiler_Switches &
+        ("-gnat2022");
+   end Compiler;
+end Ch03_RP2350_Regs;

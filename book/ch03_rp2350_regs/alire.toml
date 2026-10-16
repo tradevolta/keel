@@ -1,0 +1,7 @@
+name = "ch03_rp2350_regs"
+description = "Chapter 3: hand-written RP2350 register overlays"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "registers", "keel"]
