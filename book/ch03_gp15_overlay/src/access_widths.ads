@@ -1,6 +1,6 @@
 --  SPDX-License-Identifier: Apache-2.0
 --  Three ways to write one field. Compiled, never called: read the
---  machine code with arm-eabi-objdump (Section 3.10).
+--  machine code with arm-eabi-objdump (Section 3.8).
 with RP2350.IO_Bank0; use RP2350.IO_Bank0;
 
 package Access_Widths is
