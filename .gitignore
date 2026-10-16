@@ -1,0 +1,11 @@
+# Alire / GPRbuild outputs (every crate also has its own .gitignore)
+obj/
+bin/
+lib/
+alire/cache/
+/book/*/alire/
+/book/*/config/
+/crates/*/alire/
+/crates/*/config/
+*.uf2
+*.map
