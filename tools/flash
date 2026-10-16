@@ -29,8 +29,24 @@ OPENOCD=${OPENOCD:-openocd}
 PICOTOOL=${PICOTOOL:-picotool}
 ADAPTER_KHZ=${ADAPTER_KHZ:-5000}
 
+# Echo a command the way you would type it (quoted, wrapped at about
+# 64 columns with \ continuations, an option kept with its value),
+# then run it unless -n was given.
 run() {
-  echo "+ $*"
+  local line="+" w q args=("$@") i=0
+  q() { [[ $1 == *" "* ]] && echo "\"$1\"" || echo "$1"; }
+  while [ $i -lt ${#args[@]} ]; do
+    w=$(q "${args[i]}")
+    if [[ ${args[i]} == -* ]] && [ $((i + 1)) -lt ${#args[@]} ] &&
+       [[ ${args[i+1]} != -* ]]; then
+      i=$((i + 1)); w="$w $(q "${args[i]}")"
+    fi
+    if [ $(( ${#line} + ${#w} )) -gt 62 ]; then
+      echo "$line \\"; line="   "
+    fi
+    line="$line $w"; i=$((i + 1))
+  done
+  echo "$line"
   [ "$dry" = 1 ] || "$@"
 }
 need_elf() {
@@ -43,7 +59,8 @@ case "$mode" in
   uf2)
     need_elf
     run "$PICOTOOL" uf2 convert "$elf" -t elf "$uf2"
-    echo "flash: copy $uf2 to the RP2350 drive (BOOTSEL mode)"
+    echo "flash: wrote $uf2"
+    echo "flash: copy it to the RP2350 drive (BOOTSEL mode)"
     ;;
   boot)
     need_elf
