@@ -7,11 +7,11 @@ procedure Mix is
    I : constant Milli_Amps  := 20;
    R : Natural;
    C : constant Channel := AIN2;
-   P : constant Header_Pin := 25;    --  GP25 is not on the header
+   P : constant Header_Pin := 25;  --  GP25 is not on the header
 begin
-   R := V / I;                       --  volts / amps: no such "/"
-   R := Natural (V) / Natural (I);   --  explicit conversion: fine
-   case C is                         --  Temp_Sensor not covered
+   R := V / I;  --  volts / amps: no such "/"
+   R := Natural (V) / Natural (I);  --  explicit conversion: fine
+   case C is  --  Temp_Sensor not covered
       when AIN0 .. AIN3 => R := R + 1;
    end case;
 end Mix;

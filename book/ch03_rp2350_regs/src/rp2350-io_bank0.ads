@@ -16,19 +16,19 @@ is
       UART_Alt => 11, None => 31);
 
    type Override is (Normal, Invert, Drive_Low, Drive_High)
-     with Size => 2;                --  OUTOVER, INOVER, IRQOVER
+     with Size => 2;  --  OUTOVER, INOVER, IRQOVER
    type OE_Override is (Normal, Invert, Disable, Enable)
-     with Size => 2;                --  OEOVER
+     with Size => 2;  --  OEOVER
 
-   type GPIO_Ctrl is record         --  defaults = reset values
-      Funcsel        : Function_Select := None;
-      Reserved_5_11  : UInt7           := 0;
-      Outover        : Override        := Normal;
-      Oeover         : OE_Override     := Normal;
-      Inover         : Override        := Normal;
-      Reserved_18_27 : UInt10          := 0;
-      Irqover        : Override        := Normal;
-      Reserved_30_31 : UInt2           := 0;
+   type GPIO_Ctrl is record  --  defaults = reset values
+      Funcsel : Function_Select := None;
+      Reserved_5_11 : UInt7 := 0;
+      Outover : Override := Normal;
+      Oeover : OE_Override := Normal;
+      Inover : Override := Normal;
+      Reserved_18_27 : UInt10 := 0;
+      Irqover : Override := Normal;
+      Reserved_30_31 : UInt2 := 0;
    end record
      with Size      => 32,
           Bit_Order => System.Low_Order_First,
@@ -46,7 +46,7 @@ is
    end record;
 
    type GPIO_Pair is record
-      Status : Register;            --  read-only, left raw here
+      Status : Register;  --  read-only, left raw here
       Ctrl   : GPIO_Ctrl;
    end record
      with Size => 64;
@@ -59,7 +59,7 @@ is
    type GPIO_Array is array (Pin_Id) of GPIO_Pair
      with Component_Size => 64;
 
-   type Peripheral is record        --  offsets 0x000 .. 0x17C only
+   type Peripheral is record  --  offsets 0x000 .. 0x17C only
       GPIO : GPIO_Array;
    end record;
 end RP2350.IO_Bank0;

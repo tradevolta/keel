@@ -18,7 +18,7 @@ package Access_Widths is
    end record;
 
    procedure Field_Loose (R : in out Loose_Ctrl);  --  Funcsel := SIO
-   procedure Field_Full  (R : in out GPIO_Ctrl);   --  Funcsel := SIO
-   procedure Whole_Write (R : out GPIO_Ctrl);      --  R := (SIO, ...)
+   procedure Field_Full  (R : in out GPIO_Ctrl);  --  Funcsel := SIO
+   procedure Whole_Write (R : out GPIO_Ctrl);  --  R := (SIO, ...)
 
 end Access_Widths;

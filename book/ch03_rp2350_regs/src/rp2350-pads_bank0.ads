@@ -9,7 +9,7 @@ is
    type Drive_Strength is (Drive_2mA, Drive_4mA, Drive_8mA, Drive_12mA)
      with Size => 2;
 
-   type Pad_Control is record       --  defaults = reset value 0x116
+   type Pad_Control is record  --  defaults = reset value 0x116
       Slew_Fast      : Boolean        := False;
       Schmitt        : Boolean        := True;
       Pull_Down      : Boolean        := True;
@@ -25,14 +25,14 @@ is
           Volatile_Full_Access;
 
    for Pad_Control use record
-      Slew_Fast      at 0 range 0 ..  0;   --  SLEWFAST
-      Schmitt        at 0 range 1 ..  1;   --  SCHMITT
-      Pull_Down      at 0 range 2 ..  2;   --  PDE
-      Pull_Up        at 0 range 3 ..  3;   --  PUE
-      Drive          at 0 range 4 ..  5;   --  DRIVE
-      Input_Enable   at 0 range 6 ..  6;   --  IE
-      Output_Disable at 0 range 7 ..  7;   --  OD
-      Isolate        at 0 range 8 ..  8;   --  ISO
+      Slew_Fast      at 0 range 0 ..  0;  --  SLEWFAST
+      Schmitt        at 0 range 1 ..  1;  --  SCHMITT
+      Pull_Down      at 0 range 2 ..  2;  --  PDE
+      Pull_Up        at 0 range 3 ..  3;  --  PUE
+      Drive          at 0 range 4 ..  5;  --  DRIVE
+      Input_Enable   at 0 range 6 ..  6;  --  IE
+      Output_Disable at 0 range 7 ..  7;  --  OD
+      Isolate        at 0 range 8 ..  8;  --  ISO
       Reserved_9_31  at 0 range 9 .. 31;
    end record;
 
@@ -44,8 +44,8 @@ is
      with Component_Size => 32;
 
    type Peripheral is record
-      Voltage_Select : Register;    --  0x000
-      GPIO           : Pad_Array;   --  0x004 .. 0x0C0
+      Voltage_Select : Register;  --  0x000
+      GPIO           : Pad_Array;  --  0x004 .. 0x0C0
    end record;
 
    for Peripheral use record
