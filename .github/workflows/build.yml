@@ -1,0 +1,54 @@
+# SPDX-License-Identifier: Apache-2.0
+# Build every Keel crate and book project on each push, on pull
+# requests, weekly (the "book reproducibility" job) and on demand.
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*", "ed1-*"]
+  pull_request:
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Alire 2.1.1
+        uses: alire-project/setup-alire@v6
+        with:
+          version: "2.1.1"
+          toolchain: "gnat_native gprbuild"
+
+      - name: Install picotool 2.1.1 (for UF2 conversion)
+        run: |
+          url=https://github.com/raspberrypi/pico-sdk-tools/releases/download
+          curl -fsSL -o picotool.tgz \
+            "$url/v2.1.1-1/picotool-2.1.1-x86_64-lin.tar.gz"
+          mkdir -p "$HOME/picotool"
+          tar -xzf picotool.tgz -C "$HOME/picotool"
+          dir=$(dirname "$(find "$HOME/picotool" -type f -name picotool \
+            | head -n 1)")
+          echo "$dir" >> "$GITHUB_PATH"
+
+      - name: Show tool versions
+        run: |
+          alr --version
+          picotool version || echo "picotool not available"
+
+      - name: Build all crates (gnat_arm_elf 16.1.0 is pulled per crate)
+        run: tools/ci-build
+
+      - name: Upload UF2 images
+        uses: actions/upload-artifact@v4
+        with:
+          name: uf2-images
+          path: book/*/bin/*.uf2
+          if-no-files-found: warn
