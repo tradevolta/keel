@@ -1,0 +1,16 @@
+name = "ch02_single_step"
+description = "Chapter 2: single-step the blink and retune it from GDB"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "pico2w", "keel"]
+
+executables = ["single_step"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_tasking_rp2350 = "=16.0.0"
+
+[configuration.values]
+light_tasking_rp2350.Board = "rpi_pico2"
