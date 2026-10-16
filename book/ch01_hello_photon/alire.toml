@@ -1,0 +1,16 @@
+name = "ch01_hello_photon"
+description = "Chapter 1: blink an external LED on GP15 at 2 Hz"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "pico2w", "keel"]
+
+executables = ["hello_photon"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_tasking_rp2350 = "=16.0.0"
+
+[configuration.values]
+light_tasking_rp2350.Board = "rpi_pico2"
