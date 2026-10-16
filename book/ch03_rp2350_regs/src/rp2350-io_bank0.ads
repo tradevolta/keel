@@ -45,8 +45,9 @@ is
       Reserved_30_31 at 0 range 30 .. 31;
    end record;
 
+   --  STATUS is read-only and left raw in this chapter.
    type GPIO_Pair is record
-      Status : Register;  --  read-only, left raw here
+      Status : Register;
       Ctrl   : GPIO_Ctrl;
    end record
      with Size => 64;
