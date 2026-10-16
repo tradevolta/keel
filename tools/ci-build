@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+# tools/ci-build -- build every Alire crate in the repo, the way CI does.
+#   tools/ci-build             all crates under crates/ and book/
+#   tools/ci-build book/ch01_hello_photon ...
+# Book projects (cross-compiled for the RP2350) also get a UF2 and a
+# size report when picotool and arm-eabi-size are available.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+root=$PWD
+
+if [ $# -gt 0 ]; then
+  crates=("$@")
+else
+  mapfile -t crates < <(find crates book -mindepth 2 -maxdepth 2 \
+    -name alire.toml -printf '%h\n' | sort)
+fi
+
+fail=0
+for c in "${crates[@]}"; do
+  echo "::group::alr build $c"
+  if (cd "$c" && alr -n build); then
+    echo "ok: $c"
+  else
+    echo "FAILED: $c"; fail=1
+  fi
+  echo "::endgroup::"
+  case "$c" in
+    book/*)
+      exe=$(sed -n 's/^executables *= *\[ *"\([^"]*\)".*/\1/p' \
+        "$c/alire.toml")
+      elf="$c/bin/$exe"
+      [ -f "$elf" ] || continue
+      (cd "$c" && alr -n exec -- arm-eabi-size "bin/$exe") || true
+      if command -v picotool >/dev/null; then
+        "$root/tools/flash" uf2 "$c"
+      fi
+      ;;
+  esac
+done
+exit $fail

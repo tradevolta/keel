@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+# tools/flash -- put a Keel book project on a Raspberry Pi Pico 2 W.
+#
+#   tools/flash uf2  <crate-dir>   ELF -> UF2 (then drag it to RP2350)
+#   tools/flash boot <crate-dir>   UF2 over USB with picotool (BOOTSEL)
+#   tools/flash swd  <crate-dir>   ELF over SWD with OpenOCD + Debug Probe
+#   tools/flash -n ...             print the commands, run nothing
+#
+# Environment: OPENOCD (default: openocd), PICOTOOL (default: picotool),
+# ADAPTER_KHZ (default: 5000). The crate must already be built.
+set -euo pipefail
+
+dry=0
+if [ "${1:-}" = "-n" ]; then dry=1; shift; fi
+mode=${1:-}; crate=${2:-}
+usage() { sed -n '3,11p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
+[ -n "$mode" ] && [ -n "$crate" ] || usage
+[ -f "$crate/alire.toml" ] || { echo "flash: no alire.toml in $crate" >&2; exit 2; }
+
+# First entry of 'executables = [...]' in the crate manifest.
+exe=$(sed -n 's/^executables *= *\[ *"\([^"]*\)".*/\1/p' "$crate/alire.toml")
+[ -n "$exe" ] || { echo "flash: no executables in $crate/alire.toml" >&2; exit 2; }
+elf="$crate/bin/$exe"
+uf2="$elf.uf2"
+OPENOCD=${OPENOCD:-openocd}
+PICOTOOL=${PICOTOOL:-picotool}
+ADAPTER_KHZ=${ADAPTER_KHZ:-5000}
+
+run() {
+  echo "+ $*"
+  [ "$dry" = 1 ] || "$@"
+}
+need_elf() {
+  [ "$dry" = 1 ] || [ -f "$elf" ] || {
+    echo "flash: $elf not found; run 'alr build' in $crate first" >&2
+    exit 1; }
+}
+
+case "$mode" in
+  uf2)
+    need_elf
+    run "$PICOTOOL" uf2 convert "$elf" -t elf "$uf2"
+    echo "flash: copy $uf2 to the RP2350 drive (hold BOOTSEL, plug in USB)"
+    ;;
+  boot)
+    need_elf
+    run "$PICOTOOL" uf2 convert "$elf" -t elf "$uf2"
+    run "$PICOTOOL" load -x "$uf2"
+    ;;
+  swd)
+    need_elf
+    run "$OPENOCD" -f interface/cmsis-dap.cfg -f target/rp2350.cfg \
+      -c "adapter speed $ADAPTER_KHZ" \
+      -c "program $elf verify reset exit"
+    ;;
+  *) usage ;;
+esac
