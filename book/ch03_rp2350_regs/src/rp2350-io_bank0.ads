@@ -30,7 +30,7 @@ is
       Irqover : Override := Normal;
       Reserved_30_31 : UInt2 := 0;
    end record
-     with Size      => 32,
+     with Size => 32,
           Bit_Order => System.Low_Order_First,
           Volatile_Full_Access;
 
