@@ -1,0 +1,20 @@
+name = "ch03_gp15_overlay"
+description = "Chapter 3: the register overlays driving GP15 on the RP2350"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "pico2w", "keel"]
+
+executables = ["gp15_overlay"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_tasking_rp2350 = "=16.0.0"
+ch03_rp2350_regs = "*"
+
+[[pins]]
+ch03_rp2350_regs = { path = "../ch03_rp2350_regs" }
+
+[configuration.values]
+light_tasking_rp2350.Board = "rpi_pico2"
