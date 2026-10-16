@@ -26,4 +26,9 @@ project Ch02_Single_Step is
         ("-Wl,--gc-sections",
          "-Wl,-Map=" & Project'Project_Dir & "bin/single_step.map");
    end Linker;
+
+   --  Where an IDE's debugger finds the GDB server (OpenOCD).
+   package IDE is
+      for Program_Host use "localhost:3333";
+   end IDE;
 end Ch02_Single_Step;

@@ -6,7 +6,11 @@
       "type": "shell",
       "command": "alr build",
       "group": "build",
-      "problemMatcher": []
+      "problemMatcher": [
+        "$ada-error",
+        "$ada-warning",
+        "$ada-info"
+      ]
     }
   ]
 }
