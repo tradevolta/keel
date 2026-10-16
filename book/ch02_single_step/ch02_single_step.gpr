@@ -1,6 +1,7 @@
 --  SPDX-License-Identifier: Apache-2.0
 with "config/ch02_single_step_config.gpr";
 with "runtime_build.gpr";
+with "ravenscar_build.gpr";
 
 project Ch02_Single_Step is
    for Target use Runtime_Build'Target;

@@ -1,6 +1,7 @@
 --  SPDX-License-Identifier: Apache-2.0
 with "config/ch01_hello_photon_config.gpr";
 with "runtime_build.gpr";
+with "ravenscar_build.gpr";
 
 project Ch01_Hello_Photon is
    for Target use Runtime_Build'Target;
