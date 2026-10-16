@@ -8,8 +8,10 @@ Devices on the Raspberry Pi Pico 2 W* (Vincent Donkor).
 Primary board: Raspberry Pi Pico 2 W (RP2350). Secondary board:
 ST NUCLEO-G474RE (STM32G474).
 
-**Status: 0.0.1, repository skeleton (book Chapter 2).** Nothing here
-is a usable HAL yet; `Keel.GPIO` arrives with Chapter 7 (Keel 0.1.0).
+**Status: 0.0.1, repository skeleton (book Chapters 1-3).** Nothing
+here is a usable HAL yet; Chapter 3 is a language chapter whose crates
+live only in `book/`, and `Keel.GPIO` arrives with Chapter 7 (Keel
+0.1.0).
 
 ## Layout
 
