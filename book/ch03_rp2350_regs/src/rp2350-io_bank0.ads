@@ -60,7 +60,8 @@ is
    type GPIO_Array is array (Pin_Id) of GPIO_Pair
      with Component_Size => 64;
 
-   type Peripheral is record  --  offsets 0x000 .. 0x17C only
+   --  Offsets 0x000 .. 0x17C only.
+   type Peripheral is record
       GPIO : GPIO_Array;
    end record;
 end RP2350.IO_Bank0;
