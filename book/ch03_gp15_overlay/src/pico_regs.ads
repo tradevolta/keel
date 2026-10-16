@@ -14,6 +14,8 @@ is
      with Import, Address => System'To_Address (16#4002_8000#);
    Pads_Regs    : RP2350.Pads_Bank0.Peripheral
      with Import, Address => System'To_Address (16#4003_8000#);
+   Pads_Set     : RP2350.Pads_Bank0.Peripheral     --  +0x2000 alias
+     with Import, Address => System'To_Address (16#4003_A000#);
    Pads_Clear   : RP2350.Pads_Bank0.Peripheral     --  +0x3000 alias
      with Import, Address => System'To_Address (16#4003_B000#);
    Resets_Regs  : RP2350.Resets.Peripheral

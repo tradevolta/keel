@@ -31,7 +31,7 @@ begin
 
    Put_Line ("-- GP15 as a software-controlled output");
    Ctrl := (Funcsel => SIO, others => <>);
-   Pad  := (Pad with delta Isolate => False);
+   Pad  := (Pad with delta Isolate => False, Input_Enable => True);
    Dump (Ctrl, Ctrl_At);
    Dump (Pad, Pad_At);
    Put_Line ("FUNCSEL = " & Ctrl.Funcsel'Image);

@@ -23,6 +23,7 @@ begin
 
    --  Full-register writes: every field named or defaulted.
    IO_Regs.GPIO (15).Ctrl := (Funcsel => SIO, others => <>);
+   Pads_Set.GPIO (15)   := (No_Bits with delta Input_Enable => True);
    Pads_Clear.GPIO (15) := (No_Bits with delta Isolate => True);
    SIO_Regs.GPIO_OE_Set := LED;
 
