@@ -1,19 +1,18 @@
 --  SPDX-License-Identifier: Apache-2.0
 --  Chapter 3, part 1: types, arrays, records, loops, case, contracts.
 with Ada.Text_IO;    use Ada.Text_IO;
+with Ada.Assertions;
+with Ada.Exceptions; use Ada.Exceptions;
 with Units;          use Units;
 with Moving_Average; use Moving_Average;
 
 procedure Basics is
-   type Gain is range 1 .. 8;
-   Gains : constant array (Channel) of Gain :=
+   Gains : constant array (Channel) of Positive :=
      [Temp_Sensor => 1, others => 4];
-
    type Reading is record
       Source : Channel;
       Value  : Milli_Volts;
    end record;
-
    Samples : constant array (1 .. 5) of Milli_Volts :=
      [1_000, 1_100, 1_200, 1_300, 1_400];
    Last : Reading;
@@ -24,7 +23,6 @@ begin
    for C in Channel loop
       Put_Line (C'Image & " gain" & Gains (C)'Image);
    end loop;
-
    B := B + 1;
    Put_Line ("Byte'Last + 1 =" & B'Image & ", T =" & T'Image);
    Put_Line ("Milli_Volts'Size =" & Milli_Volts'Size'Image
@@ -34,7 +32,6 @@ begin
       Add (W, Samples (I));
    end loop;
    Last := (Source => AIN1, Value => Mean (W));
-
    case Last.Source is
       when AIN0 .. AIN3 =>
          Put_Line (Last.Source'Image & " mean" & Last.Value'Image);
@@ -42,4 +39,7 @@ begin
    end case;
    Reset (W);
    Put_Line ("mean of nothing:" & Mean (W)'Image);
+exception
+   when E : Ada.Assertions.Assertion_Error =>
+      Put_Line ("Assertion_Error: " & Exception_Message (E));
 end Basics;
