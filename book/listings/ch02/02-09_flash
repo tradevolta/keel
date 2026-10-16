@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+# tools/flash -- put a Keel book project on a Raspberry Pi Pico 2 W.
+#
+#   tools/flash uf2  <crate-dir>   ELF -> UF2 (then drag it to RP2350)
+#   tools/flash boot <crate-dir>   UF2 over USB with picotool (BOOTSEL)
+#   tools/flash swd  <crate-dir>   ELF over SWD (OpenOCD, Debug Probe)
+#   tools/flash -n ...             print the commands, run nothing
+#
+# Environment: OPENOCD (default: openocd), PICOTOOL (default: picotool),
+# ADAPTER_KHZ (default: 5000). The crate must already be built.
+set -euo pipefail
+
+dry=0
+if [ "${1:-}" = "-n" ]; then dry=1; shift; fi
+mode=${1:-}; crate=${2:-}
+usage() { sed -n '3,11p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
+[ -n "$mode" ] && [ -n "$crate" ] || usage
+die() { echo "flash: $*" >&2; exit 2; }
+[ -f "$crate/alire.toml" ] || die "no alire.toml in $crate"
+
+# First entry of 'executables = [...]' in the crate manifest.
+exe=$(sed -n 's/^executables *= *\[ *"\([^"]*\)".*/\1/p' \
+  "$crate/alire.toml")
+[ -n "$exe" ] || die "no executables in $crate/alire.toml"
+elf="$crate/bin/$exe"
+uf2="$elf.uf2"
+OPENOCD=${OPENOCD:-openocd}
+PICOTOOL=${PICOTOOL:-picotool}
+ADAPTER_KHZ=${ADAPTER_KHZ:-5000}
+
+# Echo a command the way you would type it (quoted, wrapped at about
+# 64 columns with \ continuations, an option kept with its value),
+# then run it unless -n was given.
+run() {
+  local line="+" w q args=("$@") i=0
+  q() { [[ $1 == *" "* ]] && echo "\"$1\"" || echo "$1"; }
+  while [ $i -lt ${#args[@]} ]; do
+    w=$(q "${args[i]}")
+    if [[ ${args[i]} == -* ]] && [ $((i + 1)) -lt ${#args[@]} ] &&
+       [[ ${args[i+1]} != -* ]]; then
+      i=$((i + 1)); w="$w $(q "${args[i]}")"
+    fi
+    if [ $(( ${#line} + ${#w} )) -gt 62 ]; then
+      echo "$line \\"; line="   "
+    fi
+    line="$line $w"; i=$((i + 1))
+  done
+  echo "$line"
+  [ "$dry" = 1 ] || "$@"
+}
+need_elf() {
+  [ "$dry" = 1 ] || [ -f "$elf" ] || {
+    echo "flash: $elf not found; run 'alr build' in $crate first" >&2
+    exit 1; }
+}
+
+case "$mode" in
+  uf2)
+    need_elf
+    run "$PICOTOOL" uf2 convert "$elf" -t elf "$uf2"
+    echo "flash: wrote $uf2"
+    echo "flash: copy it to the RP2350 drive (BOOTSEL mode)"
+    ;;
+  boot)
+    need_elf
+    run "$PICOTOOL" uf2 convert "$elf" -t elf "$uf2"
+    run "$PICOTOOL" load -x "$uf2"
+    ;;
+  swd)
+    need_elf
+    run "$OPENOCD" -f interface/cmsis-dap.cfg -f target/rp2350.cfg \
+      -c "adapter speed $ADAPTER_KHZ" \
+      -c "program $elf verify reset exit"
+    ;;
+  *) usage ;;
+esac

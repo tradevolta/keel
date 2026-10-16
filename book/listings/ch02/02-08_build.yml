@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: Apache-2.0
+# Build every crate on push, pull request, weekly and on demand.
+name: build
+on:
+  push:
+    branches: [main]
+    tags: ["v*", "ed1-*"]
+  pull_request:
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Alire 2.1.1
+        uses: alire-project/setup-alire@v6
+        with:
+          version: "2.1.1"
+          toolchain: "gnat_native gprbuild"
+
+      - name: Install picotool 2.1.1 (for UF2 conversion)
+        run: |
+          rel=raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1
+          tgz=picotool-2.1.1-x86_64-lin.tar.gz
+          curl -fsSL -o picotool.tgz "https://github.com/$rel/$tgz"
+          mkdir -p "$HOME/picotool"
+          tar -xzf picotool.tgz -C "$HOME/picotool"
+          exe=$(find "$HOME/picotool" -type f -name picotool | head -n1)
+          dirname "$exe" >> "$GITHUB_PATH"
+
+      - name: Build all crates (each pins gnat_arm_elf 16.1.0)
+        run: tools/ci-build
+
+      - name: Upload UF2 images
+        uses: actions/upload-artifact@v4
+        with:
+          name: uf2-images
+          path: book/*/bin/*.uf2

@@ -1,0 +1,17 @@
+listing,id,book_source,repo_export_path,library_path
+1.1,lst-build-ch01,listings/ch01/build.sh,book/listings/ch01/01-01_build.sh,
+1.2,lst-hello-photon,listings/ch01/hello_photon.adb,book/listings/ch01/01-02_hello_photon.adb,book/ch01_hello_photon/src/hello_photon.adb
+1.3,lst-alire-ch01,listings/ch01/alire.toml,book/listings/ch01/01-03_alire.toml,book/ch01_hello_photon/alire.toml
+2.1,lst-alire-ch02,listings/ch02/alire.toml,book/listings/ch02/02-01_alire.toml,book/ch02_single_step/alire.toml
+2.2,lst-gpr-ch02,listings/ch02/ch02_single_step.gpr,book/listings/ch02/02-02_ch02_single_step.gpr,book/ch02_single_step/ch02_single_step.gpr
+2.3,lst-build-size,listings/ch02/build-size.sh,book/listings/ch02/02-03_build-size.sh,
+2.4,lst-openocd,listings/ch02/openocd-noprobe.sh,book/listings/ch02/02-04_openocd-noprobe.sh,
+2.5,lst-gdb-offline,listings/ch02/gdb-offline.sh,book/listings/ch02/02-05_gdb-offline.sh,
+2.6,lst-ls-files,listings/ch02/ls-files.sh,book/listings/ch02/02-06_ls-files.sh,
+2.7,lst-keel-root,listings/ch02/keel.ads,book/listings/ch02/02-07_keel.ads,crates/keel_core/src/keel.ads
+2.8,lst-ci,listings/ch02/build.yml,book/listings/ch02/02-08_build.yml,.github/workflows/build.yml
+2.9,lst-flash,listings/ch02/flash,book/listings/ch02/02-09_flash,tools/flash
+2.10,lst-blink-ctl,listings/ch02/blink_control.ads,book/listings/ch02/02-10_blink_control.ads,book/ch02_single_step/src/blink_control.ads
+2.11,lst-single-step,listings/ch02/single_step.adb,book/listings/ch02/02-11_single_step.adb,book/ch02_single_step/src/single_step.adb
+2.12,lst-gdb-script,listings/ch02/single-step.gdb,book/listings/ch02/02-12_single-step.gdb,book/ch02_single_step/gdb/single-step.gdb
+2.13,lst-gdb-session,listings/ch02/gdb-session.sh,book/listings/ch02/02-13_gdb-session.sh,
