@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
-# Build every Keel crate and book project on each push, on pull
-# requests, weekly (the "book reproducibility" job) and on demand.
+# Build every crate on push, pull request, weekly and on demand.
 name: build
-
 on:
   push:
     branches: [main]
@@ -37,11 +35,6 @@ jobs:
           exe=$(find "$HOME/picotool" -type f -name picotool | head -n1)
           dirname "$exe" >> "$GITHUB_PATH"
 
-      - name: Show tool versions
-        run: |
-          alr --version
-          picotool version || echo "picotool not available"
-
       - name: Build all crates (each pins gnat_arm_elf 16.1.0)
         run: tools/ci-build
 
@@ -50,4 +43,3 @@ jobs:
         with:
           name: uf2-images
           path: book/*/bin/*.uf2
-          if-no-files-found: warn
