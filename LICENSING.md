@@ -9,5 +9,5 @@
   `embedded_rp2350`, ...): GPL-3.0-or-later WITH GCC-exception-3.1.
   The GCC Runtime Library Exception lets you distribute firmware that
   links them under terms of your choice. See Chapter 2 of the book.
-* **CYW43439 Wi-Fi firmware** (Chapter 25): has its own redistribution
+* **CYW43439 Wi-Fi firmware** (Chapter 26): has its own redistribution
   terms and is fetched by a script at build time, never committed.

@@ -1,6 +1,6 @@
 --  SPDX-License-Identifier: Apache-2.0
 --  Hello, Photon: blink an external LED on GP15 at 2 Hz.
---  Raw register writes for now; Keel replaces them from Chapter 5.
+--  Raw register writes for now; Keel replaces them from Chapter 6.
 with Ada.Real_Time; use Ada.Real_Time;
 with System.Storage_Elements; use System.Storage_Elements;
 

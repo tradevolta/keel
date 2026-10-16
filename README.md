@@ -9,7 +9,7 @@ Primary board: Raspberry Pi Pico 2 W (RP2350). Secondary board:
 ST NUCLEO-G474RE (STM32G474).
 
 **Status: 0.0.1, repository skeleton (book Chapter 2).** Nothing here
-is a usable HAL yet; `Keel.GPIO` arrives with Chapter 6 (Keel 0.1.0).
+is a usable HAL yet; `Keel.GPIO` arrives with Chapter 7 (Keel 0.1.0).
 
 ## Layout
 
@@ -18,7 +18,7 @@ is a usable HAL yet; `Keel.GPIO` arrives with Chapter 6 (Keel 0.1.0).
 | `crates/` | The Keel Alire crates (`keel_core` today; `keel_rp2350`, `keel_stm32g4`, drivers and middleware later) |
 | `book/` | One Alire crate per chapter project (`chNN_<slug>`), plus `book/listings/` exported from the manuscript |
 | `tools/` | Host tools: `flash` (UF2/BOOTSEL/SWD), `ci-build` |
-| `tests/` | Host unit tests, HIL scenarios and proof projects (from Chapter 23) |
+| `tests/` | Host unit tests, HIL scenarios and proof projects (from Chapter 24) |
 | `docs/` | Documentation and architecture decision records (`docs/adr/`) |
 | `alire/` | Index fragments and release scripts (from Keel 0.1.0) |
 | `.github/workflows/` | CI: builds every crate on each push and weekly |
