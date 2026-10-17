@@ -1,0 +1,15 @@
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_rp2350 = "=16.0.0"
+keel_core = "*"
+keel_rp2350 = "*"
+ch03_rp2350_regs = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_rp2350 = { path = "../../crates/keel_rp2350" }
+ch03_rp2350_regs = { path = "../ch03_rp2350_regs" }
+
+[configuration.values]
+light_rp2350.Board = "rpi_pico2"
+keel_rp2350.Startup = "keel"
