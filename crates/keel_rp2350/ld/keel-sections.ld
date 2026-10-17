@@ -20,7 +20,6 @@ SECTIONS
     *(.rodata .rodata.*)
     . = ALIGN(4);
   } > flash
-
   .ARM.exidx :
   {
     *(.ARM.exidx*)
@@ -40,7 +39,6 @@ SECTIONS
     . += __keel_stack_size;
     __keel_stack_end = .;
   } > sram
-
   /* Copied from flash to SRAM by Reset_Handler. */
   .data :
   {
@@ -50,7 +48,6 @@ SECTIONS
     __keel_data_end = .;
   } > sram AT > flash
   __keel_data_load = LOADADDR(.data);
-
   /* Zeroed by Reset_Handler. */
   .bss (NOLOAD) :
   {
