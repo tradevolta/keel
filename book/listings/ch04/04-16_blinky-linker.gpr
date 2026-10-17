@@ -1,0 +1,9 @@
+--  Keel_RP2350 picks the linker script: Keel's own or the
+--  runtime's, from its Startup configuration value.
+package Linker is
+   for Switches ("Ada") use
+     Keel_RP2350.Linker_Switches &
+     ("-Wl,--gc-sections",
+      "-Wl,-Map=" & Project'Project_Dir
+      & "bin/zero_runtime_blinky.map");
+end Linker;

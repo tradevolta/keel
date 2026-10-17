@@ -1,0 +1,14 @@
+--  Startup = "keel": Keel's vector table, boot block and reset
+--  handler, linked with Keel's script. Startup = "runtime": the
+--  runtime's own startup and linker script, as in Chapters 1-3.
+Linker_Switches := ();
+case Keel_RP2350_Config.Startup is
+   when "keel" =>
+      for Source_Dirs use ("src/", "src/startup/", "config/");
+      Linker_Switches :=
+        ("-L" & Project'Project_Dir & "ld/pico2w",
+         "-T" & Project'Project_Dir & "ld/keel-sections.ld");
+   when "runtime" =>
+      for Source_Dirs use ("src/", "config/");
+      Linker_Switches := Runtime_Build.Linker_Switches;
+end case;

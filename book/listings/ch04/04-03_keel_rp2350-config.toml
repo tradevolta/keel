@@ -1,0 +1,8 @@
+# "keel": Keel's own startup code; "runtime": the runtime's
+[configuration.variables.Startup]
+type = "Enum"
+values = ["keel", "runtime"]
+default = "runtime"
+
+[configuration.values]
+light_rp2350.Board = "rpi_pico2"

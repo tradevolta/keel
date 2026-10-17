@@ -1,0 +1,23 @@
+name = "ch04_zero_runtime_blinky"
+description = "Chapter 4: GP15 blinks with Keel's own startup code"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "pico2w", "keel"]
+
+executables = ["zero_runtime_blinky"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_rp2350 = "=16.0.0"
+keel_rp2350 = "*"
+ch03_rp2350_regs = "*"
+
+[[pins]]
+keel_rp2350 = { path = "../../crates/keel_rp2350" }
+ch03_rp2350_regs = { path = "../ch03_rp2350_regs" }
+
+[configuration.values]
+light_rp2350.Board = "rpi_pico2"
+keel_rp2350.Startup = "keel"
