@@ -8,10 +8,10 @@ Devices on the Raspberry Pi Pico 2 W* (Vincent Donkor).
 Primary board: Raspberry Pi Pico 2 W (RP2350). Secondary board:
 ST NUCLEO-G474RE (STM32G474).
 
-**Status: 0.0.1, repository skeleton (book Chapters 1-3).** Nothing
-here is a usable HAL yet; Chapter 3 is a language chapter whose crates
-live only in `book/`, and `Keel.GPIO` arrives with Chapter 7 (Keel
-0.1.0).
+**Status: 0.0.2, skeleton plus L0 startup (book Chapters 1-4).**
+Nothing here is a usable HAL yet: `keel_rp2350` brings a chip from
+reset to your main subprogram (Chapter 4), and `Keel.GPIO` arrives
+with Chapter 7 (Keel 0.1.0).
 
 ## Layout
 
@@ -36,7 +36,7 @@ chapter tag always rebuilds the way the printed book shows it.
 | `gnat_arm_elf` | 16.1.0 |
 | `gnat_native` | 16.1.0 (host builds) |
 | `gprbuild` | 26.0.1 |
-| `light_tasking_rp2350` | 16.0.0 (community bb-runtimes) |
+| `light_tasking_rp2350`, `light_rp2350` | 16.0.0 (community bb-runtimes) |
 | picotool | 2.1.1 |
 | OpenOCD | Raspberry Pi fork (`sdk-2.0.0`), needs `target/rp2350.cfg` |
 

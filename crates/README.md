@@ -4,7 +4,8 @@
 |---|---|---|
 | `keel_core` | L3 interfaces, units, status, seam specs | skeleton now; `Keel.GPIO` in Chapter 7 |
 | `keel_rp2350_svd`, `keel_stm32g4_svd` | L1 registers (svd2ada) | Chapter 6 |
-| `keel_rp2350`, `keel_stm32g4` | L0 startup, L2 chip HAL | Chapters 4-7 |
+| `keel_rp2350` | L0 startup (`Startup = "keel"`) now; L2 chip HAL | Chapter 4; HAL from Chapter 7 |
+| `keel_stm32g4` | L0 startup, L2 chip HAL | Chapters 6-7 |
 | `keel_boards` | Board support (Pico 2 W, NUCLEO-G474RE) | Chapter 7 |
 | `keel_host` | Fakes and simulators for host tests | Chapter 7, v1 in Chapter 25 |
 | `keel_drivers` | One child package per device | Chapter 13 onward |
