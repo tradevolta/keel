@@ -1,0 +1,15 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Compiles the deliberately broken units in bad/ for the RP2350.
+with "runtime_build.gpr";
+
+project Bad is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022", "-gnatj72");
+   end Compiler;
+end Bad;

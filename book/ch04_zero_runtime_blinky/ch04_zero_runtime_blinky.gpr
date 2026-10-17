@@ -1,0 +1,32 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/ch04_zero_runtime_blinky_config.gpr";
+with "runtime_build.gpr";
+with "keel_rp2350.gpr";
+
+project Ch04_Zero_Runtime_Blinky is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use
+     "obj/" & Ch04_Zero_Runtime_Blinky_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("zero_runtime_blinky.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch04_Zero_Runtime_Blinky_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+   end Compiler;
+
+   --  Keel_RP2350 picks the linker script: Keel's own or the
+   --  runtime's, from its Startup configuration value.
+   package Linker is
+      for Switches ("Ada") use
+        Keel_RP2350.Linker_Switches &
+        ("-Wl,--gc-sections",
+         "-Wl,-Map=" & Project'Project_Dir
+         & "bin/zero_runtime_blinky.map");
+   end Linker;
+end Ch04_Zero_Runtime_Blinky;
