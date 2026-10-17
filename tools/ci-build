@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0
 # tools/ci-build -- build every Alire crate in the repo, as CI does.
-#   tools/ci-build             all crates under crates/ and book/
+#   tools/ci-build             all crates under crates/, book/,
+#                              tools/ and tests/
 #   tools/ci-build book/ch01_hello_photon ...
 # Book projects cross-compiled for the RP2350 (they depend on
 # gnat_arm_elf) also get a size report and, with picotool, a UF2.
-# Host crates (gnat_native) and libraries are only built.
+# Host crates (gnat_native) and libraries are only built; the host
+# tests under tests/ also run. Without arguments, it also checks that
+# every memory.ld matches the memory.toml it was generated from.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 root=$PWD
@@ -13,7 +16,8 @@ root=$PWD
 if [ $# -gt 0 ]; then
   crates=("$@")
 else
-  mapfile -t crates < <(find crates book -mindepth 2 -maxdepth 2 \
+  mapfile -t crates < <(find crates book tools tests \
+    -mindepth 2 -maxdepth 2 \
     -name alire.toml -printf '%h\n' | sort)
 fi
 
@@ -26,6 +30,17 @@ for c in "${crates[@]}"; do
     echo "FAILED: $c"; fail=1
   fi
   echo "::endgroup::"
+  case "$c" in
+    tests/*)
+      exe=$(sed -n 's/^executables *= *\[ *"\([^"]*\)".*/\1/p' \
+        "$c/alire.toml")
+      if "$c/bin/$exe"; then
+        echo "ok: $c passed"
+      else
+        echo "FAILED: $c tests"; fail=1
+      fi
+      ;;
+  esac
   grep -q '^gnat_arm_elf' "$c/alire.toml" || continue
   case "$c" in
     book/*)
@@ -40,4 +55,15 @@ for c in "${crates[@]}"; do
       ;;
   esac
 done
+
+if [ $# -eq 0 ]; then
+  for toml in crates/*/ld/*/memory.toml; do
+    if tools/memgen/bin/memgen --check "$toml" "${toml%.toml}.ld"
+    then
+      echo "ok: ${toml%.toml}.ld is current"
+    else
+      fail=1
+    fi
+  done
+fi
 exit $fail
