@@ -1,0 +1,24 @@
+name = "keel_rp2350"
+description = "Keel for the RP2350: L0 startup code"
+version = "0.0.2"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "startup", "keel"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_rp2350 = "=16.0.0"
+keel_core = "*"
+
+[[pins]]
+keel_core = { path = "../keel_core" }
+
+# "keel": Keel's own startup code; "runtime": the runtime's
+[configuration.variables.Startup]
+type = "Enum"
+values = ["keel", "runtime"]
+default = "runtime"
+
+[configuration.values]
+light_rp2350.Board = "rpi_pico2"
