@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: Apache-2.0
+# Memory map of the NUCLEO-G474RE (STM32G474RE), from the base
+# addresses in ST's CMSIS header stm32g474xx.h. Chapter 6 moves it
+# to keel_stm32g4.
+description = "ST NUCLEO-G474RE: STM32G474RE, 512 KB flash"
+
+[[region]]
+name = "flash"
+attributes = "rx"
+origin = 0x08000000
+size = "512K"
+
+# SRAM1 (80 KB) and SRAM2 (16 KB) are contiguous
+[[region]]
+name = "sram"
+attributes = "rwx"
+origin = 0x20000000
+size = "96K"
+
+# CCM SRAM, the core-coupled memory: here, the stack
+[[region]]
+name = "ccmsram"
+attributes = "rwx"
+origin = 0x10000000
+size = "32K"
+
+[stack]
+region = "ccmsram"
+size = "4K"
