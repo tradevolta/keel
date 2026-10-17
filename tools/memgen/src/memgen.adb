@@ -4,6 +4,7 @@
 with Ada.Command_Line; use Ada.Command_Line;
 with Ada.Directories;
 with Ada.Exceptions; use Ada.Exceptions;
+with Ada.IO_Exceptions;
 with Ada.Streams.Stream_IO; use Ada.Streams.Stream_IO;
 with Ada.Text_IO;
 with Memory_Map; use Memory_Map;
@@ -58,6 +59,7 @@ begin
       end;
    end;
 exception
-   when E : Map_Error | Constraint_Error =>
+   when E : Map_Error | Constraint_Error
+     | Ada.IO_Exceptions.Name_Error =>
       Fail (Argument (First) & ": " & Exception_Message (E));
 end Memgen;
