@@ -28,7 +28,10 @@ procedure Memory_Cartographer is
          when SRAM => Burst_In_SRAM (Toggles);
       end case;
       Cycles := DWT_CYCCNT - Start;
-      Put (if Where = Flash then "flash: " else "sram:  ");
+      case Where is
+         when Flash => Put ("flash: ");
+         when SRAM => Put ("sram: ");
+      end case;
       Put_Decimal (Cycles);
       Put (" cycles, XIP ");
       Put_Decimal (XIP_Hits);
