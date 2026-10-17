@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: Apache-2.0
+# Memory map of the Raspberry Pi Pico 2 W (RP2350 datasheet, section
+# 2.2). tools/memgen turns it into memory.ld; edit this file, not that.
+description = "Raspberry Pi Pico 2 W: RP2350, 4 MB QSPI flash"
+
+# XIP window onto the board's 4 MB flash chip
+[[region]]
+name = "flash"
+attributes = "rx"
+origin = 0x10000000
+size = "4M"
+
+# SRAM0-7: eight 64 KB banks, word-striped
+[[region]]
+name = "sram"
+attributes = "rwx"
+origin = 0x20000000
+size = "512K"
+
+# SRAM8 and SRAM9: two 4 KB banks, not striped
+[[region]]
+name = "scratch_x"
+attributes = "rwx"
+origin = 0x20080000
+size = "4K"
+
+[[region]]
+name = "scratch_y"
+attributes = "rwx"
+origin = 0x20081000
+size = "4K"
+
+# The main stack has SRAM9 to itself
+[stack]
+region = "scratch_y"
+size = "4K"
