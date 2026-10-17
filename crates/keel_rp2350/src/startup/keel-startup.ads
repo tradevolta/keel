@@ -3,7 +3,7 @@
 --  configuration says Startup = "keel": the boot block, the vector
 --  table, the reset handler and the fault handlers. This code runs
 --  before elaboration, so it must need none.
-with System;
+with System.Storage_Elements;
 with Interfaces;
 
 package Keel.Startup
@@ -27,6 +27,16 @@ is
    end record;
 
    Last_Exception : Exception_Info with Volatile;
+
+   --  Reset_Handler fills the stack below its own frame with this
+   --  pattern; a word that still holds it was never used.
+   Stack_Pattern : constant := 16#DEAD_BEEF#;
+
+   --  The main stack's size, and how many bytes at its bottom have
+   --  never been written since reset: the margin left.
+   function Stack_Size return System.Storage_Elements.Storage_Count;
+   function Stack_Never_Used
+     return System.Storage_Elements.Storage_Count;
 
    procedure Reset_Handler
      with Export, Convention => C,

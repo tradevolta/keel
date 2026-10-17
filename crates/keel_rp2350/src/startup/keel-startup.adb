@@ -1,11 +1,14 @@
 --  SPDX-License-Identifier: Apache-2.0
 with System.Storage_Elements; use System.Storage_Elements;
+with Interfaces; use type Interfaces.Unsigned_32;
 with Keel.Cortex_M; use Keel.Cortex_M;
 
 package body Keel.Startup is
 
    --  Symbols that ld/keel-sections.ld defines. Only their addresses
    --  mean anything; Import keeps Ada from touching the "objects".
+   Stack_Start : Word
+     with Import, External_Name => "__keel_stack_start";
    Stack_End : Word with Import, External_Name => "__keel_stack_end";
    Data_Start : Word with Import, External_Name => "__keel_data_start";
    Data_End : Word with Import, External_Name => "__keel_data_end";
@@ -80,14 +83,41 @@ package body Keel.Startup is
          BSS (I) := 0;
       end loop;
 
-      --  5. Elaborate, then run the main subprogram.
+      --  5. Paint the stack below this frame, for Stack_Never_Used.
+      declare
+         Free : constant Storage_Count :=
+           (Stack_Pointer - Stack_Start'Address) / 4;
+         Below : Word_Array (1 .. Free)
+           with Import, Volatile, Address => Stack_Start'Address;
+      begin
+         for I in Below'Range loop
+            Below (I) := Stack_Pattern;
+         end loop;
+      end;
+
+      --  6. Elaborate, then run the main subprogram.
       Ada_Main;
 
-      --  6. A main that returns leaves the core asleep.
+      --  7. A main that returns leaves the core asleep.
       loop
          WFI;
       end loop;
    end Reset_Handler;
+
+   function Stack_Size return Storage_Count is
+     (Stack_End'Address - Stack_Start'Address);
+
+   function Stack_Never_Used return Storage_Count is
+      Stack : Word_Array (1 .. Stack_Size / 4)
+        with Import, Volatile, Address => Stack_Start'Address;
+   begin
+      for I in Stack'Range loop
+         if Stack (I) /= Stack_Pattern then
+            return (I - 1) * 4;
+         end if;
+      end loop;
+      return Stack_Size;
+   end Stack_Never_Used;
 
    procedure HardFault_Handler is
    begin
