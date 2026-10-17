@@ -32,6 +32,14 @@ package body Keel.Trace is
      with Volatile, Export, Convention => C,
           External_Name => "_SEGGER_RTT";
 
+   --  SEGGER_RTT.h on a 32-bit target: 24 bytes per buffer and 72
+   --  for the block, so nothing between the components is padding
+   pragma Compile_Time_Error
+     (System.Address'Size = 32
+      and then (Ring'Size /= 24 * 8
+                or else Control_Block'Size /= 72 * 8),
+      "Control_Block does not match SEGGER_RTT_CB");
+
    Up_Data : String (1 .. Buffer_Size);
    Down_Data : String (1 .. 16);
    Drops : Natural := 0;
