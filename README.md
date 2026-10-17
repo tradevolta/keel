@@ -8,10 +8,12 @@ Devices on the Raspberry Pi Pico 2 W* (Vincent Donkor).
 Primary board: Raspberry Pi Pico 2 W (RP2350). Secondary board:
 ST NUCLEO-G474RE (STM32G474).
 
-**Status: 0.0.2, skeleton plus L0 startup (book Chapters 1-4).**
-Nothing here is a usable HAL yet: `keel_rp2350` brings a chip from
-reset to your main subprogram (Chapter 4), and `Keel.GPIO` arrives
-with Chapter 7 (Keel 0.1.0).
+**Status: 0.0.3, skeleton, L0 startup, linker generator and RTT
+console (book Chapters 1-5).** Nothing here is a usable HAL yet:
+`keel_rp2350` brings a chip from reset to your main subprogram
+(Chapter 4), `tools/memgen` writes its memory map from
+`memory.toml` and `Keel.Trace` prints over RTT (Chapter 5), and
+`Keel.GPIO` arrives with Chapter 7 (Keel 0.1.0).
 
 ## Layout
 
@@ -19,8 +21,8 @@ with Chapter 7 (Keel 0.1.0).
 |---|---|
 | `crates/` | The Keel Alire crates (`keel_core` today; `keel_rp2350`, `keel_stm32g4`, drivers and middleware later) |
 | `book/` | One Alire crate per chapter project (`chNN_<slug>`), plus `book/listings/` exported from the manuscript |
-| `tools/` | Host tools: `flash` (UF2/BOOTSEL/SWD), `ci-build` |
-| `tests/` | Host unit tests, HIL scenarios and proof projects (from Chapter 24) |
+| `tools/` | Host tools: `flash` (UF2/BOOTSEL/SWD), `ci-build`, `memgen` (`memory.toml` to linker script) |
+| `tests/` | Host tests (`trace_host` from Chapter 5), HIL scenarios and proof projects (from Chapter 24) |
 | `docs/` | Documentation and architecture decision records (`docs/adr/`) |
 | `alire/` | Index fragments and release scripts (from Keel 0.1.0) |
 | `.github/workflows/` | CI: builds every crate on each push and weekly |

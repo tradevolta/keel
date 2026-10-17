@@ -1,6 +1,6 @@
 name = "keel_rp2350"
 description = "Keel for the RP2350: L0 startup code"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
