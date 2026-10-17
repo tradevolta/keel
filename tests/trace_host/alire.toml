@@ -1,0 +1,15 @@
+name = "trace_host"
+description = "Host test: Keel.Trace read back the way a probe reads it"
+version = "0.0.3"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+executables = ["trace_host"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+keel_core = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
