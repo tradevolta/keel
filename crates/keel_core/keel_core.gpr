@@ -7,9 +7,12 @@ project Keel_Core is
      Project'Library_Name & ".so." & Keel_Core_Config.Crate_Version;
 
    for Source_Dirs use ("src/", "config/");
-   for Object_Dir use "obj/" & Keel_Core_Config.Build_Profile;
+   --  Keel_Core is built for the host and for the RP2350, so each
+   --  target gets its own object and library directories.
+   for Object_Dir use "obj/" & Project'Target & "/"
+     & Keel_Core_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
-   for Library_Dir use "lib";
+   for Library_Dir use "lib/" & Project'Target;
 
    type Library_Type_Type is ("relocatable", "static", "static-pic");
    Library_Type : Library_Type_Type :=
