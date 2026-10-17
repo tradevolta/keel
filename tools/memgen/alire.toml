@@ -1,0 +1,13 @@
+name = "memgen"
+description = "Keel tool: memory.toml to a GNU ld MEMORY script"
+version = "0.0.3"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "linker", "keel"]
+
+executables = ["memgen"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+ada_toml = "~0.5.0"
