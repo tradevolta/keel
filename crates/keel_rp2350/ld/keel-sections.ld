@@ -7,6 +7,7 @@ INCLUDE memory.ld
 EXTERN(keel_reset_handler)
 ENTRY(keel_reset_handler)
 
+/* Flash: the boot structures, then code and constants. */
 SECTIONS
 {
   /* The boot ROM reads the vector table at the start of the image
@@ -24,7 +25,11 @@ SECTIONS
   {
     *(.ARM.exidx*)
   } > flash
+}
 
+/* SRAM: the stack, then .data and .bss. */
+SECTIONS
+{
   /* The main stack comes first, so an overflow cannot run down
      into .data and .bss. It grows down from __keel_stack_end and
      stays 8-byte aligned (AAPCS). */
