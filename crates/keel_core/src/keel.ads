@@ -4,5 +4,5 @@
 package Keel
   with Pure, SPARK_Mode, No_Elaboration_Code_All
 is
-   Version : constant String := "0.0.3";
+   Version : constant String := "0.0.4";
 end Keel;
