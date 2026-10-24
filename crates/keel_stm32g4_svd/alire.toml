@@ -1,0 +1,7 @@
+name = "keel_stm32g4_svd"
+description = "Keel L1: svd2ada register bindings for the STM32G474"
+version = "0.0.4"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "registers", "svd", "keel"]
