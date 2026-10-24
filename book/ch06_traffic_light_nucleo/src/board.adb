@@ -19,7 +19,7 @@ package body Board is
 
    procedure Initialize is
    begin
-      RCC_Periph.RCC_AHB2ENR.GPIOAEN := B_0x1;    --  clock enabled
+      RCC_Periph.RCC_AHB2ENR.GPIOAEN := B_0x1;
       RCC_Periph.RCC_APB1ENR1.TIM2EN := B_0x1;
 
       for L in Lamp loop
