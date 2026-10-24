@@ -1,0 +1,23 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  L1 registers: gen/ is svd2ada output (tools/svd-gen), src/ the
+--  hand-written typed overlays. No target of its own: it takes the
+--  target and runtime of the project that uses it.
+with "config/keel_rp2350_svd_config.gpr";
+
+project Keel_RP2350_SVD is
+   for Library_Name use "keel_rp2350_svd";
+   for Library_Version use Project'Library_Name & ".so."
+     & Keel_RP2350_SVD_Config.Crate_Version;
+   for Library_Kind use "static";
+
+   for Source_Dirs use ("gen/", "src/", "config/");
+   for Object_Dir use "obj/" & Project'Target & "/"
+     & Keel_RP2350_SVD_Config.Build_Profile;
+   for Library_Dir use "lib/" & Project'Target;
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Keel_RP2350_SVD_Config.Ada_Compiler_Switches & ("-gnat2022");
+   end Compiler;
+end Keel_RP2350_SVD;

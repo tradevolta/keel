@@ -1,0 +1,7 @@
+name = "keel_rp2350_svd"
+description = "Keel L1: svd2ada register bindings for the RP2350"
+version = "0.0.4"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0 AND BSD-3-Clause"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "registers", "svd", "keel"]
