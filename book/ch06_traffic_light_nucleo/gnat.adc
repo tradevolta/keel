@@ -1,0 +1,3 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  The same driver rule as the Pico 2 W build.
+pragma Restrictions (No_Use_Of_Entity => STM32G4_SVD.UInt32);

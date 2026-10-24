@@ -1,0 +1,26 @@
+name = "ch06_traffic_light_nucleo"
+description = "Chapter 6: the traffic light ported to the NUCLEO-G474RE"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "stm32g4", "nucleo", "keel"]
+
+executables = ["traffic_light"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_stm32g4xx = "=16.0.0"
+keel_core = "*"
+keel_stm32g4_svd = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_stm32g4_svd = { path = "../../crates/keel_stm32g4_svd" }
+
+[configuration.values]
+# The NUCLEO-G474RE's part is an STM32G474RE (512 KB flash, "E").
+# The runtime's default clock tree is kept: HSI16 / 4 * 85 / 2 gives
+# a 170 MHz SYSCLK, and AHB and APB1 run undivided.
+light_stm32g4xx.MCU_Sub_Family = "G474"
+light_stm32g4xx.MCU_Flash_Memory_Size = "E"

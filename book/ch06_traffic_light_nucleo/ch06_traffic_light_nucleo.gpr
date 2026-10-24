@@ -1,0 +1,33 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/ch06_traffic_light_nucleo_config.gpr";
+with "runtime_build.gpr";
+with "keel_core.gpr";
+with "keel_stm32g4_svd.gpr";
+
+project Ch06_Traffic_Light_Nucleo is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   --  The state machine is the Pico 2 W project's, unchanged; only
+   --  the board body is new.
+   for Source_Dirs use
+     ("../ch06_traffic_light/src/common/", "src/", "config/");
+   for Object_Dir use
+     "obj/" & Ch06_Traffic_Light_Nucleo_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("traffic_light.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch06_Traffic_Light_Nucleo_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+      for Local_Configuration_Pragmas use "gnat.adc";
+   end Compiler;
+
+   package Linker is
+      --  The runtime's own linker script and startup, as in Chapter 5
+      for Switches ("Ada") use
+        Runtime_Build.Linker_Switches & ("-Wl,--gc-sections");
+   end Linker;
+end Ch06_Traffic_Light_Nucleo;
