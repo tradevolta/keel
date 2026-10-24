@@ -9,7 +9,7 @@ is
    type Hertz is delta 1.0 range 0.0 .. 1.0E9
      with Small => 1.0, String_Literal => To_Hertz;
 
-   --  A duration, to 1 us: up to 2**31 - 1 us, just over 35 minutes.
+   --  A duration, to 1 us: up to 2**31 - 1 us, about 35.8 minutes.
    type Micro_Seconds is delta 1.0 range 0.0 .. 2.0**31 - 1.0
      with Small => 1.0, String_Literal => To_Micro_Seconds;
 
