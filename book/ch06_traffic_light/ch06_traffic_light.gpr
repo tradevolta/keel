@@ -1,0 +1,31 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/ch06_traffic_light_config.gpr";
+with "runtime_build.gpr";
+with "keel_core.gpr";
+with "keel_rp2350.gpr";
+with "keel_rp2350_svd.gpr";
+
+project Ch06_Traffic_Light is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   --  common/ is the portable state machine, pico2w/ the board.
+   for Source_Dirs use ("src/common/", "src/pico2w/", "config/");
+   for Object_Dir use "obj/" & Ch06_Traffic_Light_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("traffic_light.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch06_Traffic_Light_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+      --  The driver rule, checked by the compiler (gnat.adc).
+      for Local_Configuration_Pragmas use "gnat.adc";
+   end Compiler;
+
+   package Linker is
+      for Switches ("Ada") use
+        Keel_RP2350.Linker_Switches & ("-Wl,--gc-sections");
+   end Linker;
+end Ch06_Traffic_Light;
