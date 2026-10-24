@@ -19,5 +19,7 @@ project Keel_RP2350_SVD is
    package Compiler is
       for Default_Switches ("Ada") use
         Keel_RP2350_SVD_Config.Ada_Compiler_Switches & ("-gnat2022");
+      --  pragma SPARK_Mode (Off) for every unit of the crate
+      for Local_Configuration_Pragmas use "svd.adc";
    end Compiler;
 end Keel_RP2350_SVD;

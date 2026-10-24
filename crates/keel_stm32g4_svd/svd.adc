@@ -1,0 +1,5 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Configuration pragmas for this crate's units, gen/ and src/.
+--  svd2ada output is not SPARK: the proof boundary is the HAL above
+--  it (Chapter 7).
+pragma SPARK_Mode (Off);
