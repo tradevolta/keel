@@ -4,11 +4,13 @@
 #   tools/ci-build             all crates under crates/, book/,
 #                              tools/ and tests/
 #   tools/ci-build book/ch01_hello_photon ...
-# Book projects cross-compiled for the RP2350 (they depend on
-# gnat_arm_elf) also get a size report and, with picotool, a UF2.
+# Book projects cross-compiled for a board (they depend on
+# gnat_arm_elf) also get a size report; RP2350 ones, with picotool,
+# a UF2.
 # Host crates (gnat_native) and libraries are only built; the host
 # tests under tests/ also run. Without arguments, it also checks that
-# every memory.ld matches the memory.toml it was generated from.
+# every memory.ld matches the memory.toml it was generated from and,
+# with svd2ada on PATH, that every gen/ directory is current.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 root=$PWD
@@ -49,6 +51,8 @@ for c in "${crates[@]}"; do
       elf="$c/bin/$exe"
       [ -f "$elf" ] || continue
       (cd "$c" && alr -n exec -- arm-eabi-size "bin/$exe") || true
+      # A UF2 only for the RP2350 (the NUCLEO ports flash the ELF)
+      grep -q '^light[a-z_]*rp2350' "$c/alire.toml" || continue
       if command -v picotool >/dev/null; then
         "$root/tools/flash" uf2 "$c"
       fi
@@ -65,5 +69,8 @@ if [ $# -eq 0 ]; then
       fail=1
     fi
   done
+  if command -v svd2ada >/dev/null; then
+    tools/svd-gen --check || fail=1
+  fi
 fi
 exit $fail

@@ -12,6 +12,8 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch03_gp15_overlay` | 3, the same overlays at the real addresses, blinking GP15 | `light_tasking_rp2350` 16.0.0 |
 | `ch04_zero_runtime_blinky` | 4, "Zero-runtime blinky": GP15 with Keel's own startup | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch05_memory_cartographer` | 5, "Memory cartographer": section map, stack high-water mark and a hot loop in SRAM, over RTT | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
+| `ch06_traffic_light` | 6, "Register-level traffic light": three LEDs through svd2ada registers; `bad/` holds the mask mistakes the types reject | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "runtime"` |
+| `ch06_traffic_light_nucleo` | 6, Port it: the same state machine on the NUCLEO-G474RE | `light_stm32g4xx` 16.0.0 |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
