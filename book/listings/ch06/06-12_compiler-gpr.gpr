@@ -1,0 +1,7 @@
+package Compiler is
+   for Default_Switches ("Ada") use
+     Ch06_Traffic_Light_Config.Ada_Compiler_Switches &
+     ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+   --  The driver rule, checked by the compiler (gnat.adc).
+   for Local_Configuration_Pragmas use "gnat.adc";
+end Compiler;

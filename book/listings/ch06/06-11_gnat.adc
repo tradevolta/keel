@@ -1,0 +1,4 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  No raw register words in application code: registers are written
+--  through their field records and the typed overlays.
+pragma Restrictions (No_Use_Of_Entity => RP2350_SVD.UInt32);
