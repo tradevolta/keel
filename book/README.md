@@ -14,6 +14,7 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch05_memory_cartographer` | 5, "Memory cartographer": section map, stack high-water mark and a hot loop in SRAM, over RTT | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch06_traffic_light` | 6, "Register-level traffic light": three LEDs through svd2ada registers; `bad/` holds the mask mistakes the types reject | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "runtime"` |
 | `ch06_traffic_light_nucleo` | 6, Port it: the same state machine on the NUCLEO-G474RE | `light_stm32g4xx` 16.0.0 |
+| `ch07_reaction_time` | 7, "Reaction-time game": two buttons and three lamps through `Keel.GPIO`; `bad/` holds the pin mistakes the compiler rejects | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "runtime"` |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
