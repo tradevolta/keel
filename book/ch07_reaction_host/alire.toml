@@ -1,0 +1,18 @@
+name = "ch07_reaction_host"
+description = "Chapter 7: the reaction-time game on fake pins"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["host", "keel"]
+
+executables = ["reaction_time"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+keel_core = "*"
+keel_host = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_host = { path = "../../crates/keel_host" }
