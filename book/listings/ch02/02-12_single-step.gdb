@@ -4,7 +4,8 @@ set filename-display basename
 target extended-remote localhost:3333
 monitor reset halt
 load
-break single_step.adb:14
+monitor reset init
+break single_step.adb:13
 display/d blink_control.toggles
 display/d blink_control.half_period_ms
 continue
