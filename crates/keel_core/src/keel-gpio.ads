@@ -15,8 +15,9 @@ is
    type Slew_Rate is (Slow, Fast);
 
    type Output_Config is record
-      Initial : Level     := Low;   --  driven from the first moment
-      Slew    : Slew_Rate := Slow;
+      --  Initial is driven from the first moment
+      Initial : Level := Low;
+      Slew : Slew_Rate := Slow;
    end record;
 
    type Input_Config is record

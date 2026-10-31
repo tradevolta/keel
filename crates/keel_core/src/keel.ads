@@ -8,9 +8,9 @@ is
 
    --  The result of a HAL operation. HAL code raises no exceptions:
    --  a call that can fail has a Stat : out Status parameter.
-   --    Ok            it worked
-   --    In_Use        the resource already has an owner
-   --    Not_Supported this chip cannot do what was asked
+   --  Ok: it worked.
+   --  In_Use: the resource already has an owner.
+   --  Not_Supported: this chip cannot do what was asked.
    --  Later chapters add the bus and timeout results.
    type Status is (Ok, In_Use, Not_Supported);
 end Keel;
