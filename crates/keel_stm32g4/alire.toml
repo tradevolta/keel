@@ -1,0 +1,17 @@
+name = "keel_stm32g4"
+description = "Keel for the STM32G4: the L2 GPIO HAL"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "stm32g4", "gpio", "keel"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_stm32g4xx = "=16.0.0"
+keel_core = "*"
+keel_stm32g4_svd = "*"
+
+[[pins]]
+keel_core = { path = "../keel_core" }
+keel_stm32g4_svd = { path = "../keel_stm32g4_svd" }

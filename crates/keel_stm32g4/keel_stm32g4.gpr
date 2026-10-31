@@ -1,0 +1,25 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/keel_stm32g4_config.gpr";
+with "runtime_build.gpr";
+with "keel_core.gpr";
+with "keel_stm32g4_svd.gpr";
+
+project Keel_STM32G4 is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   for Library_Name use "Keel_STM32G4";
+   for Library_Kind use "static";
+   for Library_Dir use "lib";
+   for Object_Dir use "obj/" & Keel_STM32G4_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+
+   --  The runtime's startup and linker script, as in Chapter 5
+   for Source_Dirs use ("src/", "config/");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Keel_STM32G4_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+   end Compiler;
+end Keel_STM32G4;
