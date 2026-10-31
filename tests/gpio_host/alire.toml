@@ -1,0 +1,17 @@
+name = "gpio_host"
+description = "Host test: Keel.GPIO on the fake pins of keel_host"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+executables = ["gpio_host"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+keel_core = "*"
+keel_host = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_host = { path = "../../crates/keel_host" }
