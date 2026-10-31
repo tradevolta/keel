@@ -1,6 +1,6 @@
 name = "keel_core"
-description = "Keel HAL interfaces, units and status types (skeleton)"
-version = "0.0.4"
+description = "Keel HAL interfaces (Keel.GPIO), status, units and RTT trace"
+version = "0.1.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
