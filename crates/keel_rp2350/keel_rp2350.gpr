@@ -2,6 +2,7 @@
 with "config/keel_rp2350_config.gpr";
 with "runtime_build.gpr";
 with "keel_core.gpr";
+with "keel_rp2350_svd.gpr";
 
 project Keel_RP2350 is
    for Target use Runtime_Build'Target;
