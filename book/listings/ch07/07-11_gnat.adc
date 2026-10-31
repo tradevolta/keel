@@ -1,0 +1,7 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  No raw register words in application code: registers are written
+--  through their field records and the typed overlays.
+pragma Restrictions (No_Use_Of_Entity => RP2350_SVD.UInt32);
+--  A pin outside a Static_Predicate is a warning in GNAT, and the
+--  constant then stops being static: make it an error.
+pragma Warning_As_Error ("*fails static predicate*");
