@@ -8,9 +8,10 @@
 # gnat_arm_elf) also get a size report; RP2350 ones, with picotool,
 # a UF2.
 # Host crates (gnat_native) and libraries are only built; the host
-# tests under tests/ also run. Without arguments, it also checks that
-# every memory.ld matches the memory.toml it was generated from and,
-# with svd2ada on PATH, that every gen/ directory is current.
+# tests under tests/ also run, and the proof projects there (they
+# depend on gnatprove) are proved. Without arguments, it also checks
+# that every memory.ld matches the memory.toml it was generated from
+# and, with svd2ada on PATH, that every gen/ directory is current.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 root=$PWD
@@ -36,7 +37,15 @@ for c in "${crates[@]}"; do
     tests/*)
       exe=$(sed -n 's/^executables *= *\[ *"\([^"]*\)".*/\1/p' \
         "$c/alire.toml")
-      if "$c/bin/$exe"; then
+      if grep -q '^gnatprove' "$c/alire.toml"; then
+        # A proof project: every check proved, or it fails
+        gpr=$(basename "$c").gpr
+        if (cd "$c" && alr -n exec -- gnatprove -P "$gpr" -j0); then
+          echo "ok: $c proved"
+        else
+          echo "FAILED: $c proof"; fail=1
+        fi
+      elif "$c/bin/$exe"; then
         echo "ok: $c passed"
       else
         echo "FAILED: $c tests"; fail=1
