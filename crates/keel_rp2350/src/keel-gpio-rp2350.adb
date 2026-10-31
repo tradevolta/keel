@@ -38,8 +38,8 @@ package body Keel.GPIO.RP2350 is
    --  The pins that have an owner
    Taken : Pin_Set := [others => False];
 
-   --  Each pin's bit, built once by the compiler: a lookup, not a
-   --  loop over all 32 pins, in every Set
+   --  Each pin's bit, built once at elaboration (120 bytes of RAM):
+   --  every Set is then a lookup, not a loop over all 32 pins
    Bits : constant array (Pin_Id) of Pin_Set :=
      [for Id in Pin_Id => [for P in Pin => P = Pin (Id)]];
 
