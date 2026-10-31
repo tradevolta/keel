@@ -18,7 +18,7 @@ is
    function Pending (D : Debouncer) return Natural
      with Post => Pending'Result < D.Samples;
 
-   procedure Reset (D : in out Debouncer; To : Level)
+   procedure Reset (D : out Debouncer; To : Level)
      with Post => Stable (D) = To and then Pending (D) = 0;
 
    --  Feed one raw sample. Changed is True for exactly the sample

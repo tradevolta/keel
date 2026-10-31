@@ -2,7 +2,7 @@
 package body Keel.GPIO.Debounce
   with SPARK_Mode
 is
-   procedure Reset (D : in out Debouncer; To : Level) is
+   procedure Reset (D : out Debouncer; To : Level) is
    begin
       D.Now := To;
       D.Count := 0;

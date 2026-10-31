@@ -1,0 +1,20 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  The debouncer and the units it needs, straight from keel_core's
+--  sources: gnatprove proves every unit of this project.
+project GPIO_Proof is
+   for Source_Dirs use ("../../crates/keel_core/src/");
+   for Source_Files use
+     ("keel.ads", "keel-gpio.ads",
+      "keel-gpio-debounce.ads", "keel-gpio-debounce.adb");
+   for Object_Dir use "obj/";
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022");
+   end Compiler;
+
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=2", "--checks-as-errors=on");
+   end Prove;
+end GPIO_Proof;
