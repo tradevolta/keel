@@ -1,0 +1,20 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/keel_host_config.gpr";
+with "keel_core.gpr";
+
+project Keel_Host is
+   for Library_Name use "Keel_Host";
+   for Library_Kind use "static";
+   for Library_Dir use "lib";
+   for Object_Dir use "obj/" & Keel_Host_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Source_Dirs use ("src/", "config/");
+
+   --  -gnata: the fake checks every Pre and Post it is called with,
+   --  so a test that breaks a contract fails at the call.
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Keel_Host_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-gnata");
+   end Compiler;
+end Keel_Host;

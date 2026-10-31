@@ -1,0 +1,14 @@
+name = "keel_host"
+description = "Keel on the host: a fake GPIO for tests without a board"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["host", "testing", "gpio", "keel"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+keel_core = "*"
+
+[[pins]]
+keel_core = { path = "../keel_core" }
