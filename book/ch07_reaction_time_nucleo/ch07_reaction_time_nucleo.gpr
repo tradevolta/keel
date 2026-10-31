@@ -1,0 +1,33 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/ch07_reaction_time_nucleo_config.gpr";
+with "runtime_build.gpr";
+with "keel_core.gpr";
+with "keel_stm32g4.gpr";
+with "keel_stm32g4_svd.gpr";
+
+project Ch07_Reaction_Time_Nucleo is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   --  The game, the panel and the main are the Pico 2 W project's,
+   --  unchanged; only the board body is new.
+   for Source_Dirs use
+     ("../ch07_reaction_time/src/common/", "src/", "config/");
+   for Object_Dir use
+     "obj/" & Ch07_Reaction_Time_Nucleo_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("reaction_time.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch07_Reaction_Time_Nucleo_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+      for Local_Configuration_Pragmas use "gnat.adc";
+   end Compiler;
+
+   package Linker is
+      for Switches ("Ada") use
+        Runtime_Build.Linker_Switches & ("-Wl,--gc-sections");
+   end Linker;
+end Ch07_Reaction_Time_Nucleo;

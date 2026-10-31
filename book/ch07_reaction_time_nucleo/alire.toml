@@ -1,0 +1,27 @@
+name = "ch07_reaction_time_nucleo"
+description = "Chapter 7: the reaction-time game on the NUCLEO-G474RE"
+version = "0.1.0"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "stm32g4", "nucleo", "keel"]
+
+executables = ["reaction_time"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_stm32g4xx = "=16.0.0"
+keel_core = "*"
+keel_stm32g4 = "*"
+keel_stm32g4_svd = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_stm32g4 = { path = "../../crates/keel_stm32g4" }
+keel_stm32g4_svd = { path = "../../crates/keel_stm32g4_svd" }
+
+[configuration.values]
+# STM32G474RE, 170 MHz from the runtime's default clock tree, as in
+# Chapter 6.
+light_stm32g4xx.MCU_Sub_Family = "G474"
+light_stm32g4xx.MCU_Flash_Memory_Size = "E"

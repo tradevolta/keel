@@ -16,6 +16,7 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch06_traffic_light_nucleo` | 6, Port it: the same state machine on the NUCLEO-G474RE | `light_stm32g4xx` 16.0.0 |
 | `ch07_reaction_time` | 7, "Reaction-time game": two buttons and three lamps through `Keel.GPIO`; `bad/` holds the pin mistakes the compiler rejects | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "runtime"` |
 | `ch07_reaction_host` | 7, the same game on `Keel.GPIO.Fake` with a scripted bench and simulated time | host (`gnat_native` 16.1.0) |
+| `ch07_reaction_time_nucleo` | 7, Port it: the same game and panel on the NUCLEO-G474RE through `Keel.GPIO.STM32G4` | `light_stm32g4xx` 16.0.0 |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
