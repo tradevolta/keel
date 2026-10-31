@@ -38,8 +38,12 @@ package body Keel.GPIO.RP2350 is
    --  The pins that have an owner
    Taken : Pin_Set := [others => False];
 
-   function Only (Id : Pin_Id) return Pin_Set is
-     [for P in Pin => P = Pin (Id)];
+   --  Each pin's bit, built once by the compiler: a lookup, not a
+   --  loop over all 32 pins, in every Set
+   Bits : constant array (Pin_Id) of Pin_Set :=
+     [for Id in Pin_Id => [for P in Pin => P = Pin (Id)]];
+
+   function Only (Id : Pin_Id) return Pin_Set is (Bits (Id));
 
    package Reset_Bits is new RP2350_SVD.Atomic (RESET_Register);
 
