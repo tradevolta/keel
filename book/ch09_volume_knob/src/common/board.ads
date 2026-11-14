@@ -5,7 +5,8 @@
 with Keel.Quadrature;
 
 package Board is
-   --  The knob's range: 32 counts, 8 detents of a typical encoder
+   --  The knob's range: 32 counts. An encoder with 15 pulses and 30
+   --  detents a turn, like the Alps EC11E15244G1, moves 2 a detent.
    subtype Volume is Keel.Quadrature.Count range 0 .. 32;
 
    --  As many LEDs as the bar has
