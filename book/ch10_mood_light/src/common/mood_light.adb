@@ -42,9 +42,9 @@ begin
          Read_Meter (Hz, Stat);
          Put_Line
            ("mood_light: hue" & Shade'Image & ", angle" & A'Image
-            & ", input "
+            & ", input"
             & (if Stat = Keel.Ok then Hz'Image & " Hz"
-               else Stat'Image));
+               else " " & Stat'Image));
          Start_Meter;
       end if;
    end loop;
