@@ -12,6 +12,8 @@
 | `irq_proof/` | GNATprove proves `Keel.Quadrature` and `Keel.Faults`: the position stays in its range, every step is the table's (`gnatprove` 16.1.0) | Chapter 9 |
 | `timer_host/` | `Keel.PWM.Solve` on the host: settings for both chips against values worked by hand, duty and width levels, `Keel.Time` arithmetic (`gnat_native`) | Chapter 10 |
 | `timer_proof/` | GNATprove proves `Keel.PWM` and `Keel.Time`: every setting `Solve` returns is inside the counter's limits and within half a count of the period, every level fits (`gnatprove` 16.1.0) | Chapter 10 |
+| `adc_host/` | `Keel.ADC` and `Keel.DAC` on the host: codes to volts, oversampling a noisy input, the RP2350's temperature sensor, PWM-DAC levels and the RC filter, against values worked by hand (`gnat_native`) | Chapter 11 |
+| `adc_proof/` | GNATprove proves `Keel.ADC` and `Keel.DAC` free of run-time errors, with every oversampled code and DAC level inside its range (`gnatprove` 16.1.0) | Chapter 11 |
 
 The host tests are plain Ada mains with a small `Check` procedure,
 not AUnit. Planned: `hil/` (hardware-in-the-loop scenarios) and

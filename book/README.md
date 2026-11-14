@@ -24,6 +24,8 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch09_volume_knob_nucleo` | 9, Port it: the knob on PA0, PA1 and PA4 through EXTI0, 1 and 4, the bar on Arduino D2 to D9 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 | `ch10_mood_light` | 10, "Mood light & servo sweeper": a gamma-corrected RGB fade on PWM slices 0 and 1, an SG92R servo at 50 Hz, a frequency meter on GP7 gated by a TIMER0 alarm; `ANGLE=sweep` (default) or `pot` (Chapter 11) | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch10_mood_light_nucleo` | 10, Port it: the LED on TIM3, the servo on TIM4, TIM2 counting MCO, `Keel.Time.Bare` on SysTick | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
+| `ch11_battery_monitor` | 11, "Battery & light monitor": VSYS / 3, an LDR, the temperature sensor and a PWM DAC read back, round robin through the FIFO and oversampled; the NUCLEO's sine captured at 10 kS/s; the level on Chapter 9's LED bar | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
+| `ch11_sine_nucleo` | 11, Port it: a 50 Hz sine on DAC1 (PA4) for the Pico 2 W to sample, and COMP1 comparing a potentiometer with it | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
