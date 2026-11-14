@@ -10,10 +10,12 @@
 | `clock_proof/` | GNATprove proves `Keel.Clock`: every setting `Solve` returns is inside the PLL's limits and makes the target exactly (`gnatprove` 16.1.0) | Chapter 8 |
 | `irq_host/` | `Keel.Quadrature` stepped through turns, bounce and missed phases, and `Keel.Faults.Report` printing Chapter 4's fault (`gnat_native`) | Chapter 9 |
 | `irq_proof/` | GNATprove proves `Keel.Quadrature` and `Keel.Faults`: the position stays in its range, every step is the table's (`gnatprove` 16.1.0) | Chapter 9 |
+| `timer_host/` | `Keel.PWM.Solve` on the host: settings for both chips against values worked by hand, duty and width levels, `Keel.Time` arithmetic (`gnat_native`) | Chapter 10 |
+| `timer_proof/` | GNATprove proves `Keel.PWM` and `Keel.Time`: every setting `Solve` returns is inside the counter's limits and within half a count of the period, every level fits (`gnatprove` 16.1.0) | Chapter 10 |
 
 The host tests are plain Ada mains with a small `Check` procedure,
 not AUnit. Planned: `hil/` (hardware-in-the-loop scenarios) and
-`proof/` (GNATprove projects, Chapter 24; `gpio_proof/`, `clock_proof/` and
-`irq_proof/` move there).
+`proof/` (GNATprove projects, Chapter 24; `gpio_proof/`, `clock_proof/`,
+`irq_proof/` and `timer_proof/` move there).
 `tools/ci-build` builds and runs every crate here, and proves the
 ones that depend on `gnatprove`.

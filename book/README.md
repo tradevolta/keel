@@ -22,6 +22,8 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch09_volume_knob` | 9, "Rotary encoder volume knob + crash detective": the encoder decoded in the IO_IRQ_BANK0 handler drives an 8-LED bar; a press of the knob calls a null access and the fault reporter explains it | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch09_volume_knob_jorvik` | 9, the same decoding in an Ada protected handler (`Attach_Handler`), the main task blocked on an entry | `light_tasking_rp2350` 16.0.0 |
 | `ch09_volume_knob_nucleo` | 9, Port it: the knob on PA0, PA1 and PA4 through EXTI0, 1 and 4, the bar on Arduino D2 to D9 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
+| `ch10_mood_light` | 10, "Mood light & servo sweeper": a gamma-corrected RGB fade on PWM slices 0 and 1, an SG92R servo at 50 Hz, a frequency meter on GP7 gated by a TIMER0 alarm; `ANGLE=sweep` (default) or `pot` (Chapter 11) | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
+| `ch10_mood_light_nucleo` | 10, Port it: the LED on TIM3, the servo on TIM4, TIM2 counting MCO, `Keel.Time.Bare` on SysTick | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
