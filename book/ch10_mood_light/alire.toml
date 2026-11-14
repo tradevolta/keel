@@ -1,6 +1,6 @@
 name = "ch10_mood_light"
 description = "Chapter 10: an RGB mood light, a servo sweeper and a frequency meter"
-version = "0.2.0"
+version = "0.3.0-dev"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
