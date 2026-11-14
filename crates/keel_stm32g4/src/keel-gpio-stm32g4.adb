@@ -153,6 +153,20 @@ package body Keel.GPIO.STM32G4 is
       Stat := Ok;
    end Reserve;
 
+   procedure Reserve_Analog
+     (Id : Port_Id; P : Pin_Number; Stat : out Status) is
+   begin
+      if Taken (Id, P) then
+         Stat := In_Use;
+         return;
+      end if;
+      Clock_On (Id);
+      Set_Mode (Port (Id).all, Pin (P), Analog);
+      Set_Pull (Id, P, Floating);
+      Taken (Id, P) := True;
+      Stat := Ok;
+   end Reserve_Analog;
+
    procedure Free (Id : Port_Id; P : Pin_Number) is
    begin
       Set_Mode (Port (Id).all, Pin (P), Analog);

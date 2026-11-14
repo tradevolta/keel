@@ -49,6 +49,11 @@ is
      (Id : Port_Id; P : Pin_Number; AF : Alternate_Function;
       Stat : out Status);
 
+   --  Give a pin to an analog peripheral (ADC, DAC, comparator):
+   --  mark it taken, analog mode, no pull. In_Use: it has an owner.
+   procedure Reserve_Analog
+     (Id : Port_Id; P : Pin_Number; Stat : out Status);
+
    procedure Release (P : in out Output_Pin)
      with Pre => Is_Claimed (P), Post => not Is_Claimed (P);
    procedure Release (P : in out Input_Pin)

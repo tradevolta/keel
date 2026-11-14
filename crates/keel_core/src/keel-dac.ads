@@ -15,6 +15,8 @@ is
       with procedure Set (O : in out Output; V : Volts);
       Full_Scale : Volts;
    package Output_Signature is
+      --  A signature only names things: nothing in it uses them.
+      pragma Warnings (Off, Set);
    end Output_Signature;
 
    --  A filter: a resistor in ohms and a capacitor in nanofarads
