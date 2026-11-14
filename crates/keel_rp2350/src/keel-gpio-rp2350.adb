@@ -145,6 +145,15 @@ package body Keel.GPIO.RP2350 is
       end if;
    end Reserve;
 
+   procedure Select_Function (Id : Pin_Id; F : Function_Number) is
+      Control : GPIO0_CTRL_Register := IO (Id).Control;
+   begin
+      --  FUNCSEL is an enumeration in the generated code; its
+      --  values are the function numbers
+      Control.FUNCSEL := GPIO0_CTRL_FUNCSEL_Field'Enum_Val (F);
+      IO (Id).Control := Control;
+   end Select_Function;
+
    --  Pad first: isolate the pin, then take its function away
    procedure Free (Id : Pin_Id) is
    begin

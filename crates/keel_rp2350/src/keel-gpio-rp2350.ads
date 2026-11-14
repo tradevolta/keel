@@ -53,6 +53,17 @@ is
    procedure Reserve (Id : Pin_Id; Stat : out Status)
      with Pre => Is_Enabled;
 
+   --  IO_BANK0's function numbers (datasheet 9.4, Table 677) as
+   --  the generated FUNCSEL type, GPIO0's, lists them: 0 to 10, and
+   --  31 for none. F11, a UART on a few pins, isn't offered yet.
+   type Function_Number is range 0 .. 31
+     with Static_Predicate => Function_Number in 0 .. 10 | 31;
+   PWM_Function : constant Function_Number := 4;
+
+   --  Connect pin Id, reserved by the caller, to function F
+   procedure Select_Function (Id : Pin_Id; F : Function_Number)
+     with Pre => Is_Enabled;
+
    --  Return the pin to its reset state: isolated, no function
    procedure Release (P : in out Output_Pin)
      with Pre => Is_Claimed (P), Post => not Is_Claimed (P);
