@@ -35,8 +35,9 @@ package body Board is
    Meter : Counter (7);
    Gate  : Alarm (0);
 
+   --  A 100 ms gate: ten a second, so the meter reads to 10 Hz
    Gate_Time : constant Time_Span := Milliseconds (100);
-   Per_Gate  : constant := 10;  --  gates per second
+   Per_Gate  : constant := 10;
 
    --  Shared with the handler. The program writes Opened before it
    --  sets the alarm, and reads Edges and Over after Closed.
