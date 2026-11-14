@@ -3,6 +3,8 @@ with STM32G4_SVD;           use STM32G4_SVD;
 with STM32G4_SVD.GPIO;      use STM32G4_SVD.GPIO;
 with STM32G4_SVD.Pin_Modes; use STM32G4_SVD.Pin_Modes;
 with STM32G4_SVD.RCC;       use STM32G4_SVD.RCC;
+with System;
+with Interfaces;            use Interfaces;
 
 package body Keel.GPIO.STM32G4 is
 
@@ -178,4 +180,55 @@ package body Keel.GPIO.STM32G4 is
    function Get (P : Input_Pin) return Level is
      (if Port (P.Port).IDR.IDR.Arr (Integer (P.Pin)) then High
       else Low);
+
+   --  SYSCFG (0x4001_0000) EXTICR1 to 4: a 4-bit port code per line,
+   --  4 lines a word. EXTI (0x4001_0400): IMR1, RTSR1, FTSR1, PR1,
+   --  one bit per line. Words here, as on the RP2350.
+   type Four_Words is array (0 .. 3) of Unsigned_32
+     with Volatile_Components;
+   EXTICR : Four_Words
+     with Import, Address => System'To_Address (16#4001_0008#);
+
+   IMR1 : Unsigned_32
+     with Volatile, Import,
+          Address => System'To_Address (16#4001_0400#);
+   RTSR1 : Unsigned_32
+     with Volatile, Import,
+          Address => System'To_Address (16#4001_0408#);
+   FTSR1 : Unsigned_32
+     with Volatile, Import,
+          Address => System'To_Address (16#4001_040C#);
+   PR1 : Unsigned_32
+     with Volatile, Import,
+          Address => System'To_Address (16#4001_0414#);
+
+   function Line (P : Input_Pin) return Unsigned_32 is
+     (Shift_Left (1, Natural (P.Pin)));
+
+   procedure Watch (P : Input_Pin; On : Edges) is
+      Row   : constant Natural := Natural (P.Pin) / 4;
+      Shift : constant Natural := 4 * (Natural (P.Pin) mod 4);
+      Enables : RCC_APB2ENR_Register := RCC_Periph.RCC_APB2ENR;
+   begin
+      --  SYSCFG holds EXTICR: give it its clock first
+      Enables.SYSCFGEN := B_0x1;
+      RCC_Periph.RCC_APB2ENR := Enables;
+      EXTICR (Row) :=
+        (EXTICR (Row) and not Shift_Left (16#F#, Shift))
+        or Shift_Left (Port_Id'Pos (P.Port), Shift);
+      RTSR1 := (if On.Rising then RTSR1 or Line (P)
+                else RTSR1 and not Line (P));
+      FTSR1 := (if On.Falling then FTSR1 or Line (P)
+                else FTSR1 and not Line (P));
+      IMR1 := (if On.Rising or On.Falling then IMR1 or Line (P)
+               else IMR1 and not Line (P));
+   end Watch;
+
+   function Pending (P : Input_Pin) return Boolean is
+     ((PR1 and Line (P)) /= 0);
+
+   procedure Acknowledge (P : Input_Pin) is
+   begin
+      PR1 := Line (P);
+   end Acknowledge;
 end Keel.GPIO.STM32G4;

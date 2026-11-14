@@ -61,6 +61,25 @@ is
    function Get (P : Input_Pin) return Level
      with Pre => Is_Claimed (P);
 
+   --  Edge interrupts through EXTI (RM0440, 15): line n serves pin n
+   --  of one port at a time. Lines 0 to 4 have an interrupt each
+   --  (EXTI0 ...); 5 to 9 and 10 to 15 share one.
+   type Edges is record
+      Falling, Rising : Boolean := False;
+   end record;
+
+   --  Route P to its EXTI line and interrupt on these edges only
+   procedure Watch (P : Input_Pin; On : Edges)
+     with Pre => Is_Claimed (P);
+
+   --  An edge is latched on P's line (PR1)
+   function Pending (P : Input_Pin) return Boolean
+     with Pre => Is_Claimed (P);
+
+   --  Clear it (PR1, write 1 to clear)
+   procedure Acknowledge (P : Input_Pin)
+     with Pre => Is_Claimed (P);
+
 private
    type Output_Pin (Port : Port_Id; Pin : Pin_Number) is
      limited record

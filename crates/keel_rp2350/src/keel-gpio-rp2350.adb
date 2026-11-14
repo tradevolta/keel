@@ -6,6 +6,8 @@ with RP2350_SVD.PADS_BANK0; use RP2350_SVD.PADS_BANK0;
 with RP2350_SVD.RESETS;     use RP2350_SVD.RESETS;
 with RP2350_SVD.SIO_Pins;   use RP2350_SVD.SIO_Pins;
 with RP2350_SVD.SYSINFO;    use RP2350_SVD.SYSINFO;
+with System;
+with Interfaces;            use Interfaces;
 
 package body Keel.GPIO.RP2350 is
 
@@ -175,4 +177,52 @@ package body Keel.GPIO.RP2350 is
 
    function Get (P : Input_Pin) return Level is
      (if Input (Pin (P.Id)) then High else Low);
+
+   --  The interrupt registers hold 4 bits per pin, 8 pins a word:
+   --  LEVEL_LOW, LEVEL_HIGH, EDGE_LOW, EDGE_HIGH. The generated
+   --  types name every pin's bits apart, so here they are words.
+   --  IO_BANK0 is at 0x4002_8000; +0x2000 and +0x3000 are its
+   --  atomic set and clear aliases (Chapter 6).
+   type Word_Row is array (0 .. 5) of Unsigned_32
+     with Volatile_Components;
+
+   INTR : Word_Row
+     with Import, Address => System'To_Address (16#4002_8230#);
+   INTE_Set : Word_Row
+     with Import, Address => System'To_Address (16#4002_A248#);
+   INTE_Clear : Word_Row
+     with Import, Address => System'To_Address (16#4002_B248#);
+   INTS : Word_Row
+     with Import, Address => System'To_Address (16#4002_8278#);
+
+   function Row (Id : Pin_Id) return Natural is (Natural (Id) / 8);
+
+   function Bits_Of (Id : Pin_Id; E : Edges) return Unsigned_32 is
+     (Shift_Left
+        ((if E.Falling then 4 else 0) + (if E.Rising then 8 else 0),
+         4 * (Natural (Id) mod 8)));
+
+   procedure Watch (P : Input_Pin; On : Edges) is
+   begin
+      INTE_Clear (Row (P.Id)) :=
+        Bits_Of (P.Id, (Falling => True, Rising => True));
+      INTE_Set (Row (P.Id)) := Bits_Of (P.Id, On);
+   end Watch;
+
+   function Seen (P : Input_Pin) return Edges is
+      Now : constant Unsigned_32 := INTS (Row (P.Id));
+   begin
+      return
+        (Falling =>
+           (Now and Bits_Of (P.Id, (Falling => True, others => <>)))
+             /= 0,
+         Rising =>
+           (Now and Bits_Of (P.Id, (Rising => True, others => <>)))
+             /= 0);
+   end Seen;
+
+   procedure Acknowledge (P : Input_Pin; Which : Edges) is
+   begin
+      INTR (Row (P.Id)) := Bits_Of (P.Id, Which);
+   end Acknowledge;
 end Keel.GPIO.RP2350;
