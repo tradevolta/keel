@@ -9,3 +9,6 @@ alire/cache/
 /crates/*/config/
 *.uf2
 *.map
+
+# ST vendor manuals: copyright STMicroelectronics, kept locally, never committed
+docs/vendor/
