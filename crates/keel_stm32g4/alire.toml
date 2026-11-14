@@ -1,6 +1,6 @@
 name = "keel_stm32g4"
-description = "Keel for the STM32G4: the L2 GPIO HAL"
-version = "0.1.0"
+description = "Keel for the STM32G4: L0 startup, clocks and the L2 GPIO HAL"
+version = "0.2.0-dev"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
@@ -15,3 +15,9 @@ keel_stm32g4_svd = "*"
 [[pins]]
 keel_core = { path = "../keel_core" }
 keel_stm32g4_svd = { path = "../keel_stm32g4_svd" }
+
+# "keel": Keel's own startup code; "runtime": the runtime's
+[configuration.variables.Startup]
+type = "Enum"
+values = ["keel", "runtime"]
+default = "runtime"
