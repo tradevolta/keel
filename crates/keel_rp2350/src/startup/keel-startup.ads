@@ -1,15 +1,15 @@
 --  SPDX-License-Identifier: Apache-2.0
 --  Keel's L0 startup for the RP2350, used when the crate
 --  configuration says Startup = "keel": the boot block, the vector
---  table, the reset handler and the fault handlers. This code runs
---  before elaboration, so it must need none.
+--  table and the reset handler; Keel.Fault_Reporter is the HardFault
+--  handler. This code runs before elaboration, so it must need none.
 with System.Storage_Elements;
 with Interfaces;
 
 package Keel.Startup
   with Preelaborate, No_Elaboration_Code_All
 is
-   --  What HardFault_Handler saw, for GDB to print.
+   --  What the HardFault handler saw, for GDB to print.
    type Fault_Info is record
       CFSR : Interfaces.Unsigned_32;
       HFSR : Interfaces.Unsigned_32;
@@ -41,11 +41,6 @@ is
    procedure Reset_Handler
      with Export, Convention => C,
           External_Name => "keel_reset_handler",
-          No_Return;
-
-   procedure HardFault_Handler
-     with Export, Convention => C,
-          External_Name => "keel_hardfault_handler",
           No_Return;
 
    procedure Default_Handler

@@ -9,6 +9,61 @@ INCLUDE memory.ld
 EXTERN(keel_reset_handler)
 ENTRY(keel_reset_handler)
 
+/* Interrupt N goes to keel_isr_N: the program's, if it exports one,
+   or else keel_default_handler. */
+PROVIDE(keel_isr_0 = keel_default_handler);
+PROVIDE(keel_isr_1 = keel_default_handler);
+PROVIDE(keel_isr_2 = keel_default_handler);
+PROVIDE(keel_isr_3 = keel_default_handler);
+PROVIDE(keel_isr_4 = keel_default_handler);
+PROVIDE(keel_isr_5 = keel_default_handler);
+PROVIDE(keel_isr_6 = keel_default_handler);
+PROVIDE(keel_isr_7 = keel_default_handler);
+PROVIDE(keel_isr_8 = keel_default_handler);
+PROVIDE(keel_isr_9 = keel_default_handler);
+PROVIDE(keel_isr_10 = keel_default_handler);
+PROVIDE(keel_isr_11 = keel_default_handler);
+PROVIDE(keel_isr_12 = keel_default_handler);
+PROVIDE(keel_isr_13 = keel_default_handler);
+PROVIDE(keel_isr_14 = keel_default_handler);
+PROVIDE(keel_isr_15 = keel_default_handler);
+PROVIDE(keel_isr_16 = keel_default_handler);
+PROVIDE(keel_isr_17 = keel_default_handler);
+PROVIDE(keel_isr_18 = keel_default_handler);
+PROVIDE(keel_isr_19 = keel_default_handler);
+PROVIDE(keel_isr_20 = keel_default_handler);
+PROVIDE(keel_isr_21 = keel_default_handler);
+PROVIDE(keel_isr_22 = keel_default_handler);
+PROVIDE(keel_isr_23 = keel_default_handler);
+PROVIDE(keel_isr_24 = keel_default_handler);
+PROVIDE(keel_isr_25 = keel_default_handler);
+PROVIDE(keel_isr_26 = keel_default_handler);
+PROVIDE(keel_isr_27 = keel_default_handler);
+PROVIDE(keel_isr_28 = keel_default_handler);
+PROVIDE(keel_isr_29 = keel_default_handler);
+PROVIDE(keel_isr_30 = keel_default_handler);
+PROVIDE(keel_isr_31 = keel_default_handler);
+PROVIDE(keel_isr_32 = keel_default_handler);
+PROVIDE(keel_isr_33 = keel_default_handler);
+PROVIDE(keel_isr_34 = keel_default_handler);
+PROVIDE(keel_isr_35 = keel_default_handler);
+PROVIDE(keel_isr_36 = keel_default_handler);
+PROVIDE(keel_isr_37 = keel_default_handler);
+PROVIDE(keel_isr_38 = keel_default_handler);
+PROVIDE(keel_isr_39 = keel_default_handler);
+PROVIDE(keel_isr_40 = keel_default_handler);
+PROVIDE(keel_isr_41 = keel_default_handler);
+PROVIDE(keel_isr_42 = keel_default_handler);
+PROVIDE(keel_isr_43 = keel_default_handler);
+PROVIDE(keel_isr_44 = keel_default_handler);
+PROVIDE(keel_isr_45 = keel_default_handler);
+PROVIDE(keel_isr_46 = keel_default_handler);
+PROVIDE(keel_isr_47 = keel_default_handler);
+PROVIDE(keel_isr_48 = keel_default_handler);
+PROVIDE(keel_isr_49 = keel_default_handler);
+PROVIDE(keel_isr_50 = keel_default_handler);
+PROVIDE(keel_isr_51 = keel_default_handler);
+
 /* Flash: the boot structures, then code and constants. */
 SECTIONS
 {
