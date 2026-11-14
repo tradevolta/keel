@@ -47,6 +47,12 @@ is
      with Pre  => Is_Enabled and then not Is_Claimed (P),
           Post => Is_Claimed (P) = (Stat = Ok);
 
+   --  Give pin Id to a peripheral: mark it taken and connect its
+   --  pad, input and output, so the peripheral's function can drive
+   --  it. The caller selects the function. In_Use: it has an owner.
+   procedure Reserve (Id : Pin_Id; Stat : out Status)
+     with Pre => Is_Enabled;
+
    --  Return the pin to its reset state: isolated, no function
    procedure Release (P : in out Output_Pin)
      with Pre => Is_Claimed (P), Post => not Is_Claimed (P);

@@ -130,6 +130,19 @@ package body Keel.GPIO.RP2350 is
       end if;
    end Claim;
 
+   procedure Reserve (Id : Pin_Id; Stat : out Status) is
+   begin
+      if Taken (Pin (Id)) then
+         Stat := In_Use;
+      else
+         Pads (Id) :=
+           (SLEWFAST => True, PDE => False, IE => True, ISO => False,
+            others => <>);
+         Taken (Pin (Id)) := True;
+         Stat := Ok;
+      end if;
+   end Reserve;
+
    --  Pad first: isolate the pin, then take its function away
    procedure Free (Id : Pin_Id) is
    begin
