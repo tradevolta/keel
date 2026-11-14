@@ -143,7 +143,8 @@ package body Keel.Clock.RP2350 is
 
    function Measure_Sys_kHz return Natural is
    begin
-      --  Datasheet 8.1.6.2: the reference, then the source starts it
+      --  Datasheet 8.1.6.2: the reference, the interval (10: 1 ms,
+      --  Table 574), no limits, then writing the source starts it
       loop
          exit when not CLOCKS_Periph.FC0_STATUS.RUNNING;
       end loop;

@@ -44,7 +44,7 @@ is
      with Pre => Divisor < 2**16;
 
    --  clk_sys measured by the frequency counter against clk_ref, in
-   --  kHz. The count takes about 2 ms.
+   --  kHz. The count takes 1 ms and is good to 2 kHz.
    function Measure_Sys_kHz return Natural
      with Pre => Crystal_Running;
 end Keel.Clock.RP2350;
