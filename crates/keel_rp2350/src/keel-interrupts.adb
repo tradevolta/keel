@@ -5,9 +5,9 @@ with Keel.Cortex_M;
 
 package body Keel.Interrupts is
 
-   --  Cortex-M33 Generic User Guide, 4.2 (NVIC): one bit per interrupt in a row of
-   --  words. Writing 1 to a set or clear register acts; 0 does
-   --  nothing, so one store never disturbs the other interrupts.
+   --  The NVIC (RP2350 datasheet, 3.7.5): one bit per interrupt in
+   --  a row of words. Writing 1 to a set or clear register acts; 0
+   --  does nothing, so one store never disturbs the other interrupts.
    type Bit_Words is array (0 .. 15) of Unsigned_32
      with Volatile_Components;
    --  One priority byte per interrupt; byte access is allowed

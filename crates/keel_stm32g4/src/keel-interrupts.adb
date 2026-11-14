@@ -5,7 +5,7 @@ with Keel.Cortex_M;
 
 package body Keel.Interrupts is
 
-   --  PM0214, 4.3 (NVIC), the same registers as on Armv8-M: one
+   --  The NVIC, at the same addresses as on the RP2350's M33: one
    --  bit per interrupt in a row of words. Writing 1 to a set or
    --  clear register acts; 0 does nothing, so one store never
    --  disturbs the other interrupts.
