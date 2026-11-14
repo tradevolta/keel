@@ -18,6 +18,6 @@
 The host tests are plain Ada mains with a small `Check` procedure,
 not AUnit. Planned: `hil/` (hardware-in-the-loop scenarios) and
 `proof/` (GNATprove projects, Chapter 24; `gpio_proof/`, `clock_proof/`,
-`irq_proof/` and `timer_proof/` move there).
+`irq_proof/`, `timer_proof/` and `adc_proof/` move there).
 `tools/ci-build` builds and runs every crate here, and proves the
 ones that depend on `gnatprove`.
