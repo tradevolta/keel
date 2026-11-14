@@ -1,6 +1,6 @@
 name = "ch08_frequency_explorer_nucleo"
 description = "Chapter 8: the frequency explorer on the NUCLEO-G474RE"
-version = "0.2.0-dev"
+version = "0.2.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

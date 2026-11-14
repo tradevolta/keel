@@ -1,6 +1,6 @@
 name = "ch09_volume_knob"
 description = "Chapter 9: a rotary encoder in an interrupt, and a fault report"
-version = "0.2.0-dev"
+version = "0.2.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

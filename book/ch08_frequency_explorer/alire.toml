@@ -1,6 +1,6 @@
 name = "ch08_frequency_explorer"
 description = "Chapter 8: switch clk_sys with a button, measure it"
-version = "0.2.0-dev"
+version = "0.2.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

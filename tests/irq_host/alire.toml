@@ -1,6 +1,6 @@
 name = "irq_host"
 description = "Host test: the quadrature decoder and the fault report"
-version = "0.2.0-dev"
+version = "0.2.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

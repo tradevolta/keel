@@ -1,6 +1,6 @@
 name = "clock_host"
 description = "Host test: the Keel.Clock PLL solver against datasheet settings"
-version = "0.2.0-dev"
+version = "0.2.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
