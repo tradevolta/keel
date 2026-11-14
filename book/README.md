@@ -17,6 +17,8 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch07_reaction_time` | 7, "Reaction-time game": two buttons and three lamps through `Keel.GPIO`; `bad/` holds the pin mistakes the compiler rejects | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "runtime"` |
 | `ch07_reaction_host` | 7, the same game on `Keel.GPIO.Fake` with a scripted bench and simulated time | host (`gnat_native` 16.1.0) |
 | `ch07_reaction_time_nucleo` | 7, Port it: the same game and panel on the NUCLEO-G474RE through `Keel.GPIO.STM32G4` | `light_stm32g4xx` 16.0.0 |
+| `ch08_frequency_explorer` | 8, "Frequency explorer": a button walks clk_sys through 12, 48, 150 and 200 MHz; GP21 carries clk_sys / 1000; an INA219 reads the current | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
+| `ch08_frequency_explorer_nucleo` | 8, Port it: SYSCLK through 16, 48, 150 and 170 MHz, SYSCLK / 16 on PA8 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
