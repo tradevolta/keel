@@ -38,6 +38,16 @@ is
           Post => Sys_Frequency =
                     (if Stat = Ok then Output (Setting) else Crystal);
 
+   --  clk_adc at 48 MHz from pll_usb at Setting, which the ADC
+   --  needs (datasheet 12.4.3). Timeout: no lock; clk_adc stays off.
+   procedure Start_ADC_Clock (Setting : PLL_Config; Stat : out Status)
+     with Pre  => Crystal_Running
+                  and then Limits (Setting) = PLL_SYS
+                  and then Reference (Setting) = Crystal
+                  and then Output (Setting) = 48_000_000,
+          Post => ADC_Clock_Running = (Stat = Ok);
+   function ADC_Clock_Running return Boolean;
+
    --  clk_gpout0 on GP21: clk_sys / Divisor, from now on. In_Use:
    --  GP21 has another owner.
    procedure Start_Clock_Out (Divisor : Positive; Stat : out Status)

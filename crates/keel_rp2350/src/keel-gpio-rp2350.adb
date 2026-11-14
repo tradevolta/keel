@@ -145,6 +145,19 @@ package body Keel.GPIO.RP2350 is
       end if;
    end Reserve;
 
+   procedure Reserve_Analog (Id : Pin_Id; Stat : out Status) is
+   begin
+      if Taken (Pin (Id)) then
+         Stat := In_Use;
+      else
+         Pads (Id) :=
+           (PDE => False, PUE => False, IE => False, OD => True,
+            ISO => False, others => <>);
+         Taken (Pin (Id)) := True;
+         Stat := Ok;
+      end if;
+   end Reserve_Analog;
+
    procedure Select_Function (Id : Pin_Id; F : Function_Number) is
       Control : GPIO0_CTRL_Register := IO (Id).Control;
    begin

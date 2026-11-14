@@ -4,6 +4,7 @@ with RP2350_SVD.Atomic;
 with RP2350_SVD.CLOCKS;   use RP2350_SVD.CLOCKS;
 with RP2350_SVD.IO_BANK0; use RP2350_SVD.IO_BANK0;
 with RP2350_SVD.PLL_SYS;  use RP2350_SVD.PLL_SYS;
+with RP2350_SVD.PLL_USB;
 with RP2350_SVD.RESETS;   use RP2350_SVD.RESETS;
 with RP2350_SVD.XOSC;     use RP2350_SVD.XOSC;
 with Keel.GPIO.RP2350;
@@ -12,9 +13,11 @@ package body Keel.Clock.RP2350 is
 
    Sys : Frequency := 0;
    Running : Boolean := False;
+   ADC_Running : Boolean := False;
 
    function Sys_Frequency return Frequency is (Sys);
    function Crystal_Running return Boolean is (Running);
+   function ADC_Clock_Running return Boolean is (ADC_Running);
 
    --  How many times a wait polls before it reports Timeout: far
    --  longer than any of them takes, at any clk_sys
@@ -122,6 +125,59 @@ package body Keel.Clock.RP2350 is
       Sys := Output (Setting);
       Stat := Ok;
    end Run_From_PLL;
+
+   --  pll_usb is pll_sys's twin: the same registers and the same
+   --  steps as Run_From_PLL, then clk_adc from it
+   procedure Start_ADC_Clock (Setting : PLL_Config; Stat : out Status)
+   is
+      package USB renames RP2350_SVD.PLL_USB;
+      Locked : Boolean := False;
+   begin
+      CLOCKS_Periph.CLK_ADC_CTRL := (others => <>);
+      ADC_Running := False;
+      Reset_Bits.Set
+        (RESETS_Periph.RESET,
+         (Reset_Bits.No_Bits with delta PLL_USB => True));
+      Reset_Bits.Clear
+        (RESETS_Periph.RESET,
+         (Reset_Bits.No_Bits with delta PLL_USB => True));
+      loop
+         exit when RESETS_Periph.RESET_DONE.PLL_USB;
+      end loop;
+
+      USB.PLL_USB_Periph.CS :=
+        (REFDIV => USB.CS_REFDIV_Field (Ref_Div (Setting)),
+         others => <>);
+      USB.PLL_USB_Periph.FBDIV_INT :=
+        (FBDIV_INT => USB.FBDIV_INT_FBDIV_INT_Field (Feedback (Setting)),
+         others => <>);
+      USB.PLL_USB_Periph.PWR := (PD => False, VCOPD => False,
+                                 others => <>);
+      for Try in 1 .. Patience loop
+         Locked := USB.PLL_USB_Periph.CS.LOCK;
+         exit when Locked;
+      end loop;
+      if not Locked then
+         Stat := Timeout;
+         return;
+      end if;
+      USB.PLL_USB_Periph.PRIM :=
+        (POSTDIV1 => USB.PRIM_POSTDIV1_Field (Post_1 (Setting)),
+         POSTDIV2 => USB.PRIM_POSTDIV2_Field (Post_2 (Setting)),
+         others => <>);
+      USB.PLL_USB_Periph.PWR :=
+        (PD => False, VCOPD => False, POSTDIVPD => False,
+         others => <>);
+
+      --  clk_adc has no glitchless mux: pick the source while it is
+      --  stopped, then enable it
+      CLOCKS_Periph.CLK_ADC_CTRL := (AUXSRC => clksrc_pll_usb,
+                                     others => <>);
+      CLOCKS_Periph.CLK_ADC_CTRL := (AUXSRC => clksrc_pll_usb,
+                                     ENABLE => True, others => <>);
+      ADC_Running := True;
+      Stat := Ok;
+   end Start_ADC_Clock;
 
    procedure Start_Clock_Out (Divisor : Positive; Stat : out Status)
    is

@@ -53,6 +53,12 @@ is
    procedure Reserve (Id : Pin_Id; Stat : out Status)
      with Pre => Is_Enabled;
 
+   --  Give pin Id to the ADC: mark it taken, and turn its pad's
+   --  digital input off and its output off (IE low, OD high, no
+   --  pulls), as datasheet 12.4 asks. In_Use: it has an owner.
+   procedure Reserve_Analog (Id : Pin_Id; Stat : out Status)
+     with Pre => Is_Enabled;
+
    --  IO_BANK0's function numbers (datasheet 9.4, Table 677) as
    --  the generated FUNCSEL type, GPIO0's, lists them: 0 to 10, and
    --  31 for none. F11, a UART on a few pins, isn't offered yet.
