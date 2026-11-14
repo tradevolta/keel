@@ -1,5 +1,7 @@
 --  SPDX-License-Identifier: Apache-2.0
-with Keel.Cortex_M; use Keel.Cortex_M;
+with Keel.Cortex_M;   use Keel.Cortex_M;
+with Keel.Time;       use Keel.Time;
+with Keel.Time.Bare;
 
 package body Keel.Sync.Bare is
 
@@ -26,10 +28,35 @@ package body Keel.Sync.Bare is
       Enable_Interrupts;
    end Wait;
 
-   --  The bare backend fits the seam: this fails to compile if not
+   --  The same, with Keel.Time.Bare set to end the WFI by Deadline
+   procedure Wait
+     (E : in out Event; Deadline : Keel.Time.Time; Stat : out Status)
+   is
+   begin
+      loop
+         Disable_Interrupts;
+         if E.Set then
+            E.Set := False;
+            Stat := Ok;
+            exit;
+         elsif Keel.Time.Bare.Clock >= Deadline then
+            Stat := Timeout;
+            exit;
+         end if;
+         Keel.Time.Bare.Wake_At (Deadline);
+         WFI;
+         Enable_Interrupts;
+      end loop;
+      Enable_Interrupts;
+   end Wait;
+
+   --  The bare backend fits the seam: these fail to compile if not
    package Fits is new Keel.Sync.Event_Signature
      (Event, Signal, Wait, Is_Set);
    pragma Unreferenced (Fits);
+   package Fits_Deadline is new Keel.Sync.Deadline_Signature
+     (Event, Wait);
+   pragma Unreferenced (Fits_Deadline);
 
    Depth : Natural := 0;
    Was_Masked : Boolean := False;
