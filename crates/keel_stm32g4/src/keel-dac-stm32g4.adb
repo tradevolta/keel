@@ -33,7 +33,7 @@ package body Keel.DAC.STM32G4 is
    function Code_For (V : Volts) return DAC_Code is
       Mv : constant Long_Long_Integer :=
         Long_Long_Integer (Volts'Max (V, 0.0) / Volts'(0.001));
-      C  : constant Long_Long_Integer := (Mv * 4_096 + 1_650) / 3_300;
+      C  : constant Long_Long_Integer := (Mv * 4_096 + 1_625) / 3_250;
    begin
       return DAC_Code (Long_Long_Integer'Min (C, 4_095));
    end Code_For;
