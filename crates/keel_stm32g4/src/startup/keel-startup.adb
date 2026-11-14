@@ -28,6 +28,11 @@ package body Keel.Startup is
      with Import, Convention => C,
           External_Name => "keel_hardfault_entry";
 
+   --  SysTick's handler, in Keel.Time.Bare; ld/keel-sections.ld
+   --  makes it keel_default_handler if the program has no time base
+   procedure SysTick_Entry
+     with Import, Convention => C, External_Name => "keel_systick";
+
    --  The 102 interrupt handlers. ld/keel-sections.ld makes each one
    --  keel_default_handler unless the program exports its own.
    procedure ISR_0
@@ -266,6 +271,7 @@ package body Keel.Startup is
      (Initial_SP => Stack_End'Address,
       Reset => Reset_Handler'Address,
       HardFault => HardFault_Entry'Address,
+      SysTick => SysTick_Entry'Address,
       IRQ_0 => ISR_0'Address,
       IRQ_1 => ISR_1'Address,
       IRQ_2 => ISR_2'Address,

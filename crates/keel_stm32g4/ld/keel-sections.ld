@@ -114,6 +114,10 @@ PROVIDE(keel_isr_99 = keel_default_handler);
 PROVIDE(keel_isr_100 = keel_default_handler);
 PROVIDE(keel_isr_101 = keel_default_handler);
 
+/* SysTick goes to keel_systick: Keel.Time.Bare's, if the program
+   uses it, or else keel_default_handler. */
+PROVIDE(keel_systick = keel_default_handler);
+
 /* Flash: the vector table first, then code and constants. */
 SECTIONS
 {
