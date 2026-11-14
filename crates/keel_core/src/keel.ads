@@ -4,7 +4,7 @@
 package Keel
   with Pure, SPARK_Mode, No_Elaboration_Code_All
 is
-   Version : constant String := "0.2.0";
+   Version : constant String := "0.3.0-dev";
 
    --  The result of a HAL operation. HAL code raises no exceptions:
    --  a call that can fail has a Stat : out Status parameter.
