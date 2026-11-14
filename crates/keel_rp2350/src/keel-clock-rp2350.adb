@@ -29,9 +29,10 @@ package body Keel.Clock.RP2350 is
 
    procedure Start_Crystal (Stat : out Status) is
    begin
-      --  1 ms of crystal cycles, in units of 256 (datasheet 8.2.4)
+      --  6 ms of crystal cycles, in units of 256 (datasheet 8.2.4;
+      --  6 ms is the Pico SDK's default since 2.1.1)
       XOSC_Periph.STARTUP :=
-        (DELAY_k => STARTUP_DELAY_Field ((Crystal / 1_000 + 255) / 256),
+        (DELAY_k => STARTUP_DELAY_Field ((6 * Crystal / 1_000 + 255) / 256),
          others => <>);
       XOSC_Periph.CTRL :=
         (FREQ_RANGE => Val_1_15MHZ, ENABLE => ENABLE, others => <>);
