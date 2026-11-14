@@ -1,0 +1,20 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  The PLL solver and its limits, straight from keel_core's sources:
+--  gnatprove proves every unit of this project.
+project Clock_Proof is
+   for Source_Dirs use ("../../crates/keel_core/src/");
+   for Source_Files use
+     ("keel.ads", "keel-clock.ads", "keel-clock.adb",
+      "keel-clock-chip_limits.ads");
+   for Object_Dir use "obj/";
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022");
+   end Compiler;
+
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=2", "--checks-as-errors=on");
+   end Prove;
+end Clock_Proof;
