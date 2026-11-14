@@ -60,7 +60,9 @@ procedure ADC_Host is
          Total := Total + Noisy_Sample (True_V);
       end loop;
       Put_Line
-        ("  " & Samples_For (K)'Image
+        ((if Samples_For (K) < 10 then "   "
+          elsif Samples_For (K) < 100 then "  " else " ")
+         & Samples_For (K)'Image
          & (if K = 0 then " sample, " else " samples,")
          & Integer'Image (12 + K) & " bits: "
          & Img (To_Volts (ADC, Oversample (ADC, Total, K), K)) & " V");
@@ -100,8 +102,9 @@ begin
    end loop;
 
    Solve (RP2350_Slice, Sys, "150 kHz", Trailing_Edge, PWM_DAC, Stat);
-   Put_Line ("PWM-DAC: 150 kHz from 150 MHz, top"
-             & Top (PWM_DAC)'Image & ", 10 kOhm and 100 nF: corner"
+   Put_Line ("PWM-DAC, 150 kHz from 150 MHz: top"
+             & Top (PWM_DAC)'Image);
+   Put_Line ("  10 kOhm and 100 nF: corner"
              & Natural (Corner (10_000, 100))'Image & " Hz, ripple "
              & Img (Ripple (3.3, "150 kHz", 10_000, 100)) & " V");
 
