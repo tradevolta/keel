@@ -12,7 +12,7 @@ is
      (Div_Min => 16, Div_Max => 4_096, Div_Step => 1,
       Top_Max => 65_534, Phase_Correct => True);
 
-   --  RM0440 29.4 (TIM2 to TIM5): PSC divides by 1 to 65_536 in
+   --  RM0440, TIM2 to TIM5: PSC divides by 1 to 65_536 in
    --  whole steps, and TIM3's and TIM4's ARR is 16 bits. Their
    --  center-aligned mode isn't the RP2350's phase-correct mode,
    --  so Keel doesn't offer it.

@@ -3,9 +3,9 @@
 --  TIM3 and TIM4 as one typed layout. svd2ada makes most of their
 --  fields enumerations of a few named codes (B_0x0, B_0x1 ...) and
 --  splits OCxM, SMS and TS across two fields, so the PWM driver
---  would spell every mode as bits. RM0440 Rev 9, 29.6 (TIM2 to TIM5
---  registers), gives the layout used here. TIM2's CNT and ARR are
---  32 bits wide, TIM3's and TIM4's 16.
+--  would spell every mode as bits. RM0440 Rev 9, the TIM2 to TIM5
+--  register descriptions, gives the layout used here. TIM2's CNT
+--  and ARR are 32 bits wide, TIM3's and TIM4's 16.
 with System;
 
 package STM32G4_SVD.Timer_Fields

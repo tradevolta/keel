@@ -30,7 +30,8 @@ package body Board is
    Arm   : Output (TIM4, 1, B, 6);
    Meter : Counter;
 
-   --  DS12288, Table 13: TIM3 and TIM4 on these pins are AF2
+   --  TIM3 and TIM4 on these pins are AF2 (the datasheet's
+   --  alternate function table)
    Timer_AF : constant Alternate_Function := 2;
 
    Opened : Time := 0;

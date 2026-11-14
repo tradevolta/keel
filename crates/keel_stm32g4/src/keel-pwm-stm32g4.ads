@@ -26,9 +26,10 @@ is
      with Pre => Is_Claimed (O);
 
    --  Drive the pin from its channel at S, from level 0 (low). AF
-   --  is the pin's alternate function for this timer (DS12288,
-   --  Table 13). Inverted swaps high and low (CCxP). In_Use: the
-   --  pin has an owner, or the timer already runs another setting.
+   --  is the pin's alternate function for this timer, from the
+   --  datasheet's alternate function table. Inverted swaps high
+   --  and low (CCxP). In_Use: the pin has an owner, or the timer
+   --  already runs another setting.
    procedure Claim
      (O : in out Output; S : Setting; AF : Alternate_Function;
       Stat : out Status; Inverted : Boolean := False)
@@ -49,8 +50,8 @@ is
    function Is_Claimed (C : Counter) return Boolean;
 
    --  Count rising edges on PA0. In_Use: PA0 has an owner, or TIM2
-   --  is in use. The input's high and low times must each be longer
-   --  than about two timer clock cycles (RM0440 29.3.4).
+   --  is in use. The timer clock samples the input, so the input
+   --  must be well below the timer clock.
    procedure Claim (C : in out Counter; Stat : out Status)
      with Pre  => not Is_Claimed (C),
           Post => Is_Claimed (C) = (Stat = Ok);

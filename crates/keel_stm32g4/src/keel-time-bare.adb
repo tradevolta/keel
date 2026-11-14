@@ -5,7 +5,8 @@ with Keel.Cortex_M; use Keel.Cortex_M;
 
 package body Keel.Time.Bare is
 
-   --  SysTick (PM0214, 4.5): control, reload and current value
+   --  SysTick (PM0214, "SysTick timer"): control, reload and
+   --  current value
    type CSR_Register is record
       ENABLE    : Boolean := False;
       TICKINT   : Boolean := False;  --  interrupt at each wrap
