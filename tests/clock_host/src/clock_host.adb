@@ -75,7 +75,7 @@ begin
    for T of RP2350_Targets loop
       Row (RP2350_PLL_SYS, XOSC, T * 1_000_000, True);
    end loop;
-   Put_Line ("STM32G474 PLL from 16 MHz:   PLLM PLLN R/2 -");
+   Put_Line ("STM32G474 PLL from 16 MHz:   PLLM PLLN R/2 (1)");
    for T of STM32_Targets loop
       Row (STM32G474_PLL, HSI16, T * 1_000_000, False);
    end loop;
