@@ -13,9 +13,14 @@ is
    --  Fill in the control block. Call once, before any Put.
    procedure Initialize;
 
+   --  Initialize has run: the control block is there for a probe
+   function Ready return Boolean;
+
    --  Queue Text on up channel 0. Put never waits: when Text does not
    --  fit in the free space, it is dropped whole and counted. One
-   --  writer at a time: Chapter 9 adds what interrupts need.
+   --  writer at a time: interrupt handlers don't call it. They
+   --  signal the program, which prints (Keel.Sync). The one
+   --  exception is the fault reporter, which never returns.
    procedure Put (Text : String);
    procedure Put_Line (Text : String);
 

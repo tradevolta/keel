@@ -53,6 +53,9 @@ package body Keel.Trace is
      with Import, Convention => Intrinsic,
           External_Name => "__sync_synchronize";
 
+   function Ready return Boolean is
+     (CB.ID (Magic'Range) = Magic);
+
    procedure Initialize is
    begin
       CB.Max_Up := 1;
