@@ -9,8 +9,9 @@ package Keel.Faults
 is
    subtype Word is Unsigned_32;
 
-   --  Armv8-M ARM, B3.2 (CFSR is MMFSR, BFSR and UFSR, from bit 0)
-   --  and HFSR. STKOF is Armv8-M only: on Armv7-M bit 20 is 0.
+   --  Arm's Cortex-M33 Generic User Guide: CFSR is MMFSR, BFSR and
+   --  UFSR, from bit 0; then HFSR. STKOF is Armv8-M only: on Armv7-M
+   --  bit 20 is 0.
    type Cause is
      (IACCVIOL, DACCVIOL, MUNSTKERR, MSTKERR, MLSPERR, MMARVALID,
       IBUSERR, PRECISERR, IMPRECISERR, UNSTKERR, STKERR, LSPERR,
@@ -68,7 +69,7 @@ is
         when DEBUGEVT => "debug event");
 
    --  What the processor pushed on exception entry, lowest address
-   --  first (Armv8-M ARM, B3.19, the basic frame)
+   --  first: the basic frame, without floating-point registers
    type Stacked_Frame is record
       R0, R1, R2, R3, R12, LR, PC, xPSR : Word;
    end record;
