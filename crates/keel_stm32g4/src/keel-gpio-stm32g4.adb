@@ -117,6 +117,40 @@ package body Keel.GPIO.STM32G4 is
       Stat := Ok;
    end Claim;
 
+   procedure Reserve
+     (Id : Port_Id; P : Pin_Number; AF : Alternate_Function;
+      Stat : out Status)
+   is
+   begin
+      if Taken (Id, P) then
+         Stat := In_Use;
+         return;
+      end if;
+
+      --  Read the port's registers only once its clock runs
+      Clock_On (Id);
+      declare
+         Low_Half  : AFRL_Register := Port (Id).AFRL;
+         High_Half : AFRH_Register := Port (Id).AFRH;
+         Speeds    : OSPEEDR_Register := Port (Id).OSPEEDR;
+      begin
+         --  The function first, then the mode that connects it
+         if P < 8 then
+            Low_Half.Arr (Integer (P)) := UInt4 (AF);
+            Port (Id).AFRL := Low_Half;
+         else
+            High_Half.Arr (Integer (P)) := UInt4 (AF);
+            Port (Id).AFRH := High_Half;
+         end if;
+         Speeds.Arr (Integer (P)) := Speed_Code (Fast);
+         Port (Id).OSPEEDR := Speeds;
+      end;
+      Set_Mode (Port (Id).all, Pin (P), Alternate);
+
+      Taken (Id, P) := True;
+      Stat := Ok;
+   end Reserve;
+
    procedure Free (Id : Port_Id; P : Pin_Number) is
    begin
       Set_Mode (Port (Id).all, Pin (P), Analog);

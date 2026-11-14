@@ -38,6 +38,17 @@ is
           Post => Is_Claimed (P) = (Stat = Ok);
 
    --  Back to analog mode with no pull: the reset state of most pins
+   --  An alternate function number, AF0 to AF15 (datasheet DS12288,
+   --  "Alternate function" tables)
+   type Alternate_Function is range 0 .. 15;
+
+   --  Give a pin to a peripheral: mark it taken and switch it to
+   --  alternate function AF at the very high speed setting. In_Use:
+   --  it has an owner.
+   procedure Reserve
+     (Id : Port_Id; P : Pin_Number; AF : Alternate_Function;
+      Stat : out Status);
+
    procedure Release (P : in out Output_Pin)
      with Pre => Is_Claimed (P), Post => not Is_Claimed (P);
    procedure Release (P : in out Input_Pin)
