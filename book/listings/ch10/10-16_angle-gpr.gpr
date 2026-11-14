@@ -1,0 +1,9 @@
+--  Where the servo's angle comes from: "sweep", a stand-in that
+--  sweeps by itself, or "pot", a potentiometer on the ADC
+--  (Chapter 11)
+type Angle_Kind is ("sweep", "pot");
+Angle : Angle_Kind := external ("ANGLE", "sweep");
+
+--  common/ is the light, pico2w/ the board
+for Source_Dirs use
+  ("src/common/", "src/pico2w/", "src/" & Angle & "/", "config/");
