@@ -111,3 +111,12 @@ listing,id,book_source,repo_export_path,library_path
 7.21,lst-script,listings/ch07/script.adb,book/listings/ch07/07-21_script.adb,book/ch07_reaction_host/src/board.adb
 7.22,lst-stm32-pins,listings/ch07/stm32-pins.ads,book/listings/ch07/07-22_stm32-pins.ads,crates/keel_stm32g4/src/keel-gpio-stm32g4.ads
 7.23,lst-nucleo-pins,listings/ch07/nucleo-pins.adb,book/listings/ch07/07-23_nucleo-pins.adb,book/ch07_reaction_time_nucleo/src/board.adb
+8.1,lst-pll-limits,listings/ch08/pll-limits.ads,book/listings/ch08/08-01_pll-limits.ads,crates/keel_core/src/keel-clock.ads
+8.2,lst-chip-limits,listings/ch08/chip-limits.ads,book/listings/ch08/08-02_chip-limits.ads,crates/keel_core/src/keel-clock-chip_limits.ads
+8.3,lst-pll-config,listings/ch08/pll-config.ads,book/listings/ch08/08-03_pll-config.ads,crates/keel_core/src/keel-clock.ads
+8.4,lst-invariant,listings/ch08/invariant.ads,book/listings/ch08/08-04_invariant.ads,crates/keel_core/src/keel-clock.ads
+8.5,lst-solve,listings/ch08/solve.adb,book/listings/ch08/08-05_solve.adb,crates/keel_core/src/keel-clock.adb
+8.6,lst-run-from-pll,listings/ch08/run-from-pll.adb,book/listings/ch08/08-06_run-from-pll.adb,crates/keel_rp2350/src/keel-clock-rp2350.adb
+8.7,lst-explorer-main,listings/ch08/frequency_explorer.adb,book/listings/ch08/08-07_frequency_explorer.adb,book/ch08_frequency_explorer/src/common/frequency_explorer.adb
+8.8,lst-pico-switch,listings/ch08/pico-switch.adb,book/listings/ch08/08-08_pico-switch.adb,book/ch08_frequency_explorer/src/pico2w/board.adb
+8.9,lst-g4-run-from-pll,listings/ch08/g4-run-from-pll.adb,book/listings/ch08/08-09_g4-run-from-pll.adb,crates/keel_stm32g4/src/keel-clock-stm32g4.adb
