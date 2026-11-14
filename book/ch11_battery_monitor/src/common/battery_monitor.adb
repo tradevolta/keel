@@ -5,6 +5,7 @@
 --  its divide-by-3 and the chip's temperature. Then it captures
 --  100 ms of the sine from the NUCLEO, and steps the DAC.
 with Board;           use Board;
+with Buffers;
 with Keel;            use type Keel.Status;
 with Keel.ADC;        use Keel.ADC;
 with Keel.ADC.RP2350; use Keel.ADC.RP2350;
@@ -16,13 +17,9 @@ procedure Battery_Monitor is
    Period : constant Time_Span := Milliseconds (500);
 
    --  16 samples of each slow input give 2 extra bits
-   Extra    : constant Extra_Bits := 2;
-   Per_Each : constant := 16;
-   Slow_Samples : Sample_Array (1 .. 4 * Per_Each);
+   Extra : constant Extra_Bits := 2;
 
-   --  100 ms of the sine: five periods at 50 Hz
-   Sine_Rate    : constant Hertz := 10_000.0;
-   Sine_Samples : Sample_Array (1 .. 1_000);
+   Sine_Rate : constant Hertz := 10_000.0;
 
    --  VSYS reaches the pin through R5 and R6, a divide-by-3
    VSYS_Scale : constant Scale := (Converter with delta Divider => 3);
@@ -52,9 +49,9 @@ begin
       Next := Next + Period;
       Wait_Until (Next);
 
-      Capture (Slow, 40_000.0, Slow_Samples, Errors, Stat);
+      Capture (Slow, 40_000.0, Buffers.Slow, Errors, Stat);
       if Stat = Keel.Ok then
-         Split (Slow, Slow_Samples, Total, Each);
+         Split (Slow, Buffers.Slow, Total, Each);
          Show (Lit_Count'Min (8, Percent (V (Light)) * 9 / 100));
          Put_Line
            ("monitor: VSYS" & Img (V (Battery, VSYS_Scale))
@@ -66,10 +63,10 @@ begin
          Put_Line ("monitor: slow inputs: " & Stat'Image);
       end if;
 
-      Capture (Sine_Only, Sine_Rate, Sine_Samples, Errors, Stat);
+      Capture (Sine_Only, Sine_Rate, Buffers.Sine, Errors, Stat);
       if Stat = Keel.Ok then
          declare
-            W : constant Wave := Measure (Sine_Samples, Sine_Rate);
+            W : constant Wave := Measure (Buffers.Sine, Sine_Rate);
          begin
             Put_Line
               ("monitor: sine" & Img (To_Volts (Converter, W.Low))
