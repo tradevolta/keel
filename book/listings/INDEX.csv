@@ -120,3 +120,17 @@ listing,id,book_source,repo_export_path,library_path
 8.7,lst-explorer-main,listings/ch08/frequency_explorer.adb,book/listings/ch08/08-07_frequency_explorer.adb,book/ch08_frequency_explorer/src/common/frequency_explorer.adb
 8.8,lst-pico-switch,listings/ch08/pico-switch.adb,book/listings/ch08/08-08_pico-switch.adb,book/ch08_frequency_explorer/src/pico2w/board.adb
 8.9,lst-g4-run-from-pll,listings/ch08/g4-run-from-pll.adb,book/listings/ch08/08-09_g4-run-from-pll.adb,crates/keel_stm32g4/src/keel-clock-stm32g4.adb
+9.1,lst-interrupts,listings/ch09/interrupts.ads,book/listings/ch09/09-01_interrupts.ads,crates/keel_rp2350/src/keel-interrupts.ads
+9.2,lst-gpio-edges,listings/ch09/gpio-edges.ads,book/listings/ch09/09-02_gpio-edges.ads,crates/keel_rp2350/src/keel-gpio-rp2350.ads
+9.3,lst-keel-sync,listings/ch09/keel-sync.ads,book/listings/ch09/09-03_keel-sync.ads,crates/keel_core/src/keel-sync.ads
+9.4,lst-wait,listings/ch09/wait.adb,book/listings/ch09/09-04_wait.adb,crates/keel_rp2350/src/keel-sync-bare.adb
+9.5,lst-quadrature,listings/ch09/quadrature.ads,book/listings/ch09/09-05_quadrature.ads,crates/keel_core/src/keel-quadrature.ads
+9.6,lst-update,listings/ch09/update.adb,book/listings/ch09/09-06_update.adb,crates/keel_core/src/keel-quadrature.adb
+9.7,lst-knob-handler,listings/ch09/knob-handler.adb,book/listings/ch09/09-07_knob-handler.adb,book/ch09_volume_knob/src/pico2w/board.adb
+9.8,lst-knob-main,listings/ch09/volume_knob.adb,book/listings/ch09/09-08_volume_knob.adb,book/ch09_volume_knob/src/common/volume_knob.adb
+9.9,lst-jorvik-spec,listings/ch09/jorvik-spec.ads,book/listings/ch09/09-09_jorvik-spec.ads,book/ch09_volume_knob_jorvik/src/knob.ads
+9.10,lst-jorvik-body,listings/ch09/jorvik-body.adb,book/listings/ch09/09-10_jorvik-body.adb,book/ch09_volume_knob_jorvik/src/knob.adb
+9.11,lst-crash,listings/ch09/crash.adb,book/listings/ch09/09-11_crash.adb,book/ch09_volume_knob/src/common/crash.adb
+9.12,lst-faults,listings/ch09/faults.ads,book/listings/ch09/09-12_faults.ads,crates/keel_core/src/keel-faults.ads
+9.13,lst-fault-reporter,listings/ch09/fault-reporter.adb,book/listings/ch09/09-13_fault-reporter.adb,crates/keel_rp2350/src/startup/keel-fault_reporter.adb
+9.14,lst-nucleo-handlers,listings/ch09/nucleo-handlers.adb,book/listings/ch09/09-14_nucleo-handlers.adb,book/ch09_volume_knob_nucleo/src/board.adb
