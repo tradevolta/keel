@@ -14,7 +14,37 @@ package body Power_Monitor is
 
    package Reset_Bits is new RP2350_SVD.Atomic (RESET_Register);
 
-   procedure Start (Stat : out Status) is
+   --  100 kHz from Sys, as the Pico SDK's i2c_set_baudrate does it:
+   --  a bit is 3/5 low and 2/5 high, and SDA is held 300 ns
+   procedure Set_Timing (Sys : Frequency) is
+      Period : constant Frequency := (Sys + 50_000) / 100_000;
+      Low    : constant Frequency := Period * 3 / 5;
+   begin
+      I2C0_Periph.IC_FS_SCL_HCNT :=
+        (IC_FS_SCL_HCNT => IC_FS_SCL_HCNT_IC_FS_SCL_HCNT_Field
+                             (Period - Low),
+         others => <>);
+      I2C0_Periph.IC_FS_SCL_LCNT :=
+        (IC_FS_SCL_LCNT => IC_FS_SCL_LCNT_IC_FS_SCL_LCNT_Field (Low),
+         others => <>);
+      I2C0_Periph.IC_FS_SPKLEN :=
+        (IC_FS_SPKLEN => IC_FS_SPKLEN_IC_FS_SPKLEN_Field
+                           (if Low < 16 then 1 else Low / 16),
+         others => <>);
+      I2C0_Periph.IC_SDA_HOLD :=
+        (IC_SDA_TX_HOLD => IC_SDA_HOLD_IC_SDA_TX_HOLD_Field
+                             (Sys * 3 / 10_000_000 + 1),
+         others => <>);
+   end Set_Timing;
+
+   procedure Retime (Sys : Frequency) is
+   begin
+      I2C0_Periph.IC_ENABLE := (ENABLE => DISABLED, others => <>);
+      Set_Timing (Sys);
+      I2C0_Periph.IC_ENABLE := (ENABLE => ENABLED, others => <>);
+   end Retime;
+
+   procedure Start (Sys : Frequency; Stat : out Status) is
       I2C0_Only : constant RESET_I2C_Field :=
         (As_Array => True, Arr => [0 => True, 1 => False]);
    begin
@@ -33,9 +63,7 @@ package body Power_Monitor is
          exit when RESETS_Periph.RESET_DONE.I2C.Arr (0);
       end loop;
 
-      --  Disabled while it is set up. 100 kHz from 12 MHz is 120
-      --  clk_peri cycles per bit: 72 low and 48 high, the split the
-      --  Pico SDK's i2c_set_baudrate uses.
+      --  Disabled while it is set up
       I2C0_Periph.IC_ENABLE := (ENABLE => DISABLED, others => <>);
       I2C0_Periph.IC_CON :=
         (MASTER_MODE      => ENABLED,
@@ -43,12 +71,7 @@ package body Power_Monitor is
          IC_RESTART_EN    => ENABLED,
          IC_SLAVE_DISABLE => SLAVE_DISABLED,
          others           => <>);
-      I2C0_Periph.IC_FS_SCL_HCNT :=
-        (IC_FS_SCL_HCNT => 48, others => <>);
-      I2C0_Periph.IC_FS_SCL_LCNT :=
-        (IC_FS_SCL_LCNT => 72, others => <>);
-      I2C0_Periph.IC_FS_SPKLEN := (IC_FS_SPKLEN => 4, others => <>);
-      I2C0_Periph.IC_SDA_HOLD := (IC_SDA_TX_HOLD => 4, others => <>);
+      Set_Timing (Sys);
       I2C0_Periph.IC_TAR := (IC_TAR => INA219, others => <>);
       I2C0_Periph.IC_ENABLE := (ENABLE => ENABLED, others => <>);
 

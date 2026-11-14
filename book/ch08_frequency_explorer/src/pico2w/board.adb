@@ -80,10 +80,6 @@ package body Board is
       Keel.Trace.Initialize;
       Start_Crystal (Stat);
       Check (Stat, "crystal");
-      --  clk_peri (I2C) from the crystal too: it stays at 12 MHz
-      --  whatever clk_sys does
-      CLOCKS_Periph.CLK_PERI_CTRL :=
-        (AUXSRC => xosc_clksrc, ENABLE => True, others => <>);
       Start_Timer;
       Enable;
       Claim (Button, (Bias => Pull_Up), Stat);
@@ -91,7 +87,7 @@ package body Board is
       Reset (Contact, High);
       Start_Clock_Out (Clock_Out_Divisor, Stat);
       Check (Stat, "GP21");
-      Power_Monitor.Start (Stat);
+      Power_Monitor.Start (Sys_Frequency, Stat);
       Check (Stat, "GP4/GP5");
       Keel.Trace.Put_Line
         ("frequency_explorer: flash CLKDIV"
@@ -131,6 +127,8 @@ package body Board is
             Run_From_Crystal;
             Stat := Not_Supported;
       end case;
+      --  The I2C block runs on clk_sys: keep it at 100 kHz
+      Power_Monitor.Retime (Sys_Frequency);
    end Switch;
 
    function Measured_Image return String is
