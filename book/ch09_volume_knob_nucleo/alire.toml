@@ -1,0 +1,28 @@
+name = "ch09_volume_knob_nucleo"
+description = "Chapter 9: the volume knob on the NUCLEO-G474RE"
+version = "0.2.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "stm32g4", "nucleo", "keel"]
+
+executables = ["volume_knob"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_stm32g4xx = "=16.0.0"
+keel_core = "*"
+keel_stm32g4 = "*"
+keel_stm32g4_svd = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_stm32g4 = { path = "../../crates/keel_stm32g4" }
+keel_stm32g4_svd = { path = "../../crates/keel_stm32g4_svd" }
+
+[configuration.values]
+light_stm32g4xx.MCU_Sub_Family = "G474"
+light_stm32g4xx.MCU_Flash_Memory_Size = "E"
+# Keel's startup: its vector table carries keel_isr_6, 7 and 10,
+# and its HardFault handler prints the fault report.
+keel_stm32g4.Startup = "keel"

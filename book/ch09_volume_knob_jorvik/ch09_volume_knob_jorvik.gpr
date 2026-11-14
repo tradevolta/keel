@@ -1,0 +1,29 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/ch09_volume_knob_jorvik_config.gpr";
+with "runtime_build.gpr";
+with "ravenscar_build.gpr";
+with "keel_core.gpr";
+with "keel_rp2350_svd.gpr";
+
+project Ch09_Volume_Knob_Jorvik is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use
+     "obj/" & Ch09_Volume_Knob_Jorvik_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("knob_jorvik.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch09_Volume_Knob_Jorvik_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+   end Compiler;
+
+   package Linker is
+      for Switches ("Ada") use
+        Runtime_Build.Linker_Switches & ("-Wl,--gc-sections");
+   end Linker;
+end Ch09_Volume_Knob_Jorvik;

@@ -1,0 +1,24 @@
+name = "ch09_volume_knob_jorvik"
+description = "Chapter 9: the knob's handler as an Ada protected handler"
+version = "0.2.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "pico2w", "keel"]
+
+executables = ["knob_jorvik"]
+
+# The light-tasking runtime brings its own startup and interrupt
+# table, so this project uses keel_core and the register crate only.
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_tasking_rp2350 = "=16.0.0"
+keel_core = "*"
+keel_rp2350_svd = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_rp2350_svd = { path = "../../crates/keel_rp2350_svd" }
+
+[configuration.values]
+light_tasking_rp2350.Board = "rpi_pico2"

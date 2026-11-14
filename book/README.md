@@ -19,6 +19,9 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch07_reaction_time_nucleo` | 7, Port it: the same game and panel on the NUCLEO-G474RE through `Keel.GPIO.STM32G4` | `light_stm32g4xx` 16.0.0 |
 | `ch08_frequency_explorer` | 8, "Frequency explorer": a button walks clk_sys through 12, 48, 150 and 200 MHz; GP21 carries clk_sys / 1000; an INA219 reads the current | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch08_frequency_explorer_nucleo` | 8, Port it: SYSCLK through 16, 48, 150 and 170 MHz, SYSCLK / 16 on PA8 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
+| `ch09_volume_knob` | 9, "Rotary encoder volume knob + crash detective": the encoder decoded in the IO_IRQ_BANK0 handler drives an 8-LED bar; a press of the knob calls a null access and the fault reporter explains it | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
+| `ch09_volume_knob_jorvik` | 9, the same decoding in an Ada protected handler (`Attach_Handler`), the main task blocked on an entry | `light_tasking_rp2350` 16.0.0 |
+| `ch09_volume_knob_nucleo` | 9, Port it: the knob on PA0, PA1 and PA4 through EXTI0, 1 and 4, the bar on Arduino D2 to D9 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
