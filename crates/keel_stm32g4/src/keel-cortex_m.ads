@@ -88,6 +88,11 @@ is
    procedure NOP with Inline_Always;
    --  Sleep until an interrupt or a debug event.
    procedure WFI with Inline_Always;
+   --  PRIMASK: while it is set, no interrupt of configurable
+   --  priority is taken; a pending one still ends a WFI.
+   procedure Disable_Interrupts with Inline_Always;
+   procedure Enable_Interrupts with Inline_Always;
+   function Interrupts_Disabled return Boolean with Inline_Always;
    --  The current value of the stack pointer.
    function Stack_Pointer return System.Address with Inline_Always;
 end Keel.Cortex_M;
