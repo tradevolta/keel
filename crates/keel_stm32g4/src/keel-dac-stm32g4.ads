@@ -1,7 +1,8 @@
 --  SPDX-License-Identifier: Apache-2.0
 --  Keel.DAC on the STM32G474: DAC1 channel 1, 12 bits, buffered, on
---  PA4 (Arduino A2). Its output is VREF+ * code / 4096, and VREF+ is
---  3.3 V on the NUCLEO-G474RE. A driver that takes a
+--  PA4 (Arduino A2) and, inside the chip, to the comparators. Its
+--  output is VREF+ * code / 4096, and VREF+ is 3.3 V on the
+--  NUCLEO-G474RE. A driver that takes a
 --  Keel.DAC.Output_Signature gets an instance made from Output, Set
 --  and Reference.
 with Keel.ADC;
