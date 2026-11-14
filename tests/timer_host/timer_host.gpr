@@ -1,0 +1,15 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/timer_host_config.gpr";
+
+project Timer_Host is
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use "obj/" & Timer_Host_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("timer_host.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Timer_Host_Config.Ada_Compiler_Switches & ("-gnat2022");
+   end Compiler;
+end Timer_Host;
