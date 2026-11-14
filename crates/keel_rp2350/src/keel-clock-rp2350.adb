@@ -149,7 +149,8 @@ package body Keel.Clock.RP2350 is
         (REFDIV => USB.CS_REFDIV_Field (Ref_Div (Setting)),
          others => <>);
       USB.PLL_USB_Periph.FBDIV_INT :=
-        (FBDIV_INT => USB.FBDIV_INT_FBDIV_INT_Field (Feedback (Setting)),
+        (FBDIV_INT =>
+           USB.FBDIV_INT_FBDIV_INT_Field (Feedback (Setting)),
          others => <>);
       USB.PLL_USB_Periph.PWR := (PD => False, VCOPD => False,
                                  others => <>);
