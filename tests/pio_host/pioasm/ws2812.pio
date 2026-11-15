@@ -1,0 +1,13 @@
+; The WS2812 program, as pioasm source: the reference for
+; Keel.PIO.WS2812_Program (tests/pio_host checks the words)
+.program ws2812
+.side_set 1
+.wrap_target
+bitloop:
+    out x, 1 side 0 [3]
+    jmp !x do_zero side 1 [2]
+do_one:
+    jmp bitloop side 1 [2]
+do_zero:
+    nop side 0 [2]
+.wrap

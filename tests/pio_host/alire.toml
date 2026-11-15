@@ -1,0 +1,19 @@
+name = "pio_host"
+description = "Host test: PIO assembler, 1-Wire, DS18B20 and WS2812 on fakes"
+version = "0.3.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+executables = ["pio_host"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+keel_core = "*"
+keel_host = "*"
+keel_drivers = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_host = { path = "../../crates/keel_host" }
+keel_drivers = { path = "../../crates/keel_drivers" }

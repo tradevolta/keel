@@ -1,0 +1,29 @@
+; The 1-Wire program, as pioasm source: the reference for
+; Keel.PIO.OneWire_Program (tests/pio_host checks the words)
+.program onewire
+.wrap_target
+bit:
+    out x, 1
+    set pindirs, 1 [4]
+    jmp !x zero
+    set pindirs, 0 [8]
+    in pins, 1 [31]
+    jmp bit [21]
+zero:
+    in null, 1 [31]
+    nop [21]
+    set pindirs, 0 [8]
+.wrap
+reset:
+    set pindirs, 1
+    set x, 29
+low:
+    jmp x-- low [15]
+    set pindirs, 0 [31]
+    nop [31]
+    nop [5]
+    in pins, 1
+    set x, 24
+high:
+    jmp x-- high [15]
+    jmp bit [7]
