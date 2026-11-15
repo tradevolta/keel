@@ -37,14 +37,17 @@ is
 
    --  Found: ROM is the next device's code, and its CRC is good.
    --  CRC_Error: a code arrived damaged; start again. No_Device:
-   --  nothing answered, or the devices stopped answering.
+   --  nothing answered, or the devices stopped answering. Bus_Low:
+   --  the code read as all zeros, which no device has.
    procedure Next
      (B     : in out Bus;
       S     : in out Search_State;
       ROM   : out ROM_Code;
       Found : out Boolean;
       Stat  : out Status)
-     with Post => (if Found then Stat = Ok and then Valid (ROM));
+     with Post => (if Found
+                   then Stat = Ok and then Valid (ROM)
+                        and then not All_Zero (ROM));
 
 private
    --  The search's place in the tree: the last ROM code found, the

@@ -41,6 +41,11 @@ package body Keel.OneWire.Fake is
       B.Corrupt := True;
    end Corrupt_Next_Byte;
 
+   procedure Short_To_Ground (B : in out Bus) is
+   begin
+      B.Shorted := True;
+   end Short_To_Ground;
+
    procedure Reset
      (B : in out Bus; Present : out Boolean; Stat : out Status)
    is
@@ -51,7 +56,7 @@ package body Keel.OneWire.Fake is
          D.Bit_No := 0;
          D.Shifted := 0;
       end loop;
-      Present := B.Count > 0;
+      Present := B.Count > 0 or else B.Shorted;
       Stat := Ok;
    end Reset;
 
@@ -138,7 +143,7 @@ package body Keel.OneWire.Fake is
      (B : in out Bus; Bit : Boolean; Got : out Boolean;
       Stat : out Status)
    is
-      Line : Boolean := Bit;
+      Line : Boolean := Bit and then not B.Shorted;
    begin
       B.Slots := B.Slots + 1;
       for D of B.Devices (1 .. B.Count) loop

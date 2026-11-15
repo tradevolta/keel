@@ -13,8 +13,10 @@ is
    type Byte_Array is array (Positive range <>) of Byte;
 
    --  What can go wrong on the bus: no device answered the reset,
-   --  data failed its CRC, or the bus driver did not finish in time
-   type Status is (Ok, No_Device, CRC_Error, Timeout);
+   --  data failed its CRC, the line read low all through an exchange
+   --  (shorted to ground, or no pull-up), or the bus driver did not
+   --  finish in time
+   type Status is (Ok, No_Device, CRC_Error, Bus_Low, Timeout);
 
    ------------------------------------------------------------------
    --  CRC-8 as 1-Wire devices compute it: x**8 + x**5 + x**4 + 1,
@@ -46,6 +48,11 @@ is
    --  The CRC as a loop: what a driver runs, proved to match
    function CRC8 (Data : Byte_Array) return Byte
      with Post => CRC8'Result = CRC8_Of (Data);
+
+   --  The CRC of zeros is 0, so bytes read from a line held low pass
+   --  it. A reader checks for them first.
+   function All_Zero (Data : Byte_Array) return Boolean is
+     (for all D of Data => D = 0);
 
    ------------------------------------------------------------------
    --  ROM codes: family code, 48-bit serial, CRC, in the order they

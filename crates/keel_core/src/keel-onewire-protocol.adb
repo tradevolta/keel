@@ -162,7 +162,13 @@ is
          end if;
       end loop;
 
-      if not Valid (Code) then
+      --  A line held low answers every bit with 0 and 0, a branch
+      --  each time; the zeros it gives have a good CRC
+      if All_Zero (Code) then
+         Stat := Bus_Low;
+         S := Fresh_Search;
+         return;
+      elsif not Valid (Code) then
          Stat := CRC_Error;
          S := Fresh_Search;
          return;

@@ -5,8 +5,6 @@
 --  is the AND of them all and the controller's. So the ROM search,
 --  Match ROM and a scratchpad read run the same code as on a board.
 --  It has no timing: a slot is a call.
-with Keel.OneWire; use Keel.OneWire;
-
 package Keel.OneWire.Fake is
    Max_Devices : constant := 4;
 
@@ -23,6 +21,10 @@ package Keel.OneWire.Fake is
 
    --  Flip one bit of the next byte a device sends
    procedure Corrupt_Next_Byte (B : in out Bus);
+
+   --  Short the line to ground: every reset then sees a presence
+   --  pulse, and every slot reads 0
+   procedure Short_To_Ground (B : in out Bus);
 
    --  The bus driver's side: Keel.OneWire.Bus_Signature
    procedure Reset
@@ -58,6 +60,7 @@ private
       Devices : Device_Array;
       Count   : Natural := 0;
       Corrupt : Boolean := False;
+      Shorted : Boolean := False;
       Slots   : Natural := 0;
       Resets  : Natural := 0;
    end record;

@@ -48,7 +48,8 @@ is
    procedure Start_Conversion (B : in out Wire.Bus; Stat : out Status);
 
    --  Read device ROM's scratchpad and return its temperature.
-   --  CRC_Error: the nine bytes failed their CRC.
+   --  CRC_Error: the nine bytes failed their CRC. Bus_Low: they
+   --  were all zeros, which pass the CRC but no DS18B20 sends.
    procedure Read
      (B    : in out Wire.Bus;
       ROM  : ROM_Code;

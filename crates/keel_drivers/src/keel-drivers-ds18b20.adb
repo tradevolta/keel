@@ -36,7 +36,9 @@ is
       else
          Pad := [others => 0];
       end if;
-      if Stat = Ok and then CRC8 (Pad (1 .. 8)) /= Pad (9) then
+      if Stat = Ok and then All_Zero (Pad) then
+         Stat := Bus_Low;
+      elsif Stat = Ok and then CRC8 (Pad (1 .. 8)) /= Pad (9) then
          Stat := CRC_Error;
       end if;
       if Stat = Ok then

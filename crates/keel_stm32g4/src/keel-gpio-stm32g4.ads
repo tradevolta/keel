@@ -31,7 +31,6 @@ is
                   and then (if Stat = Ok
                             then Driven (P) = Config.Initial);
 
-   --  Input with Config.Bias. In_Use: another object owns the pin.
    --  Claim P as an open-drain output (RM0440, GPIOx_OTYPER): Low
    --  pulls the line low, High lets it go, and a pull-up or another
    --  device sets the level, which Sense reads. For buses such as
@@ -47,6 +46,7 @@ is
    function Sense (P : Output_Pin) return Level
      with Pre => Is_Claimed (P);
 
+   --  Input with Config.Bias. In_Use: another object owns the pin.
    procedure Claim
      (P : in out Input_Pin; Config : Input_Config; Stat : out Status)
      with Pre  => not Is_Claimed (P),

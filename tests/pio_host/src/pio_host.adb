@@ -296,6 +296,25 @@ begin
       Check ("no device: No_Device", Stat = No_Device);
    end;
 
+   --  A line shorted to ground: a "presence" at every reset, and
+   --  zeros, whose CRC is good, in every slot
+   declare
+      Short : Keel.OneWire.Fake.Bus;
+      State : Protocol.Search_State := Protocol.Fresh_Search;
+      ROM   : ROM_Code;
+      Found : Boolean;
+      Stat  : Status;
+      Raw   : Sensor.Raw_Temperature;
+   begin
+      Keel.OneWire.Fake.Short_To_Ground (Short);
+      Check ("CRC8 of eight zeros = 0", CRC8 ([1 .. 8 => 0]) = 0);
+      Protocol.Next (Short, State, ROM, Found, Stat);
+      Check ("search, line shorted: Bus_Low",
+             not Found and then Stat = Bus_Low);
+      Sensor.Read (Short, [16#28#, others => 1], Raw, Stat);
+      Check ("read, line shorted: Bus_Low", Stat = Bus_Low);
+   end;
+
    --  The datasheet's temperature table (Table 1)
    declare
       type Row is record
