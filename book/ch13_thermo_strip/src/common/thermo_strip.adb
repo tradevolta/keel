@@ -21,8 +21,8 @@ procedure Thermo_Strip is
    package Transport is new Strip_Signature (Board.Strip, Put, Latch);
    procedure Show is new Keel.Drivers.WS2812.Show (Transport);
 
-   --  An eighth of full brightness: enough indoors, and 8 LEDs at
-   --  most 8 * 3 * 18 mA / 8 = 54 mA
+   --  An eighth of full brightness: enough indoors, and about an
+   --  eighth of the current the stick draws at full white
    Level : constant Intensity := 32;
 
    type Probe is (A, B);
