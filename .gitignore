@@ -12,3 +12,6 @@ alire/cache/
 
 # ST vendor manuals: copyright STMicroelectronics, kept locally, never committed
 docs/vendor/
+
+# The DMA host test's simulated capture (tests/dma_host)
+capture-sim.txt

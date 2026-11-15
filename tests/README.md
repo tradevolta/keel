@@ -14,10 +14,12 @@
 | `timer_proof/` | GNATprove proves `Keel.PWM` and `Keel.Time`: every setting `Solve` returns is inside the counter's limits and within half a count of the period, every level fits (`gnatprove` 16.1.0) | Chapter 10 |
 | `adc_host/` | `Keel.ADC` and `Keel.DAC` on the host: codes to volts, oversampling a noisy input, the RP2350's temperature sensor, PWM-DAC levels and the RC filter, against values worked by hand (`gnat_native`) | Chapter 11 |
 | `adc_proof/` | GNATprove proves `Keel.ADC` and `Keel.DAC` free of run-time errors, with every oversampled code and DAC level inside its range (`gnatprove` 16.1.0) | Chapter 11 |
+| `dma_host/` | `Keel.DMA` on `Keel.DMA.Fake`: ring arithmetic, where transfers fit, buffers lent and reclaimed, the misuses the contracts catch at run time, and the logic sampler's ring, trigger and capture on a simulated RC input; writes `capture-sim.txt` (`gnat_native`) | Chapter 12 |
+| `dma_proof/` | GNATprove proves `Keel.DMA`, `Keel.DMA.Buffers` in use, `Keel.DMA.Fake`'s contract and the sampler's trigger; `bad/` is a program that reads a lent buffer and forges a receipt, which GNATprove rejects (`gnatprove` 16.1.0) | Chapter 12 |
 
 The host tests are plain Ada mains with a small `Check` procedure,
 not AUnit. Planned: `hil/` (hardware-in-the-loop scenarios) and
 `proof/` (GNATprove projects, Chapter 24; `gpio_proof/`, `clock_proof/`,
-`irq_proof/`, `timer_proof/` and `adc_proof/` move there).
+`irq_proof/`, `timer_proof/`, `adc_proof/` and `dma_proof/` move there).
 `tools/ci-build` builds and runs every crate here, and proves the
 ones that depend on `gnatprove`.
