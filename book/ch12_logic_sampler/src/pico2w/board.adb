@@ -108,7 +108,7 @@ package body Board is
    end Put_Line;
 
    --  The probe reads the console every few milliseconds; a capture
-   --  is 13 KB and the console's buffer 1 KB, so wait for room
+   --  is about 12 KB and the console's buffer 1 KB, so wait for room
    procedure Put_Line_Waiting (Text : String) is
       Give_Up : constant Time := Now + Milliseconds (1_000);
    begin
