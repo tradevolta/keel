@@ -8,9 +8,11 @@ package body Keel.PIO.RP2350.WS2812 is
    package Code renames Keel.PIO.WS2812_Program;
 
    Bit_Rate : constant := 800_000;
-   --  A pixel's 24 bits at 1.25 us each, rounded up
+   --  When the queue is empty, the last pixel has just gone into the
+   --  machine, behind at most one bit of the one before: 25 bits at
+   --  1.25 us each, rounded up
    Pixel_Time : constant Keel.Time.Time_Span :=
-     Keel.Time.Microseconds (30);
+     Keel.Time.Microseconds (32);
 
    procedure Open
      (S : in out Strip; Clock_Hz : Positive; Stat : out Status)
