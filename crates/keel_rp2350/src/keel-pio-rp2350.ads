@@ -75,9 +75,9 @@ package Keel.PIO.RP2350 is
      with Pre => Is_Claimed (B, M)
                  and then Integer (Offset) + Integer (P.Last) <= 31;
 
-   --  Empty M's FIFOs and restart it: its shift registers and
-   --  counters, its delay and any stalled instruction are cleared
-   --  (CTRL's SM_RESTART). The program counter stays.
+   --  Empty M's FIFOs and restart it (CTRL's SM_RESTART): the ISR,
+   --  the shift counters, the delay and any stalled instruction are
+   --  cleared, and the next OUT pulls. The OSR, X, Y and PC stay.
    procedure Restart (B : Block; M : Machine)
      with Pre => Is_Claimed (B, M);
 
