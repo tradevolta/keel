@@ -29,7 +29,10 @@ project PIO_Proof is
    end Compiler;
 
    package Prove is
+      --  -A: no notes on which loops and calls the prover unrolled
+      --  and inlined in the generics' instances; they are not checks
       for Proof_Switches ("Ada") use
-        ("--level=2", "--checks-as-errors=on");
+        ("--level=2", "--checks-as-errors=on",
+         "-A=info-unrolling-inlining");
    end Prove;
 end PIO_Proof;
