@@ -30,4 +30,8 @@ is
 
    --  How many Put calls were dropped since Initialize
    function Dropped return Natural;
+
+   --  Bytes that a Put can queue now without being dropped. A
+   --  program with a lot to say waits for room (Chapter 12).
+   function Space return Natural;
 end Keel.Trace;

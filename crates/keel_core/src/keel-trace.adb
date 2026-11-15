@@ -138,4 +138,13 @@ package body Keel.Trace is
    end Put_Decimal;
 
    function Dropped return Natural is (Drops);
+
+   function Space return Natural is
+      Write : constant Unsigned_32 := CB.Up.Write_Offset;
+      Read  : constant Unsigned_32 := CB.Up.Read_Offset;
+   begin
+      return Natural
+        (if Read > Write then Read - Write - 1
+         else Buffer_Size - (Write - Read) - 1);
+   end Space;
 end Keel.Trace;
