@@ -5,6 +5,7 @@
 --  inputs in turn, round robin, through the 8-sample FIFO. clk_adc
 --  must run at 48 MHz first (Keel.Clock.RP2350.Start_ADC_Clock).
 with Keel.ADC.Chip_Limits;
+with Keel.DMA;
 with Keel.GPIO.RP2350;
 with Keel.Units; use Keel.Units;
 
@@ -69,4 +70,28 @@ is
                   and then (for all Ch in Channel =>
                               (if Inputs (Ch) then Is_Claimed (Ch))),
           Post => (for all S of Samples => S <= Top (Converter));
+
+   --  Streaming, for the DMA. Start_Stream converts Inputs at Rate
+   --  as Capture does, but leaves the FIFO to a DMA channel paced by
+   --  Keel.DMA.RP2350.ADC_Request: start that channel first. The
+   --  DMA reads each sample as 16 bits, the code in bits 0 to 11 and
+   --  the error flag in bit 15 (datasheet 12.4.3.5). Not_Supported:
+   --  Rate is out of range. Timeout: the ADC isn't ready.
+   procedure Start_Stream
+     (Inputs : Channel_Set; Rate : Hertz; Stat : out Status)
+     with Pre  => Is_Enabled
+                  and then (for some Ch in Channel => Inputs (Ch))
+                  and then (for all Ch in Channel =>
+                              (if Inputs (Ch) then Is_Claimed (Ch))),
+          Post => Is_Streaming = (Stat = Ok);
+   function Is_Streaming return Boolean;
+
+   --  Stop converting, let the last conversion finish, and empty the
+   --  FIFO. Lost: it overflowed at some point, because the DMA
+   --  didn't keep up, and samples are missing.
+   procedure Stop_Stream (Lost : out Boolean)
+     with Post => not Is_Streaming;
+
+   --  The FIFO, as a transfer's From end
+   function FIFO return Keel.DMA.Region;
 end Keel.ADC.RP2350;

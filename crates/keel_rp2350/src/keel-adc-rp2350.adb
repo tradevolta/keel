@@ -91,28 +91,28 @@ package body Keel.ADC.RP2350 is
       pragma Unreferenced (F);
    end Drain;
 
-   procedure Capture
-     (Inputs : Channel_Set; Rate : Hertz; Samples : out Sample_Array;
-      Errors : out Natural; Stat : out Status)
+   Streaming : Boolean := False;
+
+   function Is_Streaming return Boolean is (Streaming);
+
+   --  Set up free-running conversions of Inputs at Rate, round robin
+   --  from the lowest, into the FIFO, and start them. For_DMA turns
+   --  the FIFO's DMA request on. Count: how many inputs. Stat as for
+   --  Capture.
+   procedure Start_Many
+     (Inputs : Channel_Set; Rate : Hertz; For_DMA : Boolean;
+      Count : out Natural; Stat : out Status)
    is
       --  48 MHz in 1/256 cycles over Rate: DIV is that period less
       --  one cycle, as INT and FRAC (datasheet 12.4.3.2)
       Period : Long_Long_Integer;
       Mask   : CS_RROBIN_Field := 0;
       First  : Channel := 0;
-      Count  : Natural := 0;
       CS     : CS_Register := Base;
-      F      : FIFO_Register;
-      Got    : Boolean;
-      Lost   : Boolean;
    begin
-      Samples := [others => 0];
-      Errors := 0;
+      Count := 0;
       Stat := Not_Supported;
       if Rate < Slowest or else Rate > Fastest then
-         return;
-      elsif Samples'Length = 0 then
-         Stat := Ok;
          return;
       end if;
       for Ch in reverse Channel loop
@@ -130,8 +130,8 @@ package body Keel.ADC.RP2350 is
       end if;
       Drain;
       ADC_Periph.FCS :=
-        (EN => True, ERR => True, THRESH => 1, UNDER => True,
-         OVER => True, others => <>);
+        (EN => True, ERR => True, DREQ_EN => For_DMA, THRESH => 1,
+         UNDER => True, OVER => True, others => <>);
       ADC_Periph.DIV :=
         (INT => DIV_INT_Field (Period / 256),
          FRAC => DIV_FRAC_Field (Period mod 256), others => <>);
@@ -139,7 +139,44 @@ package body Keel.ADC.RP2350 is
       CS.RROBIN := Mask;
       CS.START_MANY := True;
       ADC_Periph.CS := CS;
+      Stat := Ok;
+   end Start_Many;
 
+   --  Stop, let the last conversion finish, and drain the rest.
+   --  Lost: the FIFO overflowed, or the ADC never got ready.
+   procedure Stop_Many (Lost : out Boolean) is
+      Got : Boolean;
+   begin
+      ADC_Periph.CS := Base;
+      Got := Wait_Ready;
+      Lost := ADC_Periph.FCS.OVER or else not Got;
+      Drain;
+      ADC_Periph.FCS := (OVER => True, UNDER => True, others => <>);
+      ADC_Periph.DIV := (others => <>);
+   end Stop_Many;
+
+   procedure Capture
+     (Inputs : Channel_Set; Rate : Hertz; Samples : out Sample_Array;
+      Errors : out Natural; Stat : out Status)
+   is
+      Count  : Natural;
+      F      : FIFO_Register;
+      Got    : Boolean;
+      Lost   : Boolean;
+   begin
+      Samples := [others => 0];
+      Errors := 0;
+      if Samples'Length = 0 then
+         Stat := (if Rate in Slowest .. Fastest then Ok
+                  else Not_Supported);
+         return;
+      end if;
+      Start_Many (Inputs, Rate, False, Count, Stat);
+      if Stat /= Ok then
+         return;
+      end if;
+
+      Stat := Timeout;
       for I in Samples'Range loop
          Got := False;
          for Try in 1 .. Patience loop
@@ -165,17 +202,27 @@ package body Keel.ADC.RP2350 is
          end if;
       end loop;
 
-      --  Stop, let the last conversion finish, and drain the rest
-      CS.START_MANY := False;
-      CS.RROBIN := 0;
-      ADC_Periph.CS := CS;
-      Got := Wait_Ready;
-      Lost := ADC_Periph.FCS.OVER;
-      Drain;
-      ADC_Periph.FCS := (OVER => True, UNDER => True, others => <>);
-      ADC_Periph.DIV := (others => <>);
-      if Lost or else not Got then
+      Stop_Many (Lost);
+      if Lost then
          Stat := Timeout;
       end if;
    end Capture;
+
+   procedure Start_Stream
+     (Inputs : Channel_Set; Rate : Hertz; Stat : out Status)
+   is
+      Count : Natural;
+   begin
+      Start_Many (Inputs, Rate, True, Count, Stat);
+      Streaming := Stat = Ok;
+   end Start_Stream;
+
+   procedure Stop_Stream (Lost : out Boolean) is
+   begin
+      Stop_Many (Lost);
+      Streaming := False;
+   end Stop_Stream;
+
+   function FIFO return Keel.DMA.Region is
+     (Keel.DMA.Register (ADC_Periph.FIFO'Address));
 end Keel.ADC.RP2350;
