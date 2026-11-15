@@ -1,5 +1,5 @@
 --  SPDX-License-Identifier: Apache-2.0
---  The logic sampler. The ADC converts GP26 500 000 times a second,
+--  The logic sampler. The ADC converts GP27 500 000 times a second,
 --  and a DMA channel moves every sample into an 8 KB ring, round
 --  and round, with an interrupt after each half. The processor
 --  sleeps until a half is full, scans it for the trigger, and sleeps

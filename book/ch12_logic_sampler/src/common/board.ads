@@ -7,8 +7,8 @@ with Keel.DMA.RP2350; use Keel.DMA.RP2350;
 with Keel.Time;       use Keel.Time;
 
 package Board is
-   --  The input the sampler watches: GP26
-   Probe : constant Channel_Set := [0 => True, others => False];
+   --  The input the sampler watches: GP27, ADC input 1
+   Probe : constant Channel_Set := [1 => True, others => False];
 
    --  The sampler's DMA channel, and the benchmark's two
    Sampler : constant Keel.DMA.RP2350.Channel := 0;

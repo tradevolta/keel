@@ -1,10 +1,10 @@
 --  SPDX-License-Identifier: Apache-2.0
---  The Pico 2 W board. ADC input 0, GP26, is the probe. The test
---  signal is GP16: a 500 Hz square wave through 10 kohm into 100 nF
---  to AGND, whose joint goes to GP26, so the probe sees the
---  capacitor charge and discharge. Any other signal from 0 to 3.3 V
---  can go to GP26 instead, with the grounds joined. The console is
---  RTT.
+--  The Pico 2 W board. ADC input 1, GP27, is the probe. The test
+--  signal is Chapter 11's PWM DAC, unchanged but slowed down: GP16
+--  makes a 500 Hz square wave, through 10 kohm into 100 nF to AGND,
+--  whose joint goes to GP27, so the probe sees the capacitor charge
+--  and discharge. Any other signal from 0 to 3.3 V can go to GP27
+--  instead, with the grounds joined. The console is RTT.
 with Keel;              use type Keel.Status;
 with Keel.Clock;        use type Keel.Clock.Frequency;
 with Keel.Clock.RP2350; use Keel.Clock.RP2350;
@@ -71,8 +71,8 @@ package body Board is
       Check (Stat, "clk_adc");
       Keel.ADC.RP2350.Enable (Stat);
       Check (Stat, "ADC");
-      Keel.ADC.RP2350.Claim (0, Stat);
-      Check (Stat, "ADC input 0");
+      Keel.ADC.RP2350.Claim (1, Stat);
+      Check (Stat, "ADC input 1");
 
       --  The test signal: 500 Hz, half the time high
       Solve (Slice_Limits, Keel.Units.Hertz (Sys_Frequency), "500 Hz",
