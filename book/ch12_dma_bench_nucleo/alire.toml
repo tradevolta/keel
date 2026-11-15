@@ -1,0 +1,28 @@
+name = "ch12_dma_bench_nucleo"
+description = "Chapter 12, NUCLEO-G474RE: memcpy against DMA1, memory to memory"
+version = "0.3.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "stm32g4", "nucleo", "keel"]
+
+executables = ["dma_bench"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_stm32g4xx = "=16.0.0"
+keel_core = "*"
+keel_stm32g4 = "*"
+keel_stm32g4_svd = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_stm32g4 = { path = "../../crates/keel_stm32g4" }
+keel_stm32g4_svd = { path = "../../crates/keel_stm32g4_svd" }
+
+[configuration.values]
+light_stm32g4xx.MCU_Sub_Family = "G474"
+light_stm32g4xx.MCU_Flash_Memory_Size = "E"
+# Keel's startup: its vector table calls keel_systick, Keel.Time.Bare's
+# tick.
+keel_stm32g4.Startup = "keel"
