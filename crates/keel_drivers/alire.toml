@@ -1,0 +1,13 @@
+name = "keel_drivers"
+description = "Keel device drivers: DS18B20 and WS2812, on keel_core's signatures"
+version = "0.3.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "drivers", "spark", "keel"]
+
+[[depends-on]]
+keel_core = "*"
+
+[[pins]]
+keel_core = { path = "../keel_core" }
