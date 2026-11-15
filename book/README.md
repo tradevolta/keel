@@ -29,6 +29,8 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch12_logic_sampler` | 12, "Logic sampler": the ADC at 500 kS/s streamed by DMA channel 0 into an 8 KB ring, a threshold trigger with hysteresis, the capture printed over RTT; first, a benchmark of memcpy against one DMA channel, two chained channels and the bus priority | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch12_sampler_view` | 12, the host's viewer: reads a capture (or a whole console log) and prints a summary and a text plot, and writes an SVG | `gnat_native` 16.1.0 |
 | `ch12_dma_bench_nucleo` | 12, Port it: the benchmark on DMA1 channel 1, memory to memory, through `Keel.DMA.STM32G4` | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
+| `ch13_thermo_strip` | 13, "Thermo-strip": two DS18B20s on a 1-Wire bus run by PIO0's state machine 0 (GP22), their temperatures as a colour gradient on eight WS2812s run by state machine 1 (GP21), both programs written with `Keel.PIO.Assembler` | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
+| `ch13_thermo_nucleo` | 13, Port it: the same search and DS18B20 driver over a bit-banged bus on PA8 (`Keel.OneWire.Bit_Bang`), temperatures over RTT | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
