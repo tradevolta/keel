@@ -1,0 +1,27 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Keel.DMA's arithmetic and buffers, the host's fake engine (its
+--  spec), the logic sampler's trigger, and Lending, a program that
+--  uses a buffer by the rules: gnatprove proves every unit here.
+project DMA_Proof is
+   for Source_Dirs use
+     ("src/", "../../crates/keel_core/src/",
+      "../../crates/keel_host/src/",
+      "../../book/ch12_logic_sampler/src/shared/");
+   for Source_Files use
+     ("keel.ads", "keel-dma.ads", "keel-dma.adb",
+      "keel-dma-buffers.ads", "keel-dma-buffers.adb",
+      "keel-dma-fake.ads", "keel-dma-fake.adb",
+      "trigger.ads", "trigger.adb",
+      "lending.ads", "lending.adb");
+   for Object_Dir use "obj/";
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022");
+   end Compiler;
+
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=2", "--checks-as-errors=on");
+   end Prove;
+end DMA_Proof;
