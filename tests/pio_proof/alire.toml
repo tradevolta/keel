@@ -1,0 +1,12 @@
+name = "pio_proof"
+description = "Proof: GNATprove on Keel.PIO, Keel.OneWire and the Ch13 drivers"
+version = "0.3.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+# No executable: tools/ci-build runs gnatprove on this project.
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+gnatprove = "=16.1.0"

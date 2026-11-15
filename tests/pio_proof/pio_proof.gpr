@@ -1,0 +1,35 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Keel.PIO, its assembler and both programs (every instruction's
+--  side-set and delay checked), Keel.OneWire's CRC-8 against its
+--  definition, the protocol and the DS18B20 and WS2812 drivers on a
+--  model bus, and the thermo-strip's colours: gnatprove proves every
+--  unit here.
+project PIO_Proof is
+   for Source_Dirs use
+     ("src/", "../../crates/keel_core/src/",
+      "../../crates/keel_drivers/src/",
+      "../../book/ch13_thermo_strip/src/shared/");
+   for Source_Files use
+     ("keel.ads", "keel-time.ads", "keel-units.ads", "keel-units.adb",
+      "keel-pio.ads", "keel-pio.adb",
+      "keel-pio-assembler.ads", "keel-pio-assembler.adb",
+      "keel-pio-ws2812_program.ads", "keel-pio-onewire_program.ads",
+      "keel-onewire.ads", "keel-onewire.adb",
+      "keel-onewire-protocol.ads", "keel-onewire-protocol.adb",
+      "keel-drivers.ads",
+      "keel-drivers-ds18b20.ads", "keel-drivers-ds18b20.adb",
+      "keel-drivers-ws2812.ads", "keel-drivers-ws2812.adb",
+      "thermo.ads", "thermo.adb",
+      "model_bus.ads", "model_bus.adb", "on_model.ads");
+   for Object_Dir use "obj/";
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022");
+   end Compiler;
+
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=2", "--checks-as-errors=on");
+   end Prove;
+end PIO_Proof;
