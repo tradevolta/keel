@@ -1,0 +1,17 @@
+name = "dma_host"
+description = "Host test: Keel.DMA buffers and rings, the logic sampler simulated"
+version = "0.3.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+executables = ["dma_host"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+keel_core = "*"
+keel_host = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_host = { path = "../../crates/keel_host" }
