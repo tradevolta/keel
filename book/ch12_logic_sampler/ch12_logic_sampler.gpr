@@ -1,0 +1,33 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/ch12_logic_sampler_config.gpr";
+with "runtime_build.gpr";
+with "keel_core.gpr";
+with "keel_rp2350.gpr";
+with "keel_rp2350_svd.gpr";
+
+project Ch12_Logic_Sampler is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   --  common/ is the sampler, pico2w/ the board, shared/ the parts
+   --  the host's viewer and tests compile too
+   for Source_Dirs use
+     ("src/common/", "src/pico2w/", "src/shared/", "config/");
+   for Object_Dir use "obj/" & Ch12_Logic_Sampler_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("logic_sampler.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch12_Logic_Sampler_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+      --  The driver rule, checked by the compiler (gnat.adc).
+      for Local_Configuration_Pragmas use "gnat.adc";
+   end Compiler;
+
+   package Linker is
+      for Switches ("Ada") use
+        Keel_RP2350.Linker_Switches & ("-Wl,--gc-sections");
+   end Linker;
+end Ch12_Logic_Sampler;
