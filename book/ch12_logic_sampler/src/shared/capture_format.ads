@@ -3,9 +3,9 @@
 --  host's viewer. One header line, then the samples in time order,
 --  20 to a line as three hex digits each ("xxx" for a sample whose
 --  conversion failed), then an end line. For example:
---    capture rate=500000 samples=3584 trigger=1024 level=2048 rising
---    data 7FE801803...
---    end errors=0
+--  capture rate=500000 samples=3584 trigger=1024 level=2048 rising
+--  data 7FE801803...
+--  end errors=0
 --  trigger= is the first sample after the crossing, counted from 0.
 with Trigger; use Trigger;
 
