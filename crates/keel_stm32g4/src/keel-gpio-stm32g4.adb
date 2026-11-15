@@ -76,10 +76,15 @@ package body Keel.GPIO.STM32G4 is
      (if Port (P.Port).ODR.ODR.Arr (Integer (P.Pin)) then High
       else Low);
 
-   procedure Claim
-     (P : in out Output_Pin; Config : Output_Config; Stat : out Status)
+   --  Push-pull or, if Open_Drain, open drain (GPIOx_OTYPER)
+   procedure Claim_Output
+     (P          : in out Output_Pin;
+      Config     : Output_Config;
+      Open_Drain : Boolean;
+      Stat       : out Status)
    is
       Speeds : OSPEEDR_Register;
+      Types  : OTYPER_Register;
    begin
       if Taken (P.Port, P.Pin) then
          Stat := In_Use;
@@ -93,13 +98,34 @@ package body Keel.GPIO.STM32G4 is
       Speeds := Port (P.Port).OSPEEDR;
       Speeds.Arr (Integer (P.Pin)) := Speed_Code (Config.Slew);
       Port (P.Port).OSPEEDR := Speeds;
+      Types := Port (P.Port).OTYPER;
+      Types.OT.Arr (Integer (P.Pin)) := Open_Drain;
+      Port (P.Port).OTYPER := Types;
       Set_Pull (P.Port, P.Pin, Floating);
       Set_Mode (Port (P.Port).all, Pin (P.Pin), Output);
 
       Taken (P.Port, P.Pin) := True;
       P.Claimed := True;
       Stat := Ok;
+   end Claim_Output;
+
+   procedure Claim
+     (P : in out Output_Pin; Config : Output_Config; Stat : out Status)
+   is
+   begin
+      Claim_Output (P, Config, Open_Drain => False, Stat => Stat);
    end Claim;
+
+   procedure Claim_Open_Drain
+     (P : in out Output_Pin; Config : Output_Config; Stat : out Status)
+   is
+   begin
+      Claim_Output (P, Config, Open_Drain => True, Stat => Stat);
+   end Claim_Open_Drain;
+
+   function Sense (P : Output_Pin) return Level is
+     (if Port (P.Port).IDR.IDR.Arr (Integer (P.Pin)) then High
+      else Low);
 
    procedure Claim
      (P : in out Input_Pin; Config : Input_Config; Stat : out Status)
