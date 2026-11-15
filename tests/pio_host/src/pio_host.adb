@@ -5,6 +5,7 @@
 --  on the fake bus, the datasheet's temperature table, WS2812 bits,
 --  and the thermo-strip's colours.
 with Ada.Text_IO;      use Ada.Text_IO;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 with Ada.Command_Line;
 with Keel.PIO;         use Keel.PIO;
 with Keel.PIO.WS2812_Program;
@@ -56,11 +57,16 @@ procedure PIO_Host is
       return P.Last = Words'Last;
    end Same;
 
+   --  Ten words a line
    procedure Put_Program (Name : String; P : Program) is
    begin
       Put (Name & ":");
-      for I of P.Code loop
-         Put (" " & Hex (Natural (I), 4));
+      for I in P.Code'Range loop
+         if I > 0 and then I mod 10 = 0 then
+            New_Line;
+            Put ((Name'Length + 1) * ' ');
+         end if;
+         Put (" " & Hex (Natural (P.Code (I)), 4));
       end loop;
       New_Line;
    end Put_Program;
