@@ -1,0 +1,7 @@
+; A square wave in one loop: 32 cycles high, 32 low, 64 a period,
+; with no cycle spent on the loop (Chapter 13's first program)
+.program square
+.wrap_target
+    set pins, 1 [31]
+    set pins, 0 [31]
+.wrap
