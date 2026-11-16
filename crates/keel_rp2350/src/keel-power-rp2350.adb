@@ -12,7 +12,6 @@ with Keel.Time.Bare;
 
 package body Keel.Power.RP2350 is
 
-   use type Keel.Time.Time;
    use type Keel.RTC.Epoch_Ms;
    package Words renames RP2350_SVD.POWMAN_Words;
    use type Words.Offset;
@@ -48,7 +47,6 @@ package body Keel.Power.RP2350 is
    State_Waiting    : constant Reg := 2**12;
    State_Bad_Sw_Req : constant Reg := 2**10;
    State_Ignored    : constant Reg := 2**8;
-   Timer_Alarm      : constant Reg := 2**6;
    VREG_Unlock      : constant Reg := 2**13;
    --  SEQ_CFG: HW_PWRUP_SRAM0 and SRAM1 clear, so a power-up from
    --  P1.7 powers both SRAMs (Table 523)
