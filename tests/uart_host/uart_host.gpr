@@ -1,0 +1,27 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Two programs: uart_host, the tests, and keelsh_host, the real
+--  keelsh (book/ch15_keelsh/src/common/) on a fake board that reads
+--  standard input and writes standard output.
+with "config/uart_host_config.gpr";
+with "keel_core.gpr";
+with "keel_cli.gpr";
+with "keel_log.gpr";
+
+project UART_Host is
+   for Source_Dirs use
+     ("src/tests/", "src/fake/", "config/",
+      "../../book/ch15_keelsh/src/common/", "../uart_proof/src/");
+   for Object_Dir use "obj/" & UART_Host_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("uart_host.adb", "keelsh.adb");
+
+   package Builder is
+      for Executable ("keelsh.adb") use "keelsh_host";
+   end Builder;
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        UART_Host_Config.Ada_Compiler_Switches & ("-gnat2022", "-gnata");
+   end Compiler;
+end UART_Host;
