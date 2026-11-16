@@ -110,7 +110,9 @@ package body Keel.Watchdog.RP2350 is
       elsif Had (28) or else Had (24) or else Had (23)
         or else Had (22)              --  HAD_WATCHDOG_RESET_*
       then
-         return Watchdog_Timeout;
+         --  A watchdog reset Keel didn't arm: the bootrom's reboot
+         --  after a UF2 copy (5.2.2), a reset software asked for
+         return Software;
       elsif Had (27) or else Had (21) or else Had (19) then
          return Debugger;             --  HZD, RESCUE, DP_RESET_REQ
       elsif Had (18) then             --  HAD_RUN_LOW

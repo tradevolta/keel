@@ -32,7 +32,8 @@ is
 
    --  Why the chip last started. A watchdog reset shows as
    --  Watchdog_Timeout or Watchdog_Forced only if Keel armed the
-   --  watchdog: the bootrom uses it to reboot too.
+   --  watchdog. The bootrom uses it to reboot too, after a UF2
+   --  copy: that shows as Software.
    function Last_Cause return Reset_Cause;
 
    --  POWMAN's CHIP_RESET, raw, for the curious (Table 521)
