@@ -1,0 +1,21 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  keel_cli: a command shell over any console that fits
+--  Keel.Bus.UART.Text_Signature. Chip-independent, like keel_core.
+with "config/keel_cli_config.gpr";
+with "keel_core.gpr";
+
+project Keel_CLI is
+   for Library_Name use "Keel_CLI";
+   for Library_Kind use "static";
+   for Source_Dirs use ("src/", "config/");
+   --  Built for the host and for the boards, like keel_core
+   for Object_Dir use "obj/" & Project'Target & "/"
+     & Keel_CLI_Config.Build_Profile;
+   for Library_Dir use "lib/" & Project'Target;
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Keel_CLI_Config.Ada_Compiler_Switches & ("-gnat2022");
+   end Compiler;
+end Keel_CLI;
