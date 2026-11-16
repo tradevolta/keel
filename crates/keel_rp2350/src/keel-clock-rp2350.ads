@@ -53,6 +53,15 @@ is
    procedure Stop_ADC_Clock
      with Post => not ADC_Clock_Running;
 
+   --  clk_peri, the UARTs' and SPI's clock (datasheet 8.1, Figure
+   --  36): clk_sys, undivided, from now on. Set clk_sys first: a later
+   --  change of clk_sys changes clk_peri, and every baud rate with it.
+   procedure Start_Peri_Clock
+     with Post => Peri_Frequency = Sys_Frequency;
+
+   --  clk_peri in hertz; 0 while it's stopped
+   function Peri_Frequency return Frequency;
+
    --  DORMANT (datasheet 6.5.3) the way the Pico SDK's
    --  pico_low_power enters it when the always-on timer is to wake
    --  the chip: clk_ref from LPOSC, so POWMAN keeps a clock; clk_sys

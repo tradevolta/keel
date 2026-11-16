@@ -49,8 +49,10 @@ is
 
    --  Give pin Id to a peripheral: mark it taken and connect its
    --  pad, input and output, so the peripheral's function can drive
-   --  it. The caller selects the function. In_Use: it has an owner.
-   procedure Reserve (Id : Pin_Id; Stat : out Status)
+   --  it, with Bias on the pad. The caller selects the function.
+   --  In_Use: it has an owner.
+   procedure Reserve
+     (Id : Pin_Id; Stat : out Status; Bias : Pull := Floating)
      with Pre => Is_Enabled;
 
    --  Give pin Id to the ADC: mark it taken, and turn its pad's

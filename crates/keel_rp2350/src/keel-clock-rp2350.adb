@@ -15,10 +15,13 @@ package body Keel.Clock.RP2350 is
    Sys : Frequency := 0;
    Running : Boolean := False;
    ADC_Running : Boolean := False;
+   Peri_Running : Boolean := False;
 
    function Sys_Frequency return Frequency is (Sys);
    function Crystal_Running return Boolean is (Running);
    function ADC_Clock_Running return Boolean is (ADC_Running);
+   function Peri_Frequency return Frequency is
+     (if Peri_Running then Sys else 0);
 
    --  How many times a wait polls before it reports Timeout: far
    --  longer than any of them takes, at any clk_sys
@@ -188,6 +191,16 @@ package body Keel.Clock.RP2350 is
       RP2350_SVD.PLL_USB.PLL_USB_Periph.PWR := (others => <>);
       ADC_Running := False;
    end Stop_ADC_Clock;
+
+   procedure Start_Peri_Clock is
+   begin
+      --  The mux glitches when it switches: stop, select, start
+      CLOCKS_Periph.CLK_PERI_CTRL := (others => <>);
+      CLOCKS_Periph.CLK_PERI_DIV := (INT => 1, others => <>);
+      CLOCKS_Periph.CLK_PERI_CTRL := (AUXSRC => clk_sys, ENABLE => True,
+                                      others => <>);
+      Peri_Running := True;
+   end Start_Peri_Clock;
 
    package ROSC renames RP2350_SVD.ROSC;
 

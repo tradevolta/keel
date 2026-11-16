@@ -132,13 +132,15 @@ package body Keel.GPIO.RP2350 is
       end if;
    end Claim;
 
-   procedure Reserve (Id : Pin_Id; Stat : out Status) is
+   procedure Reserve
+     (Id : Pin_Id; Stat : out Status; Bias : Pull := Floating) is
    begin
       if Taken (Pin (Id)) then
          Stat := In_Use;
       else
          Pads (Id) :=
-           (SLEWFAST => True, PDE => False, IE => True, ISO => False,
+           (SLEWFAST => True, PDE => Bias = Pull_Down,
+            PUE => Bias = Pull_Up, IE => True, ISO => False,
             others => <>);
          Taken (Pin (Id)) := True;
          Stat := Ok;
