@@ -185,7 +185,8 @@ package body Board is
    function Pin_Names return String is
      ("15 (LED), 16 (button, read only)");
 
-   procedure Set_Duty (Pin_Name : String; P : Percent; Stat : out Status)
+   procedure Set_Duty
+     (Pin_Name : String; P : Percent; Stat : out Status)
    is
    begin
       if Pin_Name /= "14" then

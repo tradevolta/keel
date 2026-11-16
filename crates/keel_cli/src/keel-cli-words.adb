@@ -29,7 +29,8 @@ is
             while I < Max_Line and then Copy (I + 1) /= ' ' loop
                pragma Loop_Invariant
                  (I in First .. Max_Line - 1
-                  and then (for all J in First .. I => Copy (J) /= ' '));
+                  and then
+                    (for all J in First .. I => Copy (J) /= ' '));
                I := I + 1;
             end loop;
             if N < Max_Words then

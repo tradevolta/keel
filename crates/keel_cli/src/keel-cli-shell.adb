@@ -61,7 +61,8 @@ package body Keel.CLI.Shell is
       I : constant Natural := Find (Name);
    begin
       if I /= 0 then
-         Put_Line ("usage: " & Table (I).Usage (1 .. Table (I).Use_Last));
+         Put_Line
+           ("usage: " & Table (I).Usage (1 .. Table (I).Use_Last));
       end if;
    end Show_Usage;
 

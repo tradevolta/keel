@@ -62,7 +62,7 @@ package body Board is
    function Space return Natural is (Natural'Last);
 
    function Console_Name return String is
-     ("standard input and output, as UART0 at" & Baud'Image & " 8N1");
+     ("stdin/stdout as UART0," & Baud'Image & " 8N1");
    function Console_Mode return Keel.Bus.UART.Mode is (Polled);
    function Console_Counts return Counts is (Tally);
    function Console_Baud return Natural is
@@ -101,7 +101,8 @@ package body Board is
 
    function Pin_Names return String is ("15 (a pretend LED)");
 
-   procedure Set_Duty (Pin_Name : String; P : Percent; Stat : out Status)
+   procedure Set_Duty
+     (Pin_Name : String; P : Percent; Stat : out Status)
    is
       pragma Unreferenced (P);
    begin

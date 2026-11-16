@@ -52,7 +52,8 @@ package Board is
    function Pin_Names return String;
 
    subtype Percent is Natural range 0 .. 100;
-   procedure Set_Duty (Pin_Name : String; P : Percent; Stat : out Status);
+   procedure Set_Duty
+     (Pin_Name : String; P : Percent; Stat : out Status);
    function PWM_Names return String;
 
    --  An ADC input's reading and its voltage. Not_Supported: there

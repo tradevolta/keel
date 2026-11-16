@@ -10,11 +10,13 @@ package body Keel.Log.Logger is
    function Threshold return Level is (Current);
 
    procedure Put (L : Level; Message : String) is
-      Cut : constant Natural := Natural'Min (Message'Length, Max_Message);
+      Cut : constant Natural :=
+        Natural'Min (Message'Length, Max_Message);
    begin
       if L >= Current then
-         Write (Line (Clock_Ms, L,
-                      Message (Message'First .. Message'First + Cut - 1)));
+         Write
+           (Line (Clock_Ms, L,
+                  Message (Message'First .. Message'First + Cut - 1)));
       end if;
    end Put;
 

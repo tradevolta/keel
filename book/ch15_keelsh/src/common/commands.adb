@@ -227,7 +227,8 @@ package body Commands is
          for L in Keel.Log.Level loop
             if Lower (L'Image) = Word (Args, 2) then
                Console_Log.Log.Set_Threshold (L);
-               Console_Log.Log.Put (L, "log: from " & Word (Args, 2) & " up");
+               Console_Log.Log.Put
+                 (L, "log: from " & Word (Args, 2) & " up");
                return;
             end if;
          end loop;

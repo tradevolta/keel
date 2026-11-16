@@ -22,6 +22,7 @@ project UART_Host is
 
    package Compiler is
       for Default_Switches ("Ada") use
-        UART_Host_Config.Ada_Compiler_Switches & ("-gnat2022", "-gnata");
+        UART_Host_Config.Ada_Compiler_Switches
+        & ("-gnat2022", "-gnata");
    end Compiler;
 end UART_Host;

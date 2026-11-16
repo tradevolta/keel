@@ -138,7 +138,8 @@ package body Board is
    function Pin_Names return String is
      ("pa5 (LD2), pc13 (B1, read only)");
 
-   procedure Set_Duty (Pin_Name : String; P : Percent; Stat : out Status)
+   procedure Set_Duty
+     (Pin_Name : String; P : Percent; Stat : out Status)
    is
    begin
       if Pin_Name /= "pb4" then

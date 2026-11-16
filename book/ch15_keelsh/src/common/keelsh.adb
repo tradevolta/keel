@@ -15,7 +15,8 @@ procedure Keelsh is
    procedure Check_Counts is
       Now : constant Counts := Board.Console_Counts;
    begin
-      if Now.Overruns /= Seen.Overruns or else Now.Dropped /= Seen.Dropped
+      if Now.Overruns /= Seen.Overruns
+        or else Now.Dropped /= Seen.Dropped
       then
          Log.Warn ("uart: " & Image (Now.Overruns) & " overruns, "
                    & Image (Now.Dropped) & " dropped");

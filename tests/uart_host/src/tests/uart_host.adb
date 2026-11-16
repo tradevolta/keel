@@ -70,7 +70,8 @@ procedure UART_Host is
                  & Image (Long_Long_Integer (D mod 64)) & "/64"
             else Image (Long_Long_Integer (D)));
          Made : constant String := Image (Actual (L, Clock, D));
-         PPM  : constant String := Image (Error_PPM (L, Clock, Baud, D));
+         PPM  : constant String :=
+           Image (Error_PPM (L, Clock, Baud, D));
       begin
          Put_Line (Pad (Div, 12) & Pad (Made, 10) & Pad (PPM, 6));
       end;
@@ -91,7 +92,8 @@ procedure UART_Host is
       Rates : constant array (1 .. 5) of Baud_Rate :=
         [9_600, 115_200, 921_600, 3_000_000, 10_000_000];
    begin
-      Put_Line ("chip    clock        baud     divisor      made   ppm");
+      Put_Line
+        ("chip    clock        baud     divisor      made   ppm");
       for B of Rates loop
          Row ("PL011", RP2350_PL011, 150_000_000, B);
       end loop;
@@ -138,7 +140,8 @@ procedure UART_Host is
          OK := True;
          for I in 1 .. 1_000_000 loop
             Char_Rings.Words.Push (W, I);
-            if Char_Rings.Words.Length (W) = Char_Rings.Words.Capacity then
+            if Char_Rings.Words.Length (W) = Char_Rings.Words.Capacity
+            then
                for J in reverse 0 .. Char_Rings.Words.Capacity - 1 loop
                   Char_Rings.Words.Pop (W, N);
                   OK := OK and then N = I - J;
