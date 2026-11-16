@@ -1,0 +1,37 @@
+name = "ch15_keelsh"
+description = "Chapter 15: keelsh, a command shell on the Debug Probe's UART"
+version = "0.4.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "rp2350", "pico2w", "uart", "keel"]
+
+executables = ["keelsh"]
+
+[[depends-on]]
+gnat_arm_elf = "=16.1.0"
+light_rp2350 = "=16.0.0"
+keel_core = "*"
+keel_cli = "*"
+keel_log = "*"
+keel_rp2350 = "*"
+keel_rp2350_svd = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_cli = { path = "../../crates/keel_cli" }
+keel_log = { path = "../../crates/keel_log" }
+keel_rp2350 = { path = "../../crates/keel_rp2350" }
+keel_rp2350_svd = { path = "../../crates/keel_rp2350_svd" }
+
+# How the console moves characters: one build for each row of the
+# overrun test
+[configuration.variables]
+UART_Mode = { type = "Enum", values = ["Polled", "Interrupt", "DMA"], default = "Interrupt" }
+
+[configuration.values]
+light_rp2350.Board = "rpi_pico2"
+# Keel's startup: its vector table carries keel_isr_33, the UART0
+# handler, and keel_isr_3, Keel.Time.Bare's alarm
+keel_rp2350.Startup = "keel"
+ch15_keelsh.UART_Mode = "Interrupt"
