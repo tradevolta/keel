@@ -1,0 +1,33 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Keel.Watchdog's solver, Keel.RTC's calendar, Keel.Power's policy,
+--  the INA219 stub on a model bus and the sleepy sentinel's log:
+--  gnatprove proves every unit here.
+project Power_Proof is
+   for Source_Dirs use
+     ("src/", "../../crates/keel_core/src/",
+      "../../crates/keel_drivers/src/",
+      "../../book/ch14_sleepy_sentinel/src/shared/");
+   for Source_Files use
+     ("keel.ads", "keel-time.ads",
+      "keel-watchdog.ads", "keel-watchdog.adb",
+      "keel-watchdog-chip_limits.ads",
+      "keel-rtc.ads", "keel-rtc.adb",
+      "keel-power.ads", "keel-power.adb",
+      "keel-drivers.ads",
+      "keel-drivers-ina219.ads", "keel-drivers-ina219.adb",
+      "model_i2c.ads", "model_i2c.adb", "on_model.ads",
+      "idle_model.ads", "idle_model.adb",
+      "sentinel_log.ads", "sentinel_log.adb");
+   for Object_Dir use "obj/";
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022");
+   end Compiler;
+
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=2", "--checks-as-errors=on",
+         "-A=info-unrolling-inlining");
+   end Prove;
+end Power_Proof;

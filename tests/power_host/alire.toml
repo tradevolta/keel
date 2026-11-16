@@ -1,0 +1,17 @@
+name = "power_host"
+description = "Host test: watchdog settings, calendar, power policy, INA219, log"
+version = "0.3.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+executables = ["power_host"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+keel_core = "*"
+keel_drivers = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_drivers = { path = "../../crates/keel_drivers" }
