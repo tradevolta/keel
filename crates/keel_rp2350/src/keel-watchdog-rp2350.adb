@@ -1,5 +1,4 @@
 --  SPDX-License-Identifier: Apache-2.0
-with Interfaces;          use Interfaces;
 with Keel.Clock;          use type Keel.Clock.Frequency;
 with RP2350_SVD;          use RP2350_SVD;
 with RP2350_SVD.Atomic;
