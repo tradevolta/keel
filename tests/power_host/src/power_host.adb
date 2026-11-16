@@ -84,7 +84,7 @@ procedure Power_Host is
          Day := Ada.Calendar.Arithmetic."+" (Day, 1);
       end loop;
       Check ("calendar: all" & Cycle_Days'Image
-             & " days, 1970-01-01 to 2369-12-31, match Ada.Calendar",
+             & " days, 1970 to 2369, match Ada.Calendar",
              Bad = 0);
    end Calendar_Days;
 
