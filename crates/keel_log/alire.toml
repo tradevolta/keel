@@ -1,0 +1,13 @@
+name = "keel_log"
+description = "Keel logging: levels, time stamps, a UART sink that never blocks"
+version = "0.4.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "logging", "spark", "keel"]
+
+[[depends-on]]
+keel_core = "*"
+
+[[pins]]
+keel_core = { path = "../keel_core" }

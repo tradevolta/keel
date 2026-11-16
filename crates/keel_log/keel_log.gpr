@@ -1,0 +1,21 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  keel_log: log lines with a level and a time stamp, to any console
+--  that fits Keel.Bus.UART.Text_Signature. Chip-independent.
+with "config/keel_log_config.gpr";
+with "keel_core.gpr";
+
+project Keel_Log is
+   for Library_Name use "Keel_Log";
+   for Library_Kind use "static";
+   for Source_Dirs use ("src/", "config/");
+   --  Built for the host and for the boards, like keel_core
+   for Object_Dir use "obj/" & Project'Target & "/"
+     & Keel_Log_Config.Build_Profile;
+   for Library_Dir use "lib/" & Project'Target;
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Keel_Log_Config.Ada_Compiler_Switches & ("-gnat2022");
+   end Compiler;
+end Keel_Log;
