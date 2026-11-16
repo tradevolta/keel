@@ -44,7 +44,7 @@ is
      (Get (L, Previous (L.Next)));
 
    --  Add a reading, over the oldest once the log is full. Taken
-   --  and Recoveries stop at their largest values.
+   --  stops at its largest value.
    procedure Push (L : in out Log; C : Centi)
      with Post => L.Held = Natural'Min (L'Old.Held + 1, Capacity)
                   and then L.Taken

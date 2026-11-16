@@ -32,10 +32,10 @@ package body Board is
    Button     : Input_Pin (16);
    ADC_PLL    : Keel.Clock.PLL_Config;
 
-   --  The calendar starts here after a power-on: the moment this
-   --  chapter was written, near enough
+   --  The calendar keeps UTC, and starts here after a power-on:
+   --  21:00 in New York on the day this chapter was written
    First_Time : constant Date_Time :=
-     (Year => 2026, Month => 11, Day => 15, Hour => 21,
+     (Year => 2026, Month => 11, Day => 16, Hour => 2,
       others => 0);
 
    procedure Check (Stat : Keel.Status; What : String) is

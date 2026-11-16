@@ -34,7 +34,7 @@ package body Board is
    Line   : Output_Pin (Port => A, Pin => 8);
 
    First_Time : constant Date_Time :=
-     (Year => 2026, Month => 11, Day => 15, Hour => 21,
+     (Year => 2026, Month => 11, Day => 16, Hour => 2,
       others => 0);
 
    --  Chapter 13's bit-banged bus, timed on the cycle counter

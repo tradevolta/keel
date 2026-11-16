@@ -32,7 +32,7 @@ package Board is
    procedure Read_Temperature
      (C : out Sentinel_Log.Centi; Stat : out Keel.Status);
 
-   --  The calendar's date and time, "2026-11-15 21:04:05"
+   --  The calendar's date and time, UTC: "2026-11-16 02:04:05"
    function Stamp return String;
 
    function Now return Time;
