@@ -99,6 +99,15 @@ package body Keel.Time.Bare is
       Enable_Interrupts;
    end Wait_Until;
 
+   procedure Catch_Up (T : Time) is
+      V : constant Unsigned_64 := Unsigned_64 (T);
+   begin
+      if Clock < T then
+         TIMER0_Periph.TIMELW := UInt32 (V and 16#FFFF_FFFF#);
+         TIMER0_Periph.TIMEHW := UInt32 (Shift_Right (V, 32));
+      end if;
+   end Catch_Up;
+
    --  The bare backend fits the seam: this fails to compile if not
    package Fits is new Keel.Time.Clock_Signature (Clock, Wait_Until);
    pragma Unreferenced (Fits);

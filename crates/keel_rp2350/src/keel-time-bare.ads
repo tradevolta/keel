@@ -31,4 +31,11 @@ is
    --  interrupt is made pending at once. For Keel.Sync.Bare.
    procedure Wake_At (Deadline : Time)
      with Pre => Is_Started;
+
+   --  Move the count forward to T if it is behind: after DORMANT,
+   --  which stops TIMER0's tick, Keel.Power.RP2350 adds the time the
+   --  always-on timer saw pass. Never backwards, so Clock stays
+   --  monotonic (datasheet 12.8.2: TIMELW, then TIMEHW).
+   procedure Catch_Up (T : Time)
+     with Pre => Is_Started and then T <= Max_Clock;
 end Keel.Time.Bare;

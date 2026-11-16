@@ -42,6 +42,12 @@ package body Keel.Cortex_M is
       return (Mask and 1) = 1;
    end Interrupts_Disabled;
 
+   procedure Set_Deep_Sleep (On : Boolean) is
+      Sleep_Deep : constant Word := 2#100#;
+   begin
+      SCR := (if On then SCR or Sleep_Deep else SCR and not Sleep_Deep);
+   end Set_Deep_Sleep;
+
    function Stack_Pointer return System.Address is
       SP : System.Address;
    begin

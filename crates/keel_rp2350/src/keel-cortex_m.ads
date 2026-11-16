@@ -78,6 +78,13 @@ is
    DWT_CYCCNT : Word
      with Import, Atomic, Address => System'To_Address (16#E000_1004#);
 
+   --  SCR (Table 210): bit 2, SLEEPDEEP, makes the next WFI a deep
+   --  sleep, the one the RP2350's sleep clock gates, DORMANT and
+   --  switched-core power down need
+   SCR : Word
+     with Import, Atomic, Address => System'To_Address (16#E000_ED10#);
+   procedure Set_Deep_Sleep (On : Boolean);
+
    --  Wait until every memory access before it has completed.
    procedure DSB with Inline_Always;
    --  Refetch the instructions that follow, in the new context.

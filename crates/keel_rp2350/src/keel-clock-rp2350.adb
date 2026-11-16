@@ -6,6 +6,7 @@ with RP2350_SVD.IO_BANK0; use RP2350_SVD.IO_BANK0;
 with RP2350_SVD.PLL_SYS;  use RP2350_SVD.PLL_SYS;
 with RP2350_SVD.PLL_USB;
 with RP2350_SVD.RESETS;   use RP2350_SVD.RESETS;
+with RP2350_SVD.ROSC;
 with RP2350_SVD.XOSC;     use RP2350_SVD.XOSC;
 with Keel.GPIO.RP2350;
 
@@ -179,6 +180,75 @@ package body Keel.Clock.RP2350 is
       ADC_Running := True;
       Stat := Ok;
    end Start_ADC_Clock;
+
+   procedure Stop_ADC_Clock is
+   begin
+      CLOCKS_Periph.CLK_ADC_CTRL := (others => <>);
+      --  The reset value: every part of the PLL powered down
+      RP2350_SVD.PLL_USB.PLL_USB_Periph.PWR := (others => <>);
+      ADC_Running := False;
+   end Stop_ADC_Clock;
+
+   package ROSC renames RP2350_SVD.ROSC;
+
+   --  ROSC's DORMANT register: write this and ROSC stops (Table 642)
+   ROSC_Dormant : constant UInt32 := 1_668_246_881;
+   Ref_Is_LPOSC : constant := 2#1000#;
+
+   procedure Wait_ROSC_Stable is
+   begin
+      for Try in 1 .. Patience loop
+         exit when ROSC.ROSC_Periph.STATUS.STABLE;
+      end loop;
+   end Wait_ROSC_Stable;
+
+   procedure Prepare_Dormant is
+   begin
+      --  clk_sys moves to ROSC through the aux mux: pick the aux
+      --  source while clk_sys runs from clk_ref, then switch
+      ROSC.ROSC_Periph.CTRL.ENABLE := ROSC.ENABLE;
+      Wait_ROSC_Stable;
+      CLOCKS_Periph.CLK_SYS_CTRL.AUXSRC := rosc_clksrc;
+      CLOCKS_Periph.CLK_SYS_CTRL.SRC := clksrc_clk_sys_aux;
+      loop
+         exit when CLOCKS_Periph.CLK_SYS_SELECTED.CLK_SYS_SELECTED
+                     = Sys_Is_Aux;
+      end loop;
+      CLOCKS_Periph.CLK_REF_CTRL := (SRC => lposc_clksrc, others => <>);
+      loop
+         exit when CLOCKS_Periph.CLK_REF_SELECTED.CLK_REF_SELECTED
+                     = Ref_Is_LPOSC;
+      end loop;
+
+      --  clk_peri from clk_sys; its mux glitches, so stop it first
+      CLOCKS_Periph.CLK_PERI_CTRL := (others => <>);
+      CLOCKS_Periph.CLK_PERI_CTRL := (AUXSRC => clk_sys, ENABLE => True,
+                                      others => <>);
+      CLOCKS_Periph.CLK_USB_CTRL := (others => <>);
+      CLOCKS_Periph.CLK_HSTX_CTRL := (others => <>);
+      Stop_ADC_Clock;
+      PLL_SYS_Periph.PWR := (others => <>);
+
+      XOSC_Periph.CTRL.ENABLE := DISABLE;
+      for Try in 1 .. Patience loop
+         exit when not XOSC_Periph.STATUS.STABLE;
+      end loop;
+      Running := False;
+      Sys := 0;
+   end Prepare_Dormant;
+
+   procedure Enter_Dormant is
+   begin
+      ROSC.ROSC_Periph.DORMANT := ROSC_Dormant;
+      Wait_ROSC_Stable;
+   end Enter_Dormant;
+
+   procedure Restart_After_Dormant (Stat : out Status) is
+   begin
+      ROSC.ROSC_Periph.CTRL.ENABLE := ROSC.ENABLE;
+      Wait_ROSC_Stable;
+      Start_Crystal (Stat);
+   end Restart_After_Dormant;
 
    procedure Start_Clock_Out (Divisor : Positive; Stat : out Status)
    is

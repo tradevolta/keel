@@ -45,6 +45,13 @@ package body Keel.ADC.RP2350 is
       Stat := (if Powered then Ok else Timeout);
    end Enable;
 
+   procedure Disable is
+   begin
+      --  EN and TS_EN clear: the reset value
+      ADC_Periph.CS := (others => <>);
+      Powered := False;
+   end Disable;
+
    procedure Claim (Ch : Channel; Stat : out Status) is
    begin
       if Ch = Temperature_Sensor then

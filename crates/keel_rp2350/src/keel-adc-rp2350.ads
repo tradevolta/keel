@@ -31,6 +31,12 @@ is
      with Post => Is_Enabled = (Stat = Ok);
    function Is_Enabled return Boolean;
 
+   --  Power the ADC and the sensor's bias down, between readings.
+   --  Claims stay; Enable powers both up again.
+   procedure Disable
+     with Pre  => not Is_Streaming,
+          Post => not Is_Enabled;
+
    --  Make Ch an input: a pin goes to the ADC, with its digital
    --  pad off, or the sensor's bias current turns on. In_Use: the
    --  pin has another owner.

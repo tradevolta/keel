@@ -48,6 +48,34 @@ is
           Post => ADC_Clock_Running = (Stat = Ok);
    function ADC_Clock_Running return Boolean;
 
+   --  Stop clk_adc and power pll_usb down: 48 MHz that only the
+   --  ADC needs, between readings
+   procedure Stop_ADC_Clock
+     with Post => not ADC_Clock_Running;
+
+   --  DORMANT (datasheet 6.5.3) the way the Pico SDK's
+   --  pico_low_power enters it when the always-on timer is to wake
+   --  the chip: clk_ref from LPOSC, so POWMAN keeps a clock; clk_sys
+   --  and clk_peri from the ring oscillator, ROSC; clk_adc, clk_usb
+   --  and clk_hstx stopped; both PLLs and the crystal off. Until
+   --  Restart_After_Dormant, clk_sys runs at an unknown ROSC rate:
+   --  Sys_Frequency is 0.
+   procedure Prepare_Dormant
+     with Pre  => Crystal_Running,
+          Post => not Crystal_Running and then not ADC_Clock_Running
+                  and then Sys_Frequency = 0;
+
+   --  Write DORMANT to ROSC: every clock stops, and this returns once
+   --  a wake event has restarted ROSC
+   procedure Enter_Dormant
+     with Pre => not Crystal_Running;
+
+   --  Start the crystal again and run clk_ref and clk_sys from it.
+   --  Timeout: as for Start_Crystal.
+   procedure Restart_After_Dormant (Stat : out Status)
+     with Post => (if Stat = Ok then Crystal_Running
+                     and then Sys_Frequency = Crystal);
+
    --  clk_gpout0 on GP21: clk_sys / Divisor, from now on. In_Use:
    --  GP21 has another owner.
    procedure Start_Clock_Out (Divisor : Positive; Stat : out Status)
