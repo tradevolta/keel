@@ -1,0 +1,30 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Proves the SPARK parts of Chapter 15 together: Keel.Ring_Buffers
+--  (Gold, for two instances), the baud-rate solver, NMEA and AT
+--  reply parsing, the shell's line discipline and words, and the log
+--  line formatting. The chip drivers aren't SPARK and aren't here.
+project UART_Proof is
+   for Source_Dirs use
+     ("src/", "../../crates/keel_core/src/",
+      "../../crates/keel_cli/src/", "../../crates/keel_log/src/");
+   for Source_Files use
+     ("keel.ads", "keel-ring_buffers.ads", "keel-ring_buffers.adb",
+      "keel-bus.ads", "keel-bus-uart.ads", "keel-bus-uart.adb",
+      "keel-bus-uart-chip_limits.ads",
+      "keel-nmea.ads", "keel-nmea.adb",
+      "keel-at_replies.ads", "keel-at_replies.adb",
+      "keel-cli.ads", "keel-cli-lines.ads", "keel-cli-lines.adb",
+      "keel-cli-words.ads", "keel-cli-words.adb",
+      "keel-log.ads", "keel-log.adb",
+      "char_rings.ads");
+   for Object_Dir use "obj/";
+   for Create_Missing_Dirs use "True";
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022");
+   end Compiler;
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=2", "--checks-as-errors=on",
+         "-A=info-unrolling-inlining");
+   end Prove;
+end UART_Proof;

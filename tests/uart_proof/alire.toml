@@ -1,0 +1,12 @@
+name = "uart_proof"
+description = "Proof: GNATprove on Keel.Ring_Buffers, Keel.Bus.UART, keel_cli, Ch15"
+version = "0.4.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+# No executable: tools/ci-build runs gnatprove on this project.
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+gnatprove = "=16.1.0"
