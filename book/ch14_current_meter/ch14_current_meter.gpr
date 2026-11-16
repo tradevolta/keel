@@ -1,0 +1,32 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/ch14_current_meter_config.gpr";
+with "runtime_build.gpr";
+with "keel_core.gpr";
+with "keel_drivers.gpr";
+with "keel_rp2350.gpr";
+with "keel_rp2350_svd.gpr";
+
+project Ch14_Current_Meter is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   --  A tool for the bench, for the Pico 2 W only: one directory
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use
+     "obj/" & Ch14_Current_Meter_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("current_meter.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch14_Current_Meter_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+      for Local_Configuration_Pragmas use "gnat.adc";
+   end Compiler;
+
+   package Linker is
+      for Switches ("Ada") use
+        Keel_RP2350.Linker_Switches & ("-Wl,--gc-sections");
+   end Linker;
+end Ch14_Current_Meter;
