@@ -1,6 +1,6 @@
 name = "keel_stm32g4"
 description = "Keel for the STM32G4: L0 startup, clocks and the L2 GPIO HAL"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

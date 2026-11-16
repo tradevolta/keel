@@ -1,6 +1,6 @@
 name = "pio_host"
 description = "Host test: PIO assembler, 1-Wire, DS18B20 and WS2812 on fakes"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

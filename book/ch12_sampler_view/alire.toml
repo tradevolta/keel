@@ -1,6 +1,6 @@
 name = "ch12_sampler_view"
 description = "Chapter 12: the logic sampler's viewer, ASCII and SVG, on the host"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

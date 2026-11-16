@@ -1,6 +1,6 @@
 name = "ch14_sleepy_sentinel_nucleo"
 description = "Chapter 14, NUCLEO-G474RE: the sentinel on IWDG and backup words"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

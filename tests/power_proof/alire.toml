@@ -1,6 +1,6 @@
 name = "power_proof"
 description = "Proof: GNATprove on Keel.Watchdog, Keel.RTC, Keel.Power, Ch14"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

@@ -1,6 +1,6 @@
 name = "dma_proof"
 description = "Proof: GNATprove on Keel.DMA, its buffers and the sampler's trigger"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

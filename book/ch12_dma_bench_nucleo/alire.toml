@@ -1,6 +1,6 @@
 name = "ch12_dma_bench_nucleo"
 description = "Chapter 12, NUCLEO-G474RE: memcpy against DMA1, memory to memory"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

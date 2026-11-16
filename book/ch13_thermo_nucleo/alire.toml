@@ -1,6 +1,6 @@
 name = "ch13_thermo_nucleo"
 description = "Chapter 13, NUCLEO-G474RE: DS18B20s on a bit-banged 1-Wire bus"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

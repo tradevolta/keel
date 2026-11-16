@@ -1,6 +1,6 @@
 name = "ch11_sine_nucleo"
 description = "Chapter 11, NUCLEO-G474RE: a sine on the DAC, and the comparator"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

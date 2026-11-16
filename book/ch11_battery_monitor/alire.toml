@@ -1,6 +1,6 @@
 name = "ch11_battery_monitor"
 description = "Chapter 11: battery and light monitor, PWM DAC, sine capture"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

@@ -1,6 +1,6 @@
 name = "ch14_sleepy_sentinel"
 description = "Chapter 14: a sentinel that sleeps, logs and survives hangs"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

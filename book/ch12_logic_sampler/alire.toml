@@ -1,6 +1,6 @@
 name = "ch12_logic_sampler"
 description = "Chapter 12: a DMA logic sampler and a memcpy benchmark"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

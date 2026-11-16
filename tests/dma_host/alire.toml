@@ -1,6 +1,6 @@
 name = "dma_host"
 description = "Host test: Keel.DMA buffers and rings, the logic sampler simulated"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

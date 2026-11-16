@@ -1,6 +1,6 @@
 name = "ch14_current_meter"
 description = "Chapter 14: a second Pico reads an INA219 to log current"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

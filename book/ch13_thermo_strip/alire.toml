@@ -1,6 +1,6 @@
 name = "ch13_thermo_strip"
 description = "Chapter 13: two DS18B20s on PIO 1-Wire, shown on WS2812s"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

@@ -1,6 +1,6 @@
 name = "pio_proof"
 description = "Proof: GNATprove on Keel.PIO, Keel.OneWire and the Ch13 drivers"
-version = "0.3.0-dev"
+version = "0.3.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
