@@ -18,11 +18,13 @@
 | `dma_proof/` | GNATprove proves `Keel.DMA`, `Keel.DMA.Buffers` in use, `Keel.DMA.Fake`'s contract and the sampler's trigger; `bad/` is a program that reads a lent buffer and forges a receipt, which GNATprove rejects (`gnatprove` 16.1.0) | Chapter 12 |
 | `pio_host/` | The PIO assembler's words against pioasm's (`pioasm/*.pio`, Adafruit `adafruit_pioasm` 1.3.8), the 1-Wire and WS2812 programs' timing simulated cycle by cycle from those words (`Sim_PIO`), relocation and dividers, CRC-8, the ROM search and DS18B20 reads on `Keel.OneWire.Fake`, the datasheet's temperature table, WS2812 bits and the thermo-strip's colours | Chapter 13 |
 | `pio_proof/` | GNATprove proves `Keel.PIO`, its assembler and both programs (every side-set and delay), `Keel.OneWire`'s CRC-8 against its definition, the protocol, the DS18B20 and WS2812 drivers on a model bus, and the thermo-strip's colours; `bad/` has a delay too long for its side-set and a missing side-set value, which GNATprove rejects (`gnatprove` 16.1.0) | Chapter 13 |
+| `power_host/` | `Keel.Watchdog.Solve` for both chips against values worked by hand, `Keel.RTC` against `Ada.Calendar` on every day from 1970 to 2369, `Keel.Power.Choose` and `Idle` on a fake clock, the INA219 stub against SBOS448G's register examples on a model bus, and the sentinel's log through a full ring and its eight words | Chapter 14 |
+| `power_proof/` | GNATprove proves `Keel.Watchdog` (every setting fits the counter and reaches the timeout within one prescaler step), `Keel.RTC` (`Split` gives a valid date that `Join` turns back into the same millisecond), `Keel.Power` (the deepest affordable mode), the INA219 stub on a model bus and the sentinel's log packing (`Decode (Encode (L)) = L`) (`gnatprove` 16.1.0) | Chapter 14 |
 
 The host tests are plain Ada mains with a small `Check` procedure,
 not AUnit. Planned: `hil/` (hardware-in-the-loop scenarios) and
 `proof/` (GNATprove projects, Chapter 24; `gpio_proof/`, `clock_proof/`,
-`irq_proof/`, `timer_proof/`, `adc_proof/`, `dma_proof/` and `pio_proof/` move
+`irq_proof/`, `timer_proof/`, `adc_proof/`, `dma_proof/`, `pio_proof/` and `power_proof/` move
 there).
 `tools/ci-build` builds and runs every crate here, and proves the
 ones that depend on `gnatprove`.
