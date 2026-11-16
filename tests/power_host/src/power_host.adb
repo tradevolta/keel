@@ -23,7 +23,7 @@ procedure Power_Host is
 
    procedure Check (Name : String; OK : Boolean) is
    begin
-      Put_Line ((if OK then "ok:   " else "FAIL: ") & Name);
+      Put_Line ((if OK then "ok: " else "FAIL: ") & Name);
       if not OK then
          Failures := Failures + 1;
       end if;

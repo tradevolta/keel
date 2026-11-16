@@ -14,12 +14,12 @@ package Keel.Power
 is
    --  From the lightest to the deepest:
    --  Run: keep running; the wait is a busy loop.
-   --  Sleep: the processor stops and clocks it doesn't need stop;
-   --    an interrupt wakes it.
+   --  Sleep: the processor and the clocks it doesn't need stop;
+   --  an interrupt wakes it.
    --  Dormant: every clock and oscillator stops; a timer that runs
-   --    on its own restarts them, and the program carries on.
+   --  on its own restarts them, and the program carries on.
    --  Power_Down: the core loses power. Waking up is a reboot, and
-   --    only retained state survives.
+   --  only retained state survives.
    type Mode is (Run, Sleep, Dormant, Power_Down);
 
    --  What a mode costs, in microseconds of entering and leaving
