@@ -5,7 +5,7 @@
 --  samples into each reading, 68.10 ms of them, and runs without a
 --  break, so the 10 s mean covers the whole window.
 with Keel;                use type Keel.Status;
-with Keel.Clock;          use Keel.Clock;
+with Keel.Clock;
 with Keel.Clock.RP2350;   use Keel.Clock.RP2350;
 with Keel.Drivers.INA219;
 with Keel.Time;           use Keel.Time;
