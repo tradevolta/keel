@@ -1,5 +1,5 @@
 name = "keel_drivers"
-description = "Keel device drivers: DS18B20 and WS2812, on keel_core's signatures"
+description = "Keel drivers: DS18B20, WS2812, INA219, on keel_core's signatures"
 version = "0.3.0-dev"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
