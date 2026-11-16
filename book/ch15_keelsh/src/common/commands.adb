@@ -42,6 +42,13 @@ package body Commands is
       return R;
    end Lower;
 
+   function Verb (Act : Board.Pin_Action) return String is
+     (case Act is
+         when Board.On     => "go high",
+         when Board.Off    => "go low",
+         when Board.Toggle => "toggle",
+         when Board.Read   => "be read");
+
    --  gpio <pin> [on|off|toggle|read]
    procedure Gpio (Args : Arguments) is
       Act   : Board.Pin_Action := Board.Read;
@@ -69,8 +76,8 @@ package body Commands is
       end if;
       Board.Pin (Word (Args, 2), Act, Level, Stat);
       if Stat /= Ok then
-         Put_Line ("gpio: can't " & Lower (Act'Image) & " "
-                   & Word (Args, 2) & "; pins: " & Board.Pin_Names);
+         Put_Line ("gpio: " & Word (Args, 2) & " can't " & Verb (Act)
+                   & "; pins: " & Board.Pin_Names);
       else
          Put_Line (Word (Args, 2) & ": "
                    & (if Level then "high" else "low"));
