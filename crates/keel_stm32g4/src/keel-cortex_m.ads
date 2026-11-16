@@ -82,6 +82,10 @@ is
 
    --  Wait until every memory access before it has completed.
    procedure DSB with Inline_Always;
+   --  Data memory barrier: the memory accesses before it are seen
+   --  before any after it, from the other core too, and the
+   --  compiler moves no access across it.
+   procedure DMB with Inline_Always;
    --  Refetch the instructions that follow, in the new context.
    procedure ISB with Inline_Always;
    --  One cycle of nothing, which the compiler may not remove.

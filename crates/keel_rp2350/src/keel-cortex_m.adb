@@ -8,6 +8,11 @@ package body Keel.Cortex_M is
       Asm ("dsb", Volatile => True, Clobber => "memory");
    end DSB;
 
+   procedure DMB is
+   begin
+      Asm ("dmb", Volatile => True, Clobber => "memory");
+   end DMB;
+
    procedure ISB is
    begin
       Asm ("isb", Volatile => True, Clobber => "memory");
