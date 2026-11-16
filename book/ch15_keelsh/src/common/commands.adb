@@ -124,7 +124,8 @@ package body Commands is
          if Stat /= Ok then
             Put_Line ("adc: no temperature sensor driver here");
          else
-            Put_Line ("temp: " & Image (Centi / 100) & "."
+            Put_Line ("temp: " & (if Centi < 0 then "-" else "")
+                      & Image (abs Centi / 100) & "."
                       & Image (abs Centi mod 100 / 10)
                       & Image (abs Centi mod 10) & " C");
          end if;
