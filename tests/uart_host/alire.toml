@@ -1,6 +1,6 @@
 name = "uart_host"
 description = "Host test: baud divisors, rings, line discipline, NMEA, AT, log, keelsh"
-version = "0.4.0-dev"
+version = "0.4.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

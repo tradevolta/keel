@@ -1,6 +1,6 @@
 name = "ch15_keelsh_nucleo"
 description = "Chapter 15, NUCLEO-G474RE: keelsh on the ST-LINK's virtual COM port"
-version = "0.4.0-dev"
+version = "0.4.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

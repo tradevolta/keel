@@ -1,6 +1,6 @@
 name = "ch15_keelsh"
 description = "Chapter 15: keelsh, a command shell on the Debug Probe's UART"
-version = "0.4.0-dev"
+version = "0.4.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"

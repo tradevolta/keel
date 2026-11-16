@@ -1,6 +1,6 @@
 name = "keel_cli"
 description = "Keel command shell: line discipline, words, a command table"
-version = "0.4.0-dev"
+version = "0.4.0"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
