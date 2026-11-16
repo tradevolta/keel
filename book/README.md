@@ -34,6 +34,8 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch14_sleepy_sentinel` | 14, "Sleepy sentinel": wakes every 10 s, logs the chip's temperature in POWMAN's scratch words, feeds a 12 s watchdog and waits in the deepest mode the build allows (`Deepest`: `Run`, `Sleep`, `Dormant`, `Power_Down`); a button on GP16 stops the feeding | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch14_current_meter` | 14, a second Pico 2 W reads an INA219 (I2C0, GP4 and GP5) in the first one's supply and prints the mean, least and most current every 10 s | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch14_sleepy_sentinel_nucleo` | 14, Port it: the same program on the IWDG, RCC_CSR and TAMP backup words, reading Chapter 13's DS18B20 on PA8; hang button on PB0 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
+| `ch15_keelsh` | 15, "keelsh": a command shell on UART0 (GP0 and GP1, the Debug Probe's UART) with `gpio`, `pwm`, `adc`, `clock`, `reset-reason`, `reboot`, `uart`, `nmea` and `log`; the console runs the way the build says (`UART_Mode`: `Polled`, `Interrupt`, `DMA`) | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
+| `ch15_keelsh_nucleo` | 15, Port it: the same shell on LPUART1 (PA2 and PA3, the ST-LINK's virtual COM port), by interrupt; LD2, B1 and a PWM output on PB4 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each
