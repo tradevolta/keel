@@ -146,14 +146,14 @@ package body Keel.Bus.UART.STM32G4 is
          TE     => True,
          RE     => True,
          others => <>);
+      Opened := True;
+      How_It := How;
+      BRR_In := D;
       R.CR1.UE := True;
       if How = Interrupt then
          Keel.Interrupts.Set_Priority (IRQ, Priority);
          Keel.Interrupts.Enable (IRQ);
       end if;
-      Opened := True;
-      How_It := How;
-      BRR_In := D;
       Stat := Ok;
    end Open;
 

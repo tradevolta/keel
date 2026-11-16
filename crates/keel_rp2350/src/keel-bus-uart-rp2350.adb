@@ -255,6 +255,10 @@ package body Keel.Bus.UART.RP2350 is
               (FEIM | PEIM | BEIM | OEIM => True, others => <>);
       end case;
 
+      --  The handler reads State, so State is set before the
+      --  interrupt can come
+      State (P) := (Open => True, How => How, D => D,
+                    Channel => Channel);
       Select_Function (TX, UART_Function);
       Select_Function (RX, UART_Function);
       R.UARTCR := (UARTEN | TXE | RXE => True, others => <>);
@@ -262,8 +266,6 @@ package body Keel.Bus.UART.RP2350 is
          Keel.Interrupts.Set_Priority (IRQ (P), Priority);
          Keel.Interrupts.Enable (IRQ (P));
       end if;
-      State (P) := (Open => True, How => How, D => D,
-                    Channel => Channel);
       Stat := Ok;
    end Open;
 

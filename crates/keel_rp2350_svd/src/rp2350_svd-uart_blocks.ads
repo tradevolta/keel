@@ -15,7 +15,6 @@ is
      with Import, Address => UART1_Base;
 
    type Block_Access is access all UART0_Peripheral;
-   type Block_Array is array (Port) of Block_Access;
 
    function Blocks (P : Port) return Block_Access is
      (if P = 0 then UART0_Periph'Access else UART1_Periph'Access);
