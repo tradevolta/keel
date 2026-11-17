@@ -1,0 +1,13 @@
+name = "keel_ui"
+description = "Keel UI: RGB565 canvases, lines, discs, bitmap text and widgets"
+version = "0.5.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+tags = ["embedded", "graphics", "display", "spark", "keel"]
+
+[[depends-on]]
+keel_core = "*"
+
+[[pins]]
+keel_core = { path = "../keel_core" }
