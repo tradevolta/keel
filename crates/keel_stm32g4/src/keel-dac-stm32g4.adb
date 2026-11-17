@@ -21,6 +21,14 @@ package body Keel.DAC.STM32G4 is
          return;
       end if;
       RCC_Periph.RCC_AHB2ENR.DAC1EN := B_0x1;
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back first
+      declare
+         Back : constant RCC_AHB2ENR_Register := RCC_Periph.RCC_AHB2ENR
+           with Unreferenced;
+      begin
+         null;
+      end;
       --  MCR is written only while the channel is off
       DAC1_Periph.DAC_MCR :=
         (MODE1 => Pin_And_Inside, HFSEL => Above_80_MHz,

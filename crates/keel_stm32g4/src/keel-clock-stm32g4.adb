@@ -77,6 +77,15 @@ package body Keel.Clock.STM32G4 is
       --  Slower now: fewer wait states, boost off
       Set_Wait_States (Wait_States_For (HSI16));
       RCC_Periph.RCC_APB1ENR1.PWREN := B_0x1;
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back first
+      declare
+         Back : constant RCC_APB1ENR1_Register :=
+           RCC_Periph.RCC_APB1ENR1
+           with Unreferenced;
+      begin
+         null;
+      end;
       PWR_Periph.PWR_CR5.R1MODE := B_0x1;
       Sys := HSI16;
    end Run_From_HSI16;

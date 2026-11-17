@@ -21,6 +21,15 @@ package body Keel.PWM.STM32G4 is
          when TIM3 => RCC_Periph.RCC_APB1ENR1.TIM3EN := B_0x1;
          when TIM4 => RCC_Periph.RCC_APB1ENR1.TIM4EN := B_0x1;
       end case;
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back first
+      declare
+         Back : constant RCC_APB1ENR1_Register :=
+           RCC_Periph.RCC_APB1ENR1
+           with Unreferenced;
+      begin
+         null;
+      end;
    end Turn_On;
 
    --  The two timers share one layout
@@ -98,6 +107,15 @@ package body Keel.PWM.STM32G4 is
          return;
       end if;
       RCC_Periph.RCC_APB1ENR1.TIM2EN := B_0x1;
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back first
+      declare
+         Back : constant RCC_APB1ENR1_Register :=
+           RCC_Periph.RCC_APB1ENR1
+           with Unreferenced;
+      begin
+         null;
+      end;
       --  Channel 1 as an input from its own pin, rising edges, and
       --  external clock mode 1: each edge on TI1 is one count
       TIM2.CR1 := (CEN => False, ARPE => False);

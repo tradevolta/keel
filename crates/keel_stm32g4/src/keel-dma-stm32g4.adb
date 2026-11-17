@@ -88,6 +88,14 @@ package body Keel.DMA.STM32G4 is
       RCC_Periph.RCC_AHB1ENR :=
         (RCC_Periph.RCC_AHB1ENR with delta
            DMA1EN => B_0x1, DMAMUX1EN => B_0x1);
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back first
+      declare
+         Back : constant RCC_AHB1ENR_Register := RCC_Periph.RCC_AHB1ENR
+           with Unreferenced;
+      begin
+         null;
+      end;
       Level := P;
       Powered := True;
    end Enable;

@@ -11,6 +11,15 @@ package body Keel.Power.STM32G4 is
    begin
       RCC_Periph.RCC_APB1ENR1.PWREN := STM32G4_SVD.RCC.B_0x1;
       RCC_Periph.RCC_APB1ENR1.RTCAPBEN := STM32G4_SVD.RCC.B_0x1;
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back first
+      declare
+         Back : constant RCC_APB1ENR1_Register :=
+           RCC_Periph.RCC_APB1ENR1
+           with Unreferenced;
+      begin
+         null;
+      end;
       PWR_Periph.PWR_CR1.DBP := STM32G4_SVD.PWR.B_0x1;
    end Initialize;
 

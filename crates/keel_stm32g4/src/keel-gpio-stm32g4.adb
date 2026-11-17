@@ -44,6 +44,14 @@ package body Keel.GPIO.STM32G4 is
          when G => Enables.GPIOGEN := B_0x1;
       end case;
       RCC_Periph.RCC_AHB2ENR := Enables;
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back first
+      declare
+         Back : constant RCC_AHB2ENR_Register := RCC_Periph.RCC_AHB2ENR
+           with Unreferenced;
+      begin
+         null;
+      end;
    end Clock_On;
 
    --  One pin's bit in BSRR: set it (High) or reset it (Low)
@@ -253,6 +261,14 @@ package body Keel.GPIO.STM32G4 is
       --  SYSCFG holds EXTICR: give it its clock first
       Enables.SYSCFGEN := B_0x1;
       RCC_Periph.RCC_APB2ENR := Enables;
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back first
+      declare
+         Back : constant RCC_APB2ENR_Register := RCC_Periph.RCC_APB2ENR
+           with Unreferenced;
+      begin
+         null;
+      end;
       EXTICR (Row) :=
         (EXTICR (Row) and not Shift_Left (16#F#, Shift))
         or Shift_Left (Port_Id'Pos (P.Port), Shift);
