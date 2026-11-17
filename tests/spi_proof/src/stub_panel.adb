@@ -4,13 +4,24 @@ package body Stub_Panel
 is
    procedure Acquire (D : in out Device; Stat : out Status) is
    begin
+      D.Calls := D.Calls + 1;
       Stat := Ok;
    end Acquire;
 
-   procedure Release (D : in out Device) is null;
-   procedure Write (D : in out Device; Data : Byte_Array) is null;
-   procedure Exchange (D : in out Device; Data : in out Byte_Array)
-   is null;
+   procedure Release (D : in out Device) is
+   begin
+      D.Calls := D.Calls + 1;
+   end Release;
+
+   procedure Write (D : in out Device; Data : Byte_Array) is
+   begin
+      D.Calls := D.Calls + 1;
+   end Write;
+
+   procedure Exchange (D : in out Device; Data : in out Byte_Array) is
+   begin
+      D.Calls := D.Calls + 1;
+   end Exchange;
 
    procedure Start_Stream
      (D     : in out Device;
@@ -28,8 +39,15 @@ is
       Done := Nothing;
    end Finish_Stream;
 
-   procedure Set (P : in out Pin; To : GPIO.Level) is null;
+   procedure Set (P : in out Pin; To : GPIO.Level) is
+   begin
+      P.Level := To;
+   end Set;
 
-   function Clock return Time.Time is (0);
-   procedure Wait_Until (Deadline : Time.Time) is null;
+   function Clock return Time.Time is (Now);
+
+   procedure Wait_Until (Deadline : Time.Time) is
+   begin
+      Now := Time.Time'Max (Now, Deadline);
+   end Wait_Until;
 end Stub_Panel;

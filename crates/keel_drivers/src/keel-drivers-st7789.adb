@@ -22,7 +22,17 @@ is
       Pause (120);
    end Reset;
 
-   None : constant Byte_Array (1 .. 0) := [others => 0];
+   --  With the bus held: Cmd with D/CX low
+   procedure Send_Code
+     (D   : in out Link.Device;
+      DC  : in out Pins.Pin;
+      Cmd : Byte)
+   is
+      Code : constant Byte_Array (1 .. 1) := [1 => Cmd];
+   begin
+      Pins.Set (DC, Keel.GPIO.Low);
+      Link.Write (D, Code);
+   end Send_Code;
 
    --  With the bus held: Cmd with D/CX low, then its parameters with
    --  D/CX high
@@ -30,30 +40,33 @@ is
      (D      : in out Link.Device;
       DC     : in out Pins.Pin;
       Cmd    : Byte;
-      Params : Byte_Array := None)
+      Params : Byte_Array)
    is
-      Code : constant Byte_Array (1 .. 1) := [1 => Cmd];
    begin
-      Pins.Set (DC, Keel.GPIO.Low);
-      Link.Write (D, Code);
-      if Params'Length > 0 then
-         Pins.Set (DC, Keel.GPIO.High);
-         Link.Write (D, Params);
-      end if;
+      Send_Code (D, DC, Cmd);
+      Pins.Set (DC, Keel.GPIO.High);
+      Link.Write (D, Params);
    end Send;
+
+   --  A start-up step's parameter: one byte, or -1 for none
+   subtype Parameter is Integer range -1 .. 255;
 
    --  One command on its own: take the bus, send, give it back
    procedure Command
-     (D      : in out Link.Device;
-      DC     : in out Pins.Pin;
-      Cmd    : Byte;
-      Params : Byte_Array;
-      Stat   : out Status)
+     (D     : in out Link.Device;
+      DC    : in out Pins.Pin;
+      Cmd   : Byte;
+      Param : Parameter;
+      Stat  : out Status)
    is
    begin
       Link.Acquire (D, Stat);
       if Stat = Ok then
-         Send (D, DC, Cmd, Params);
+         if Param < 0 then
+            Send_Code (D, DC, Cmd);
+         else
+            Send (D, DC, Cmd, Byte_Array'[1 => Byte (Param)]);
+         end if;
          Link.Release (D);
       end if;
    end Command;
@@ -71,7 +84,7 @@ is
       --  10.
       type Step is record
          Cmd   : Byte;
-         Param : Integer range -1 .. 255;  --  -1: none
+         Param : Parameter;
          Wait  : Natural range 0 .. 150;
       end record;
       Steps : constant array (1 .. 7) of Step :=
@@ -86,12 +99,7 @@ is
       P.Is_Ready := False;
       for S of Steps loop
          pragma Loop_Invariant (not P.Busy and then not P.Is_Ready);
-         if S.Param < 0 then
-            Command (D, DC, S.Cmd, None, Stat);
-         else
-            Command
-              (D, DC, S.Cmd, Byte_Array'[1 => Byte (S.Param)], Stat);
-         end if;
+         Command (D, DC, S.Cmd, S.Param, Stat);
          if Stat /= Ok then
             return;
          end if;
@@ -119,12 +127,13 @@ is
       Send (D, DC, CASET,
             Bounds (First_Column (W, T), Last_Column (W, T)));
       Send (D, DC, RASET, Bounds (First_Row (W, T), Last_Row (W, T)));
-      Send (D, DC, RAMWR);
+      --  RAMWR's data are the pixels that follow
+      Send_Code (D, DC, RAMWR);
       Pins.Set (DC, Keel.GPIO.High);
    end Open_Window;
 
    procedure Fill
-     (P    : in out Panel;
+     (P    : Panel;
       D    : in out Link.Device;
       DC   : in out Pins.Pin;
       W    : Window;

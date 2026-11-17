@@ -119,15 +119,13 @@ is
 
    --  W in one color, sent by the processor
    procedure Fill
-     (P    : in out Panel;
+     (P    : Panel;
       D    : in out Link.Device;
       DC   : in out Pins.Pin;
       W    : Window;
       Ink  : Pixel;
       Stat : out Status)
-     with Pre  => Ready (P) and then not Streaming (P),
-          Post => Turn (P) = Turn (P)'Old
-                  and then Ready (P) and then not Streaming (P);
+     with Pre => Ready (P) and then not Streaming (P);
 
    --  Take the bus, set the window to W and start the DMA sending
    --  its pixels, row by row, from From. Returns at once; the
