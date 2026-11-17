@@ -1,12 +1,13 @@
 --  SPDX-License-Identifier: Apache-2.0
 --  The display on the Pico 2 W: Adafruit's 1.3-inch 240 x 240 ST7789
---  board on SPI1. Its Vin goes to 3V3(OUT) (pin 36) and its GND to
---  pin 13; SCK to GP10 (pin 14), SI to GP11 (pin 15, SPI1 TX), TCS
---  to GP13 (pin 17), D/C to GP9 (pin 12) and RST to GP8 (pin 11).
---  GP12 (pin 16, SPI1 RX) goes to SO, for the microSD card on the
---  same board in Chapter 23; Lite stays unconnected, and the
---  backlight on. Two frames of 240 x 240 RGB565, 115 200 bytes each,
---  take turns: the program draws one while the DMA sends the other.
+--  board on SPI1. Its 3-5V pin goes to 3V3(OUT) (pin 36) and Gnd
+--  to pin 13; SCK to GP10 (pin 14), SI to GP11 (pin 15, SPI1 TX),
+--  TCS to GP13 (pin 17), D/C to GP9 (pin 12) and RST to GP8 (pin
+--  11). GP12 (pin 16, SPI1 RX) goes to SO, for the microSD card on
+--  the same board in Chapter 23; CCS, 3V3 and Lite stay unconnected,
+--  and the backlight on. Two frames of 240 x 240 RGB565, 115 200
+--  bytes each, take turns: the program draws one while the DMA sends
+--  the other.
 with Keel.Bus.SPI;          use Keel.Bus.SPI;
 with Keel.Bus.SPI.RP2350;
 with Keel.DMA;

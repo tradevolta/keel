@@ -264,8 +264,8 @@ procedure SPI_Host is
       ST7789.Finish_Window (Panel, TFT, Done);
       Frame_Pixels.Reclaim (Frame.Store, Done);
       Put (Panel_Model.Log);
-      Put_Line ("one frame: " & Image (Bus.Statistics.Bits - Bits_Before)
-                & " bits, "
+      Put_Line ("one frame: "
+                & Image (Bus.Statistics.Bits - Bits_Before) & " bits, "
                 & Image ((Bus.Statistics.Busy_ns - Busy_Before) / 1_000)
                 & " us at " & Hz (Bus.Rate_Of (TFT)) & " (computed)");
       Check ("57 600 pixels written, none outside the panel's rows",
@@ -378,7 +378,17 @@ procedure SPI_Host is
       Put_Line (F, "<?xml version=""1.0"" encoding=""UTF-8""?>");
       Put_Line (F, "<svg xmlns=""http://www.w3.org/2000/svg"" "
                 & "viewBox=""0 0 240 240"" width=""480"" height=""480"""
-                & " shape-rendering=""crispEdges"" role=""img"">");
+                & " shape-rendering=""crispEdges"" role=""img"""
+                & " aria-labelledby=""t d"">");
+      Put_Line (F, "<title id=""t"">The pocket dashboard as the panel "
+                & "model received it, in gray</title>");
+      Put_Line (F, "<desc id=""d"">The 240 by 240 pixels spi_host "
+                & "sent to its model of the ST7789, one rectangle "
+                & "per run of "
+                & "one gray in a row, from the sample readings in "
+                & "spi_host.adb: the time 10:42:07, the light gauge at "
+                & "67%, 27.4 C, a history of 48 readings and no frame "
+                & "rate yet.</desc>");
       for Y in 0 .. 239 loop
          declare
             X : Natural := 0;

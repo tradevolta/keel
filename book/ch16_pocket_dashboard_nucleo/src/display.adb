@@ -1,7 +1,7 @@
 --  SPDX-License-Identifier: Apache-2.0
 --  The display on the NUCLEO-G474RE: the same Adafruit board on SPI1
---  through the Arduino header (UM2505, 8.3). Vin to 3V3 (CN6 pin 4)
---  and GND to GND; SCK to D13 (PA5), SI to D11 (PA7), SO to D12
+--  through the Arduino header (UM2505, 8.3). 3-5V to 3V3 (CN6 pin
+--  4) and Gnd to GND; SCK to D13 (PA5), SI to D11 (PA7), SO to D12
 --  (PA6), TCS to D10 (PB6), RST to D9 (PC7) and D/C to D8 (PA9).
 --  Two whole frames would take 230 400 bytes; the G474 has 128 KB
 --  of SRAM. So the dashboard goes out in ten strips of 24 rows, from
@@ -127,7 +127,7 @@ package body Display is
          end;
       end loop;
       --  The last strip goes on sending while the next frame's first
-      --  strip is drawn; it comes back at the second strip
+      --  strip is drawn, and comes back after it
       Stats :=
         (Frames    => Stats.Frames + 1,
          Draw_Us   => Draw,
