@@ -1,6 +1,6 @@
 name = "keel_drivers"
-description = "Keel drivers: DS18B20, WS2812, INA219, on keel_core's signatures"
-version = "0.3.0"
+description = "Keel drivers: DS18B20, WS2812, INA219, ST7789, on keel_core's signatures"
+version = "0.5.0-dev"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
