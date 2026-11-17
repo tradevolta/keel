@@ -1,0 +1,12 @@
+name = "spi_proof"
+description = "Proof: GNATprove on Keel.Bus.SPI, keel_ui and the ST7789 driver, Ch16"
+version = "0.5.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+# No executable: tools/ci-build runs gnatprove on this project.
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+gnatprove = "=16.1.0"

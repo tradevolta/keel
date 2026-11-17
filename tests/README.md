@@ -22,11 +22,13 @@
 | `power_proof/` | GNATprove proves `Keel.Watchdog` (every setting fits the counter and reaches the timeout within one prescaler step), `Keel.RTC` (`Split` gives a valid date that `Join` turns back into the same millisecond), `Keel.Power` (the deepest affordable mode), the INA219 stub on a model bus and the sentinel's log packing (`Decode (Encode (L)) = L`) (`gnatprove` 16.1.0) | Chapter 14 |
 | `uart_host/` | `Keel.Bus.UART.Solve` for both chips against the datasheet's example and values worked by hand, a table of divisors and errors, the ring in order and between two tasks, the line discipline and the words, NMEA sentences, AT replies, log lines and the sink; `keelsh_host` is the real keelsh on a fake board that reads standard input (`gnat_native`) | Chapter 15 |
 | `uart_proof/` | GNATprove proves `Keel.Ring_Buffers` at Gold (Push appends, Pop takes the oldest, each side writes only its own counter), the baud-rate solver, `Keel.NMEA`'s checksum against its definition, `Keel.AT_Replies`, the shell's line discipline and words, and log-line formatting; `bad/` has a Pop that takes the newest element and a caller that pops without asking, which GNATprove rejects (`gnatprove` 16.1.0) | Chapter 15 |
+| `spi_host/` | `Keel.Bus.SPI`'s divider solvers for both chips against values worked by hand, the arbiter on `Keel.Bus.SPI.Fake` with three devices, the ST7789 driver's command transcript against a model of the panel (rotation, offsets, windows), a whole frame against ten strips pixel for pixel, the font and clipping; `--svg` writes the dashboard as the panel model saw it (`gnat_native`, `-gnata`) | Chapter 16 |
+| `spi_proof/` | GNATprove proves `Keel.Bus.SPI` (every setting a solver returns fits the divider and is no faster than asked), `keel_ui` (the intersection, every primitive and widget writes only inside its canvas) and the ST7789 driver on a stub bus (`gnatprove` 16.1.0) | Chapter 16 |
 
 The host tests are plain Ada mains with a small `Check` procedure,
 not AUnit. Planned: `hil/` (hardware-in-the-loop scenarios) and
 `proof/` (GNATprove projects, Chapter 24; `gpio_proof/`, `clock_proof/`,
-`irq_proof/`, `timer_proof/`, `adc_proof/`, `dma_proof/`, `pio_proof/`, `power_proof/` and `uart_proof/` move
+`irq_proof/`, `timer_proof/`, `adc_proof/`, `dma_proof/`, `pio_proof/`, `power_proof/`, `uart_proof/` and `spi_proof/` move
 there).
 `tools/ci-build` builds and runs every crate here, and proves the
 ones that depend on `gnatprove`.

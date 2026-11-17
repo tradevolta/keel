@@ -1,0 +1,21 @@
+name = "spi_host"
+description = "Host test: SPI dividers, the arbiter, the ST7789 driver, keel_ui"
+version = "0.5.0-dev"
+authors = ["Vincent Donkor"]
+licenses = "Apache-2.0"
+website = "https://github.com/tradevolta/keel"
+
+executables = ["spi_host"]
+
+[[depends-on]]
+gnat_native = "=16.1.0"
+keel_core = "*"
+keel_drivers = "*"
+keel_host = "*"
+keel_ui = "*"
+
+[[pins]]
+keel_core = { path = "../../crates/keel_core" }
+keel_drivers = { path = "../../crates/keel_drivers" }
+keel_host = { path = "../../crates/keel_host" }
+keel_ui = { path = "../../crates/keel_ui" }

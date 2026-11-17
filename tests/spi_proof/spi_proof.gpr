@@ -1,0 +1,32 @@
+--  SPDX-License-Identifier: Apache-2.0
+--  Proves the SPARK parts of Chapter 16 together: Keel.Bus.SPI (the
+--  divider solvers and the bus arbiter), keel_ui (colors, geometry,
+--  the font, the canvas and its widgets, at the sizes the dashboard
+--  uses) and the ST7789 driver over a stub bus. The chip drivers
+--  aren't SPARK and aren't here.
+project SPI_Proof is
+   for Source_Dirs use
+     ("src/", "../../crates/keel_core/src/",
+      "../../crates/keel_ui/src/", "../../crates/keel_drivers/src/");
+   for Source_Files use
+     ("keel.ads", "keel-bus.ads", "keel-bus-spi.ads",
+      "keel-bus-spi.adb", "keel-dma.ads", "keel-dma.adb",
+      "keel-dma-buffers.ads", "keel-dma-buffers.adb",
+      "keel-gpio.ads", "keel-gpio-output_signature.ads",
+      "keel-time.ads", "keel-drivers.ads",
+      "keel-drivers-st7789.ads", "keel-drivers-st7789.adb",
+      "keel-ui.ads", "keel-ui.adb", "keel-ui-fonts.ads",
+      "keel-ui-fonts.adb", "keel-ui-canvas.ads", "keel-ui-canvas.adb",
+      "keel-ui-canvas-widgets.ads", "keel-ui-canvas-widgets.adb",
+      "screens.ads", "stub_panel.ads", "stub_panel.adb");
+   for Object_Dir use "obj/";
+   for Create_Missing_Dirs use "True";
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022");
+   end Compiler;
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=2", "--checks-as-errors=on",
+         "-A=info-unrolling-inlining");
+   end Prove;
+end SPI_Proof;
