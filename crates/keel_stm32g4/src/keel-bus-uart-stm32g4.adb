@@ -137,6 +137,16 @@ package body Keel.Bus.UART.STM32G4 is
       --  written while UE is off
       RCC_Periph.RCC_CCIPR.LPUART1SEL := B_0x0;
       RCC_Periph.RCC_APB1ENR2.LPUART1EN := B_0x1;
+      --  The clock starts two cycles after its enable bit is set
+      --  (RM0440 Rev 9, 7.2.17): read the bit back before the first
+      --  access to the LPUART, as ST's HAL does
+      declare
+         Back : constant RCC_APB1ENR2_Register :=
+           RCC_Periph.RCC_APB1ENR2
+           with Unreferenced;
+      begin
+         null;
+      end;
       R.CR1 := (others => <>);
       R.PRESC := (others => <>);
       R.BRR := (BRR => BRR_BRR_Field (D), others => <>);
