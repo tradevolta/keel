@@ -16,11 +16,12 @@ package Keel.DMA.STM32G4 is
    function IRQ (Ch : Channel) return Keel.Interrupts.IRQ is
      (if Ch = 8 then 96 else 10 + Keel.Interrupts.IRQ (Ch));
 
-   --  DMAMUX1's request inputs (ST's LL driver,
-   --  stm32g4xx_ll_dmamux.h; RM0440's DMAMUX table to check)
+   --  DMAMUX1's request inputs (RM0440 Rev 9, 13.3.2, Table 93)
    type Request is range 0 .. 127;
    Memory_To_Memory : constant Request := 0;
    ADC1_Request     : constant Request := 5;
+   SPI1_RX_Request  : constant Request := 10;
+   SPI1_TX_Request  : constant Request := 11;
 
    subtype Count_16 is DMA.Count range 0 .. 65_535;
 
