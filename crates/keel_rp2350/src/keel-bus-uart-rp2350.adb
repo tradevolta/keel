@@ -35,11 +35,9 @@ package body Keel.Bus.UART.RP2350 is
    function Regs (P : Port_Id) return UART_Blocks.Block_Access is
      (UART_Blocks.Blocks (Port_Id'Pos (P)));
 
-   ------------------------------------------------------------------
    --  State. The interrupt handler produces into RX and consumes
    --  from TX; the program does the opposite. Every ring operation
    --  sits between two DMBs, on both sides.
-   ------------------------------------------------------------------
    type Port_State is record
       Open    : Boolean := False;
       How     : Mode := Polled;
@@ -97,9 +95,7 @@ package body Keel.Bus.UART.RP2350 is
       end if;
    end Note_Errors;
 
-   ------------------------------------------------------------------
    --  The interrupt handler, for both ports
-   ------------------------------------------------------------------
    procedure Service (P : Port_Id) is
       R   : UART0_Peripheral renames Regs (P).all;
       MIS : constant UARTMIS_Register := R.UARTMIS;
@@ -158,9 +154,7 @@ package body Keel.Bus.UART.RP2350 is
       Service (UART1);
    end UART1_Handler;
 
-   ------------------------------------------------------------------
    --  Open
-   ------------------------------------------------------------------
    procedure Open
      (P        : Port_Id;
       TX, RX   : Pin_Id;
@@ -275,9 +269,7 @@ package body Keel.Bus.UART.RP2350 is
       Stat := Ok;
    end Open;
 
-   ------------------------------------------------------------------
    --  Writing
-   ------------------------------------------------------------------
 
    --  Turn the transmit interrupt on, if it is off, and make it
    --  pending: it fires only when the FIFO drains past its level
@@ -343,9 +335,7 @@ package body Keel.Bus.UART.RP2350 is
       end loop;
    end Flush;
 
-   ------------------------------------------------------------------
    --  Reading
-   ------------------------------------------------------------------
 
    --  How many characters the DMA has written since Open. Rounds
    --  counts the ring's laps, but the interrupt that counts one comes

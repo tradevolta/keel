@@ -15,9 +15,7 @@ package Board is
 
    function Name return String;
 
-   ------------------------------------------------------------------
    --  The console
-   ------------------------------------------------------------------
    procedure Write (Text : String);
    procedure Read (C : out Character; Got : out Boolean);
    function Space return Natural;
@@ -39,9 +37,7 @@ package Board is
    --  read before its FIFO fills; a millisecond's wait otherwise
    procedure Idle;
 
-   ------------------------------------------------------------------
    --  Pins, PWM, ADC
-   ------------------------------------------------------------------
    type Pin_Action is (On, Off, Toggle, Read);
 
    --  Level is the pin's level after Act. Not_Supported: the board
@@ -66,9 +62,7 @@ package Board is
    --  The chip's own temperature in hundredths of a degree
    procedure Read_Temperature (Centi : out Integer; Stat : out Status);
 
-   ------------------------------------------------------------------
    --  Clocks and resets
-   ------------------------------------------------------------------
    function Sys_Hz return Natural;
    function Peri_Hz return Natural;
    --  clk_sys counted against the crystal, 0 if the chip can't

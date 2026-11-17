@@ -116,9 +116,7 @@ package body Board is
 
    function Name return String is ("Pico 2 W");
 
-   ------------------------------------------------------------------
    --  The console
-   ------------------------------------------------------------------
 
    procedure Write (Text : String) is
    begin
@@ -156,9 +154,7 @@ package body Board is
       end if;
    end Idle;
 
-   ------------------------------------------------------------------
    --  Pins, PWM, ADC
-   ------------------------------------------------------------------
 
    procedure Pin
      (Pin_Name : String; Act : Pin_Action; Level : out Boolean;
@@ -235,9 +231,7 @@ package body Board is
       end if;
    end Read_Temperature;
 
-   ------------------------------------------------------------------
    --  Clocks and resets
-   ------------------------------------------------------------------
 
    function Sys_Hz return Natural is (Natural (Sys_Frequency));
    function Peri_Hz return Natural is (Natural (Peri_Frequency));

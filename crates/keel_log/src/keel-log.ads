@@ -1,8 +1,6 @@
 --  SPDX-License-Identifier: Apache-2.0
 --  Keel.Log: a log line is a time stamp, a level and a message,
---
---     [     12.345] INFO  adc 0: 1650 mV
---
+--  such as "[     12.345] INFO  adc 0: 1650 mV",
 --  ending in CR LF. Line builds it, proved free of run-time errors
 --  with its length known; Keel.Log.Logger filters by level and
 --  writes; Keel.Log.UART_Sink is a writer that drops a whole line

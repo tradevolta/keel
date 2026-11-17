@@ -7,10 +7,8 @@
 package Keel.Bus.UART
   with Pure, SPARK_Mode
 is
-   ------------------------------------------------------------------
    --  The frame: a start bit, the data bits least significant first,
    --  an optional parity bit, one or two stop bits
-   ------------------------------------------------------------------
    type Data_Bits is range 7 .. 8;
    type Parity is (None, Even, Odd);
    type Stop_Bits is range 1 .. 2;
@@ -35,11 +33,9 @@ is
      (B : Baud_Rate; F : Format) return Positive
    is (B / Frame_Bits (F));
 
-   ------------------------------------------------------------------
    --  The baud-rate divider as data. A chip makes
    --  Baud = Clock * Scale / Divisor, with Divisor a whole number
    --  from Min_Divisor to Max_Divisor.
-   ------------------------------------------------------------------
    type Divider_Limits is record
       Scale       : Positive range 1 .. 256;
       Min_Divisor : Positive range 1 .. 2**24;
@@ -99,9 +95,7 @@ is
        / (Long_Long_Integer (D) * Long_Long_Integer (Baud)))
      with Pre => D > 0 and then Within_Half_Step (L, Clock, Baud, D);
 
-   ------------------------------------------------------------------
    --  How a driver moves characters, and what it counts
-   ------------------------------------------------------------------
    --  Polled: the program waits on the FIFOs' flags. Interrupt: an
    --  interrupt handler fills and empties rings. DMA: the DMA writes
    --  received characters into a ring; sending is by interrupt.
@@ -122,9 +116,7 @@ is
       Dropped  : Natural := 0;
    end record;
 
-   ------------------------------------------------------------------
    --  What a console provides: Keel.CLI and Keel.Log use only this
-   ------------------------------------------------------------------
    generic
       --  Send Text. It may wait while there is no room for it.
       with procedure Write (Text : String);
