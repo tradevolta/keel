@@ -1,6 +1,6 @@
 name = "keel_host"
-description = "Keel on the host: a fake GPIO for tests without a board"
-version = "0.1.0"
+description = "Keel on the host: fake GPIO, 1-Wire, DMA and SPI for board-free tests"
+version = "0.5.0-dev"
 authors = ["Vincent Donkor"]
 licenses = "Apache-2.0"
 website = "https://github.com/tradevolta/keel"
