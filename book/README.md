@@ -36,6 +36,8 @@ directory with `alr build`, or all of them with `tools/ci-build`.
 | `ch14_sleepy_sentinel_nucleo` | 14, Port it: the same program on the IWDG, RCC_CSR and TAMP backup words, reading Chapter 13's DS18B20 on PA8; hang button on PB0 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 | `ch15_keelsh` | 15, "keelsh": a command shell on UART0 (GP0 and GP1, the Debug Probe's UART) with `gpio`, `pwm`, `adc`, `clock`, `reset-reason`, `reboot`, `uart`, `nmea` and `log`; the console runs the way the build says (`UART_Mode`: `Polled`, `Interrupt`, `DMA`) | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
 | `ch15_keelsh_nucleo` | 15, Port it: the same shell on LPUART1 (PA2 and PA3, the ST-LINK's virtual COM port), by interrupt; LD2, B1 and a PWM output on PB4 | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
+| `ch16_pocket_dashboard` | 16, "Pocket dashboard": a 240×240 ST7789 on SPI1 (GP8 to GP13) shows the time, the chip's temperature and a gauge of the LDR's light, drawn with `keel_ui` into two whole frames and sent by DMA; keelsh's commands plus `screen` and `time` | `light_rp2350` 16.0.0, `keel_rp2350.Startup = "keel"` |
+| `ch16_pocket_dashboard_nucleo` | 16, Port it: the same dashboard on SPI1 through the Arduino header (D8 to D13), at 150 MHz, drawn in ten strips of 24 rows | `light_stm32g4xx` 16.0.0, `keel_stm32g4.Startup = "keel"` |
 
 `listings/` holds every numbered listing of the book, byte for byte,
 as exported by the manuscript build (`listings/INDEX.csv` maps each

@@ -1,0 +1,41 @@
+--  SPDX-License-Identifier: Apache-2.0
+with "config/ch16_pocket_dashboard_config.gpr";
+with "runtime_build.gpr";
+with "keel_core.gpr";
+with "keel_cli.gpr";
+with "keel_drivers.gpr";
+with "keel_log.gpr";
+with "keel_rp2350.gpr";
+with "keel_rp2350_svd.gpr";
+with "keel_ui.gpr";
+
+project Ch16_Pocket_Dashboard is
+   for Target use Runtime_Build'Target;
+   for Runtime ("Ada") use Runtime_Build'Runtime ("Ada");
+
+   --  Chapter 15's shell and commands, unchanged; scene/ is the
+   --  dashboard, which the NUCLEO build and the host test draw too;
+   --  common/ the main loop, the display's interface and the screen
+   --  commands; pico2w/ the board and the display
+   for Source_Dirs use
+     ("../ch15_keelsh/src/common/", "src/scene/", "src/common/",
+      "src/pico2w/", "config/");
+   for Excluded_Source_Files use ("keelsh.adb");
+   for Object_Dir use
+     "obj/" & Ch16_Pocket_Dashboard_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("pocket_dashboard.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Ch16_Pocket_Dashboard_Config.Ada_Compiler_Switches &
+        ("-gnat2022", "-ffunction-sections", "-fdata-sections");
+      for Local_Configuration_Pragmas use "gnat.adc";
+   end Compiler;
+
+   package Linker is
+      for Switches ("Ada") use
+        Keel_RP2350.Linker_Switches & ("-Wl,--gc-sections");
+   end Linker;
+end Ch16_Pocket_Dashboard;
