@@ -15,6 +15,12 @@ with RP2350_SVD.UART_Blocks;
 package body Keel.Bus.UART.RP2350 is
 
    package Reset_Bits is new RP2350_SVD.Atomic (RESET_Register);
+   --  The rings are shared with the interrupt handler. Their
+   --  postconditions are proved (tests/uart_proof); checked at run
+   --  time, with -gnata, they would read the other side's counter
+   --  twice while the handler, or the program, changes it, and fail
+   --  for no fault. So an instance here never checks them.
+   pragma Assertion_Policy (Post => Ignore);
    package Chars is new Keel.Ring_Buffers
      (Element => Character, Initial => ' ', Size_Bits => 8);
    use Chars;

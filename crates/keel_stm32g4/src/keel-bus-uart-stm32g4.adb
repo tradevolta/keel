@@ -12,6 +12,12 @@ package body Keel.Bus.UART.STM32G4 is
    --  One port: the P parameters name it, and are otherwise unused
    pragma Warnings (Off, "formal parameter ""P"" is not referenced");
 
+   --  The rings are shared with the interrupt handler. Their
+   --  postconditions are proved (tests/uart_proof); checked at run
+   --  time, with -gnata, they would read the other side's counter
+   --  twice while the handler, or the program, changes it, and fail
+   --  for no fault. So an instance here never checks them.
+   pragma Assertion_Policy (Post => Ignore);
    package Chars is new Keel.Ring_Buffers
      (Element => Character, Initial => ' ', Size_Bits => 8);
    use Chars;
